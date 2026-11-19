@@ -4,7 +4,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no,viewport-fit=cover">
 <title>THE NEST — $EGG</title>
-<meta name="description" content="THE NEST ($EGG) on SOLANA // PUMPFUN — climb the golden-hour Leonida broadcast tower, raid the nest, and hurl spiral eggs across the coastal strip.">
+<meta name="description" content="THE NEST ($EGG) on SOLANA // PUMPFUN — climb the golden-hour Leonida broadcast tower ladder, dodge obstacles, and hurl spiral eggs across the coastal strip.">
 <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
 <style>
 :root{
@@ -427,7 +427,7 @@ body{overflow-x:hidden;width:100%;min-height:100dvh;background:#0B0D11;color:var
 
       <div class="right-hud">
         <div class="panel cash-card">
-          <div id="wanted-stars" class="stars-row">★★★★★</div>
+          <div id="wanted-stars" class="stars-row"><span class="star-el">★</span><span class="star-el star-off">★</span><span class="star-el star-off">★</span><span class="star-el star-off">★</span><span class="star-el star-off">★</span></div>
           <div id="hud-cash" class="cash-num">$0</div>
           <div class="meta-strip">
             <span id="hud-wind">WIND: 0 KT</span>
@@ -529,10 +529,10 @@ body{overflow-x:hidden;width:100%;min-height:100dvh;background:#0B0D11;color:var
 
     <div id="tab-brief" class="tab-panel active">
       <h3>GOLDEN-HOUR TOWER OVERLOOK</h3>
-      <p>Climb the broadcast tower ladder to the summit overlooking the coastal boulevard, Art Deco rooftop pool, helipad, and yacht channel. Aim across the deck, account for live crosswinds, and hurl spiral eggs from the nest to hit each wave's cash quota before time runs out.</p>
+      <p>Climb the broadcast tower ladder to the summit overlooking the coastal boulevard, Art Deco rooftop pool, helipad, and yacht channel. Steer left or right on the ladder to dodge obstacles, then hurl spiral eggs from the nest to hit each wave's cash quota before time runs out.</p>
       <ul>
-        <li><strong>Aim &amp; Throw:</strong> Move mouse or drag on touch screens to place the golden aim ring, or use <code>WASD</code> / Arrow keys to nudge aim; hold click, touch, or <code>Space</code> to charge and release to throw. Tap/click or press any key during the 2.5s climb to skip straight to action.</li>
-        <li><strong>Heat &amp; Frenzy:</strong> Build streaks for <code>LEONIDA FRENZY</code> (5x+) while watching out for VCPD spotlight sweeps at 3+ Wanted Stars.</li>
+        <li><strong>Ladder Climb &amp; Dodge:</strong> Move left/right with <code>A</code>/<code>D</code>, Arrow keys, or tapping/dragging left/right during the climb to weave past tower struts; tap or press <code>Enter</code> to skip straight to the nest.</li>
+        <li><strong>Aim &amp; Throw:</strong> Move mouse or drag to set the aim ring; hold click, touch, or <code>Space</code> to charge and release to launch.</li>
       </ul>
     </div>
 
@@ -540,10 +540,11 @@ body{overflow-x:hidden;width:100%;min-height:100dvh;background:#0B0D11;color:var
       <h3>TARGETS, PAINTED EGGS &amp; UPGRADES</h3>
       <ul>
         <li><strong>LAWYER (+$100K):</strong> Suit-and-tie lawyer swinging a briefcase; tumbles on direct hits and drops +$50K bonus cash stacks.</li>
-        <li><strong>JEET (+$25K):</strong> Fast zig-zag runner; reverses sharply on near-misses.</li>
-        <li><strong>PAPER HANDS (+$50K):</strong> Nervous chart-holder; sprints away when an egg lands within 12m.</li>
+        <li><strong>JEET (+$25K):</strong> Calm coastal runner; reverses smoothly on near-misses.</li>
+        <li><strong>PAPER HANDS (+$50K):</strong> Nervous chart-holder; steps briskly away when an egg lands nearby.</li>
         <li><strong>SCAM DEV (+$250K):</strong> Armored target with 2-segment shield (2 hits or 1 direct MEGA WHALE).</li>
-        <li><strong>RUGGER BOSS (+$1M every 3rd wave):</strong> 5 HP boss moving in figure-eight paths with heavy blast feedback.</li>
+        <li><strong>RUGGER BOSS (+$1M every 3rd wave):</strong> 5 HP boss cruising in smooth figure-eight paths with heavy blast feedback.</li>
+        <li><strong>Eggs [1/2/3] &amp; Upgrades [Q/W/E]:</strong> Switch between CLASSIC (1.0x), BULL (2.0x shockwave/armor crack), and WHALE (5.0x 3-way split), and invest run cash in WIND STAB, TURBO NEST, and GOLD YOLK.</li>
       </ul>
     </div>
 
@@ -733,60 +734,54 @@ class SoundEngine{
   }
 
   uiClick(){ this.tone(760, 0.045, 'square', 0.08, 120); }
+  climbBump(){ this.tone(210, 0.09, 'sawtooth', 0.11, -70); }
   spiralThrow(eggIdx){
     const base = eggIdx === 2 ? 240 : eggIdx === 1 ? 340 : 440;
-    this.burst(0.28, 0.16, 450, 3200, 'bandpass');
-    this.tone(base, 0.26, 'sawtooth', 0.09, -140);
+    this.burst(0.24, 0.14, 450, 3000, 'bandpass');
+    this.tone(base, 0.22, 'sawtooth', 0.08, -120);
   }
   hit(comboCount){
     const scale = [261.63, 293.66, 329.63, 392.0, 440.0, 523.25, 587.33, 659.25, 783.99, 880.0];
     const note = scale[clamp(comboCount - 1, 0, scale.length - 1)];
-    this.burst(0.14, 0.24, 2200, 180, 'lowpass');
-    this.tone(150, 0.16, 'sine', 0.25, -90);
-    this.tone(note, 0.18, 'triangle', 0.16, 0, 0.04);
+    this.burst(0.12, 0.2, 2200, 180, 'lowpass');
+    this.tone(150, 0.14, 'sine', 0.22, -80);
+    this.tone(note, 0.16, 'triangle', 0.14, 0, 0.03);
   }
   armorClang(){
-    this.tone(920, 0.14, 'square', 0.14, -220);
-    this.tone(1380, 0.18, 'triangle', 0.12, -300, 0.02);
+    this.tone(920, 0.12, 'square', 0.12, -200);
   }
   explosion(heavy = false){
-    this.burst(heavy ? 0.55 : 0.26, heavy ? 0.42 : 0.24, heavy ? 1400 : 1800, 70, 'lowpass');
-    this.tone(heavy ? 78 : 115, heavy ? 0.45 : 0.22, 'sine', heavy ? 0.42 : 0.25, -45);
+    this.burst(heavy ? 0.42 : 0.22, heavy ? 0.34 : 0.2, heavy ? 1400 : 1800, 70, 'lowpass');
+    this.tone(heavy ? 78 : 115, heavy ? 0.35 : 0.18, 'sine', heavy ? 0.34 : 0.2, -40);
   }
   upgrade(){
-    [440, 554.37, 659.25, 880].forEach((f, idx) => this.tone(f, 0.11, 'triangle', 0.14, 0, idx * 0.055));
+    [440, 554.37, 659.25, 880].forEach((f, idx) => this.tone(f, 0.1, 'triangle', 0.12, 0, idx * 0.05));
   }
   waveClear(){
-    [523.25, 659.25, 783.99, 1046.5].forEach((f, idx) => this.tone(f, 0.16, 'square', 0.11, 0, idx * 0.08));
+    [523.25, 659.25, 783.99, 1046.5].forEach((f, idx) => this.tone(f, 0.14, 'square', 0.1, 0, idx * 0.07));
   }
   gameOver(){
-    [392, 349.23, 311.13, 261.63].forEach((f, idx) => this.tone(f, 0.24, 'sawtooth', 0.13, -30, idx * 0.14));
+    [392, 349.23, 311.13, 261.63].forEach((f, idx) => this.tone(f, 0.2, 'sawtooth', 0.11, -25, idx * 0.12));
   }
 
   update(dt, frenzy, hasBoss, wantedStars){
     if(!this.ctx || this.bgmMuted || this.sfxMuted || document.hidden) return;
-    const tempo = frenzy ? 0.125 : hasBoss ? 0.145 : 0.175;
+    const tempo = frenzy ? 0.135 : hasBoss ? 0.155 : 0.185;
     this.beatAccum += dt;
     if(this.beatAccum >= tempo){
       this.beatAccum -= tempo;
       const bass = [55, 55, 65.41, 65.41, 49, 49, 58.27, 65.41];
       const f = bass[this.step % bass.length];
-      this.tone(f * 2, tempo * 0.85, 'sawtooth', frenzy ? 0.065 : 0.045);
-      if(this.step % 2 === 0){
-        this.tone(f * 4, tempo * 0.45, 'triangle', 0.025);
-      }
-      if(this.step % 4 === 2){
-        this.burst(0.05, 0.045, 5500, 2200, 'highpass');
-      }
+      this.tone(f * 2, tempo * 0.8, 'sawtooth', frenzy ? 0.055 : 0.04);
+      if(this.step % 2 === 0) this.tone(f * 4, tempo * 0.4, 'triangle', 0.02);
+      if(this.step % 4 === 2) this.burst(0.045, 0.038, 5500, 2200, 'highpass');
       this.step++;
     }
-
     if(wantedStars >= 3){
       this.chopperAccum += dt;
-      if(this.chopperAccum >= 0.42){
+      if(this.chopperAccum >= 0.48){
         this.chopperAccum = 0;
-        this.burst(0.08, 0.05, 260, 90, 'lowpass');
-        this.tone(680, 0.12, 'sine', 0.025, 110, 0.08);
+        this.burst(0.07, 0.04, 260, 90, 'lowpass');
       }
     }
   }
@@ -826,7 +821,7 @@ function makeSkyTexture(){
   return new THREE.CanvasTexture(c);
 }
 scene.add(new THREE.Mesh(
-  new THREE.SphereGeometry(480, 24, 16),
+  new THREE.SphereGeometry(480, 20, 14),
   new THREE.MeshBasicMaterial({ map: makeSkyTexture(), side: THREE.BackSide, fog: false })
 ));
 
@@ -837,8 +832,8 @@ function makeNoiseTex(baseHex, speckHex, repeatX, repeatY){
   ctx.fillStyle = baseHex;
   ctx.fillRect(0, 0, 128, 128);
   ctx.fillStyle = speckHex;
-  for(let i = 0; i < 420; i++){
-    ctx.globalAlpha = rand(0.05, 0.22);
+  for(let i = 0; i < 300; i++){
+    ctx.globalAlpha = rand(0.05, 0.2);
     ctx.fillRect(rand(0, 128), rand(0, 128), rand(1, 3), rand(1, 3));
   }
   ctx.globalAlpha = 1;
@@ -927,20 +922,35 @@ towerGroup.add(platformMesh);
   towerGroup.add(leg);
 });
 
-// Vertical ladder rails + rungs climbing the front-left face of the tower
+// Wide climbable ladder with left/right lane rails & rungs
 const ladderRailL = new THREE.Mesh(new THREE.CylinderGeometry(0.06, 0.06, 36, 6), steelWhite);
-ladderRailL.position.set(-1.35, -18, 3.55);
+ladderRailL.position.set(-2.3, -18, 3.55);
 towerGroup.add(ladderRailL);
 const ladderRailR = new THREE.Mesh(new THREE.CylinderGeometry(0.06, 0.06, 36, 6), steelWhite);
-ladderRailR.position.set(-0.45, -18, 3.55);
+ladderRailR.position.set(1.1, -18, 3.55);
 towerGroup.add(ladderRailR);
-const rungGeo = new THREE.CylinderGeometry(0.04, 0.04, 0.92, 6);
+
+const rungGeo = new THREE.CylinderGeometry(0.04, 0.04, 3.42, 6);
 rungGeo.rotateZ(Math.PI / 2);
 for(let ry = -35; ry <= 0; ry += 1.15){
   const rung = new THREE.Mesh(rungGeo, steelRed);
-  rung.position.set(-0.9, ry, 3.55);
+  rung.position.set(-0.6, ry, 3.55);
   towerGroup.add(rung);
 }
+
+// Climb obstacles at different heights & horizontal slots (dodgeable left/right)
+const climbObstacles = [];
+const obsMat = new THREE.MeshStandardMaterial({ color: 0xFACC15, roughness: 0.4, metalness: 0.3 });
+[
+  { y: -26, laneX: -1.45 },
+  { y: -18, laneX: 0.25 },
+  { y: -10, laneX: -1.45 }
+].forEach(cfg => {
+  const bar = new THREE.Mesh(new THREE.BoxGeometry(1.55, 0.36, 0.55), obsMat);
+  bar.position.set(cfg.laneX, cfg.y, 3.75);
+  towerGroup.add(bar);
+  climbObstacles.push({ y: cfg.y, laneX: cfg.laneX, hitCooldown: 0 });
+});
 
 const frontRail = new THREE.Mesh(new THREE.BoxGeometry(8.4, 0.08, 0.08), new THREE.MeshStandardMaterial({ color: 0xE2E8F0, metalness: 0.6, roughness: 0.35 }));
 frontRail.position.set(0, 1.05, 3.65);
@@ -980,7 +990,7 @@ for(let i = 0; i < 24; i++){
 });
 
 const jasonGroup = new THREE.Group();
-jasonGroup.position.set(0.35, 0, 0.9);
+jasonGroup.position.set(-0.6, -35, 3.85);
 towerGroup.add(jasonGroup);
 
 const jasonCoatMat = new THREE.MeshStandardMaterial({ color: 0x1E293B, roughness: 0.7 });
@@ -1035,7 +1045,7 @@ groundPlane.receiveShadow = true;
 scene.add(groundPlane);
 
 const oceanMesh = new THREE.Mesh(
-  new THREE.PlaneGeometry(460, 180, 24, 12),
+  new THREE.PlaneGeometry(460, 180, 16, 8),
   new THREE.MeshStandardMaterial({ color: 0x0284C7, roughness: 0.22, metalness: 0.45 })
 );
 oceanMesh.rotation.x = -Math.PI / 2;
@@ -1075,7 +1085,7 @@ artDecoWall.castShadow = true;
 roofGroup.add(artDecoWall);
 
 const poolWater = new THREE.Mesh(
-  new THREE.PlaneGeometry(11, 6.5, 12, 8),
+  new THREE.PlaneGeometry(11, 6.5, 4, 4),
   new THREE.MeshStandardMaterial({ color: 0x06B6D4, roughness: 0.15, metalness: 0.3 })
 );
 poolWater.rotation.x = -Math.PI / 2;
@@ -1109,9 +1119,10 @@ const frondMat = new THREE.MeshStandardMaterial({ color: 0x16A34A, roughness: 0.
   palms.push(pGroup);
 });
 
+// Slower, smooth boulevard cars & yachts
 const vehicles = [];
 const carColors = [0xEA580C, 0xFACC15, 0xF8FAFC, 0x0284C7, 0xDC2626];
-for(let i = 0; i < 6; i++){
+for(let i = 0; i < 5; i++){
   const car = new THREE.Group();
   const body = new THREE.Mesh(
     new THREE.BoxGeometry(3.4, 1.1, 1.75),
@@ -1127,9 +1138,9 @@ for(let i = 0; i < 6; i++){
   cabin.position.set(-0.2, 1.55, 0);
   car.add(cabin);
   const dir = i < 3 ? 1 : -1;
-  car.position.set(rand(-60, 60), 0.05, dir > 0 ? 15.5 : 20.5);
+  car.position.set(rand(-55, 55), 0.05, dir > 0 ? 15.5 : 20.5);
   if(dir < 0) car.rotation.y = Math.PI;
-  car.userData = { speed: dir * rand(12, 20), isYacht: false };
+  car.userData = { speed: dir * rand(5.5, 9.0) };
   scene.add(car);
   vehicles.push(car);
 }
@@ -1143,7 +1154,7 @@ for(let i = 0; i < 2; i++){
   deck.position.set(-0.6, 2.1, 0);
   yacht.add(deck);
   yacht.position.set(i === 0 ? -45 : 40, 0.15, i === 0 ? -55 : -85);
-  yacht.userData = { speed: i === 0 ? 7.5 : -6.5, isYacht: true };
+  yacht.userData = { speed: i === 0 ? 3.8 : -3.4 };
   scene.add(yacht);
   vehicles.push(yacht);
 }
@@ -1159,7 +1170,7 @@ const rotor = new THREE.Mesh(new THREE.BoxGeometry(6.2, 0.08, 0.26), new THREE.M
 rotor.position.y = 1.05;
 chopperGroup.add(rotor);
 const beamCone = new THREE.Mesh(
-  new THREE.ConeGeometry(5.5, 22, 18, 1, true),
+  new THREE.ConeGeometry(5.5, 22, 16, 1, true),
   new THREE.MeshBasicMaterial({ color: 0xFDE047, transparent: true, opacity: 0.18, side: THREE.DoubleSide, depthWrite: false })
 );
 beamCone.position.set(0, -11, 0);
@@ -1178,18 +1189,18 @@ for(let i = 0; i < 24; i++){
 }
 
 const aimRing = new THREE.Mesh(
-  new THREE.RingGeometry(0.65, 1.05, 28),
+  new THREE.RingGeometry(0.65, 1.05, 24),
   new THREE.MeshBasicMaterial({ color: 0xFDE047, side: THREE.DoubleSide, transparent: true, opacity: 0.9 })
 );
 aimRing.rotation.x = -Math.PI / 2;
 aimRing.position.set(0, 2.35, 0);
 scene.add(aimRing);
 const TARGET_SPECS = {
-  lawyer: { label: 'LAWYER', baseCash: 100000, speed: 6.2, radius: 1.5, color: 0x1E293B, hp: 1 },
-  jeet: { label: 'JEET', baseCash: 25000, speed: 9.5, radius: 1.25, color: 0x22C55E, hp: 1 },
-  paper: { label: 'PAPER HANDS', baseCash: 50000, speed: 5.5, radius: 1.3, color: 0xFACC15, hp: 1 },
-  dev: { label: 'SCAM DEV', baseCash: 250000, speed: 4.4, radius: 1.65, color: 0xEA580C, hp: 2 },
-  boss: { label: 'RUGGER BOSS', baseCash: 1000000, speed: 8.8, radius: 3.4, color: 0xDC2626, hp: 5 }
+  lawyer: { label: 'LAWYER', baseCash: 100000, speed: 3.4, radius: 1.5, color: 0x1E293B, hp: 1 },
+  jeet: { label: 'JEET', baseCash: 25000, speed: 4.8, radius: 1.25, color: 0x22C55E, hp: 1 },
+  paper: { label: 'PAPER HANDS', baseCash: 50000, speed: 3.0, radius: 1.3, color: 0xFACC15, hp: 1 },
+  dev: { label: 'SCAM DEV', baseCash: 250000, speed: 2.5, radius: 1.65, color: 0xEA580C, hp: 2 },
+  boss: { label: 'RUGGER BOSS', baseCash: 1000000, speed: 4.4, radius: 3.4, color: 0xDC2626, hp: 5 }
 };
 
 const EGG_SPECS = [
@@ -1205,9 +1216,11 @@ const UPG_COSTS = {
 };
 
 const game = {
-  phase: 'intro',
-  introTime: 0,
-  introDur: 2.5,
+  phase: 'climbing',
+  climbProgress: 0,
+  climbDuration: 5.5,
+  climbLaneX: -0.6,
+  climbBumpFlash: 0,
   wave: 1,
   waveTime: 40,
   waveQuota: 250000,
@@ -1226,20 +1239,20 @@ const game = {
   selectedEgg: 0,
   eggCooldowns: [0, 0, 0],
   upgrades: { q: 0, w: 0, e: 0 },
-  windSpeed: 6,
+  windSpeed: 5,
   windAngle: 0.4,
-  gustTimer: 8,
+  gustTimer: 9,
   gustActive: 0,
   aimPoint: new THREE.Vector3(4, 2.25, 2),
   charging: false,
   chargePower: 0,
   chargeDir: 1,
-  hitStop: 0,
   shakeTime: 0,
   shakeMag: 0,
   diveCamTimer: 0,
   bannerTimer: 0,
-  keysAim: { left: false, right: false, up: false, down: false }
+  keysAim: { left: false, right: false, up: false, down: false },
+  pointerClimbDir: 0
 };
 
 try{ game.bestCash = +(localStorage.getItem('nest_egg_best') || 0); }catch(_){}
@@ -1254,6 +1267,15 @@ function saveBestCash(){
 const targets = [];
 const projectiles = [];
 const cashPickups = [];
+
+// Reusable math objects to avoid per-frame allocations and GC stutter
+const _tmpVecA = new THREE.Vector3();
+const _tmpVecB = new THREE.Vector3();
+const _raycaster = new THREE.Raycaster();
+const _pointerNDC = new THREE.Vector2(0, 0);
+const _roofPlane = new THREE.Plane(new THREE.Vector3(0, 1, 0), -2.2);
+const _streetPlane = new THREE.Plane(new THREE.Vector3(0, 1, 0), -0.05);
+const _ladderPlane = new THREE.Plane(new THREE.Vector3(0, 0, 1), -(22 + 3.85));
 
 function createArticulatedTarget(type){
   const spec = TARGET_SPECS[type];
@@ -1336,7 +1358,6 @@ function createArticulatedTarget(type){
   root.add(armR);
 
   if(type === 'lawyer'){
-    // Red silk tie + crisp white collar + gold briefcase
     const tie = new THREE.Mesh(new THREE.BoxGeometry(0.11, 0.62, 0.06), new THREE.MeshBasicMaterial({ color: 0xDC2626 }));
     tie.position.set(0, 1.42, 0.25);
     root.add(tie);
@@ -1363,7 +1384,7 @@ function createArticulatedTarget(type){
   const ang = rand(0, Math.PI * 2);
   root.userData = {
     type, spec, hp: spec.hp, maxHp: spec.hp,
-    legL, legR, armL, armR,
+    hpBarFill, legL, legR, armL, armR,
     phase: rand(0, 6.28), stun: 0, panic: 0,
     vel: new THREE.Vector3(Math.cos(ang) * spec.speed, 0, Math.sin(ang) * spec.speed),
     onRoof
@@ -1373,7 +1394,6 @@ function createArticulatedTarget(type){
 
 function spawnWaveTargets(){
   while(targets.length) scene.remove(targets.pop());
-  // Guarantee at least 2 Lawyers on deck/boulevard right away
   const pool = ['lawyer', 'lawyer', 'jeet', 'paper', 'dev'];
   const count = Math.min(14, 7 + game.wave);
   for(let i = 0; i < count; i++){
@@ -1412,17 +1432,17 @@ for(let i = 0; i < MAX_PARTICLES; i++){
   particles.push(mesh);
 }
 
-function spawnBurst(pos, colorHex, count = 14, speed = 9){
+function spawnBurst(pos, colorHex, count = 14, speed = 8){
   let spawned = 0;
   for(let i = 0; i < particles.length && spawned < count; i++){
     const p = particles[i];
     if(!p.userData.active){
       p.userData.active = true;
-      p.userData.life = rand(0.35, 0.85);
-      p.userData.vel.set(rand(-speed, speed), rand(2.5, speed * 1.15), rand(-speed, speed));
+      p.userData.life = rand(0.35, 0.8);
+      p.userData.vel.set(rand(-speed, speed), rand(2.5, speed * 1.1), rand(-speed, speed));
       p.material.color.setHex(colorHex);
       p.position.copy(pos);
-      p.scale.setScalar(rand(0.6, 1.5));
+      p.scale.setScalar(rand(0.6, 1.4));
       p.visible = true;
       spawned++;
     }
@@ -1430,11 +1450,11 @@ function spawnBurst(pos, colorHex, count = 14, speed = 9){
 }
 
 function addCallout(worldPos, text, colorCss){
-  const v = worldPos.clone().project(camera);
-  if(v.z > 1) return;
+  _tmpVecA.copy(worldPos).project(camera);
+  if(_tmpVecA.z > 1) return;
   const rect = glCanvas.getBoundingClientRect();
-  const sx = (v.x * 0.5 + 0.5) * rect.width;
-  const sy = (-v.y * 0.5 + 0.5) * rect.height;
+  const sx = (_tmpVecA.x * 0.5 + 0.5) * rect.width;
+  const sy = (-_tmpVecA.y * 0.5 + 0.5) * rect.height;
   const el = document.createElement('div');
   el.textContent = text;
   el.style.cssText = `
@@ -1491,12 +1511,9 @@ function addCash(baseAmount, worldPos, label){
 
 function launchSpiralEgg(power, isSplitChild = false, customOrigin = null, customVel = null){
   const eggIdx = game.selectedEgg;
-  const spec = EGG_SPECS[eggIdx];
-
   if(!isSplitChild){
     if(game.phase !== 'playing') return;
     if(game.eggCooldowns[eggIdx] > 0){
-      // Fall back smoothly to CLASSIC if heavy egg is on cooldown so controls never feel dead
       selectEgg(0);
     }
     const activeIdx = game.selectedEgg;
@@ -1506,6 +1523,8 @@ function launchSpiralEgg(power, isSplitChild = false, customOrigin = null, custo
     sound.spiralThrow(activeIdx);
   }
 
+  const activeIdx = isSplitChild ? eggIdx : game.selectedEgg;
+  const spec = EGG_SPECS[activeIdx];
   const startPos = customOrigin ? customOrigin.clone() : new THREE.Vector3(-13.4, 37.5, 22.8);
   let vel;
   if(customVel){
@@ -1520,20 +1539,20 @@ function launchSpiralEgg(power, isSplitChild = false, customOrigin = null, custo
     );
   }
 
-  const mesh = new THREE.Mesh(new THREE.SphereGeometry(eggIdx === 2 ? 0.38 : 0.28, 12, 12), eggMats[eggIdx]);
+  const mesh = new THREE.Mesh(new THREE.SphereGeometry(activeIdx === 2 ? 0.38 : 0.28, 12, 12), eggMats[activeIdx]);
   mesh.scale.set(0.84, 1.22, 0.84);
   mesh.position.copy(startPos);
   mesh.castShadow = true;
   scene.add(mesh);
 
   projectiles.push({
-    mesh, vel, eggIdx, spec,
+    mesh, vel, eggIdx: activeIdx, spec,
     isSplitChild, splitDone: false,
     spinSpeed: 24 + power * 18, age: 0
   });
 
-  if(!isSplitChild && (eggIdx >= 1 || game.combo >= 3)){
-    game.diveCamTimer = 0.45;
+  if(!isSplitChild && (activeIdx >= 1 || game.combo >= 3)){
+    game.diveCamTimer = 0.35;
   }
 }
 
@@ -1543,10 +1562,9 @@ function detonateEgg(proj){
   const isHeavy = proj.eggIdx >= 1;
 
   sound.explosion(isHeavy);
-  spawnBurst(pos, proj.eggIdx === 1 ? 0xFACC15 : 0xFDE047, isHeavy ? 24 : 14, isHeavy ? 13 : 8.5);
-  game.shakeTime = isHeavy ? 0.3 : 0.16;
-  game.shakeMag = isHeavy ? 0.55 : 0.25;
-  if(isHeavy) game.hitStop = 0.04;
+  spawnBurst(pos, proj.eggIdx === 1 ? 0xFACC15 : 0xFDE047, isHeavy ? 22 : 12, isHeavy ? 11 : 7.5);
+  game.shakeTime = isHeavy ? 0.22 : 0.12;
+  game.shakeMag = isHeavy ? 0.4 : 0.18;
 
   for(let i = cashPickups.length - 1; i >= 0; i--){
     const cp = cashPickups[i];
@@ -1572,7 +1590,7 @@ function detonateEgg(proj){
 
       if(ud.type === 'dev' && ud.hp > 0){
         sound.armorClang();
-        spawnBurst(t.position, 0xFACC15, 12, 8);
+        spawnBurst(t.position, 0xFACC15, 10, 6.5);
         addCallout(t.position, 'ARMOR SHATTERED!', '#FACC15');
         continue;
       }
@@ -1580,10 +1598,9 @@ function detonateEgg(proj){
       if(ud.hp <= 0){
         if(ud.type === 'lawyer') spawnCashPickup(t.position.x, t.position.y, t.position.z, 50000);
         if(ud.type === 'boss'){
-          game.hitStop = 0.06;
-          game.shakeTime = 0.45;
-          game.shakeMag = 0.9;
-          spawnBurst(t.position, 0xEA580C, 36, 16);
+          game.shakeTime = 0.35;
+          game.shakeMag = 0.65;
+          spawnBurst(t.position, 0xEA580C, 30, 14);
           addCash(ud.spec.baseCash, t.position, 'BOSS DOWN!');
           scene.remove(t);
           targets.splice(i, 1);
@@ -1606,7 +1623,7 @@ function detonateEgg(proj){
         addCallout(t.position, 'BOSS HIT!', '#FDE047');
       }
     } else if(ud.type === 'paper' && dist <= 12){
-      ud.panic = 2.4;
+      ud.panic = 2.0;
     } else if(ud.type === 'jeet' && dist <= 7){
       ud.vel.x *= -1;
       ud.vel.z *= -1;
@@ -1666,6 +1683,8 @@ function selectEgg(idx){
 
 function openVaultModal(reasonText){
   game.phase = 'ended';
+  game.charging = false;
+  game.chargePower = 0;
   saveBestCash();
   sound.gameOver();
   $('vault-reason').textContent = reasonText || 'Run finished.';
@@ -1680,7 +1699,11 @@ function openVaultModal(reasonText){
 
 function startNewRun(){
   $('vault-modal').classList.remove('open');
-  game.phase = 'playing';
+  game.phase = 'climbing';
+  game.climbProgress = 0;
+  game.climbLaneX = -0.6;
+  game.climbBumpFlash = 0;
+  game.pointerClimbDir = 0;
   game.wave = 1; game.waveTime = 40; game.waveQuota = 250000; game.waveCash = 0;
   game.cash = 0; game.combo = 0; game.comboMult = 1; game.maxComboMult = 1;
   game.comboTimer = 0; game.frenzyTime = 0; game.wantedStars = 1; game.heatMeter = 0;
@@ -1689,29 +1712,45 @@ function startNewRun(){
   while(projectiles.length) scene.remove(projectiles.pop().mesh);
   while(cashPickups.length) scene.remove(cashPickups.pop());
   spawnWaveTargets();
-  showBanner('WAVE 1 // THE NEST', 'HIT THE QUOTA BEFORE TIME RUNS OUT', 1.6);
+  showBanner('LADDER CLIMB', 'A/D OR LEFT/RIGHT TO DODGE OBSTACLES', 1.7);
 }
 
-const raycaster = new THREE.Raycaster();
-const pointerNDC = new THREE.Vector2(0, 0);
-const roofPlaneMath = new THREE.Plane(new THREE.Vector3(0, 1, 0), -2.2);
-const streetPlaneMath = new THREE.Plane(new THREE.Vector3(0, 1, 0), -0.05);
+function finishClimbToNest(){
+  if(game.phase !== 'climbing') return;
+  game.climbProgress = 1;
+  game.climbLaneX = -0.6;
+  jasonGroup.position.set(0.4, 0, 1.35);
+  jasonGroup.rotation.set(0, -0.35, 0);
+  game.phase = 'playing';
+  spawnWaveTargets();
+  showBanner('WAVE 1 // THE NEST', 'REACH THE QUOTA BEFORE TIME EXPIRES', 1.6);
+}
 
 function updateAimFromClient(clientX, clientY){
   const rect = glCanvas.getBoundingClientRect();
   if(!rect.width || !rect.height) return;
-  pointerNDC.x = ((clientX - rect.left) / rect.width) * 2 - 1;
-  pointerNDC.y = -((clientY - rect.top) / rect.height) * 2 + 1;
-  raycaster.setFromCamera(pointerNDC, camera);
+  _pointerNDC.x = ((clientX - rect.left) / rect.width) * 2 - 1;
+  _pointerNDC.y = -((clientY - rect.top) / rect.height) * 2 + 1;
+  _raycaster.setFromCamera(_pointerNDC, camera);
+
+  if(game.phase === 'climbing'){
+    const hitLadder = new THREE.Vector3();
+    if(_raycaster.ray.intersectPlane(_ladderPlane, hitLadder)){
+      const localX = hitLadder.x - (-14);
+      game.pointerClimbDir = localX < game.climbLaneX - 0.15 ? -1 : (localX > game.climbLaneX + 0.15 ? 1 : 0);
+    }
+    return;
+  }
+
   const hitRoof = new THREE.Vector3();
-  if(raycaster.ray.intersectPlane(roofPlaneMath, hitRoof)){
+  if(_raycaster.ray.intersectPlane(_roofPlane, hitRoof)){
     if(Math.abs(hitRoof.x - 8) <= 17 && Math.abs(hitRoof.z + 4) <= 9){
       game.aimPoint.set(clamp(hitRoof.x, -10, 26), 2.2, clamp(hitRoof.z, -13, 5));
       return;
     }
   }
   const hitGround = new THREE.Vector3();
-  if(raycaster.ray.intersectPlane(streetPlaneMath, hitGround)){
+  if(_raycaster.ray.intersectPlane(_streetPlane, hitGround)){
     game.aimPoint.set(clamp(hitGround.x, -34, 34), 0.05, clamp(hitGround.z, -36, 24));
   }
 }
@@ -1723,7 +1762,7 @@ function updateTrajectoryPreview(power){
   aimRing.scale.setScalar(Math.max(0.7, spec.blastRadius * 0.42));
   aimRing.visible = game.phase === 'playing';
 
-  const startPos = new THREE.Vector3(-13.4, 37.5, 22.8);
+  const startPos = _tmpVecB.set(-13.4, 37.5, 22.8);
   const flightTime = lerp(1.35, 0.95, power);
   const g = 28;
   const vx = (game.aimPoint.x - startPos.x) / flightTime;
@@ -1742,25 +1781,10 @@ function updateTrajectoryPreview(power){
 }
 
 function updateWorldAndEntities(dt){
-  // Keyboard WASD / Arrow fine aim control
-  const aimSpd = 22 * dt;
-  if(game.keysAim.left) game.aimPoint.x = clamp(game.aimPoint.x - aimSpd, -34, 34);
-  if(game.keysAim.right) game.aimPoint.x = clamp(game.aimPoint.x + aimSpd, -34, 34);
-  if(game.keysAim.up) game.aimPoint.z = clamp(game.aimPoint.z - aimSpd, -36, 24);
-  if(game.keysAim.down) game.aimPoint.z = clamp(game.aimPoint.z + aimSpd, -36, 24);
-  const overRoof = Math.abs(game.aimPoint.x - 8) <= 17 && Math.abs(game.aimPoint.z + 4) <= 9;
-  game.aimPoint.y = overRoof ? 2.2 : 0.05;
-
-  const pPos = poolWater.geometry.attributes.position;
-  for(let i = 0; i < pPos.count; i++){
-    const px = pPos.getX(i), py = pPos.getY(i);
-    pPos.setZ(i, Math.sin(px * 1.4 + performance.now() * 0.004) * 0.06 + Math.cos(py * 1.6 + performance.now() * 0.003) * 0.05);
-  }
-  pPos.needsUpdate = true;
-
   const windFactor = (game.windSpeed / 25) * Math.sin(game.windAngle);
   for(const p of palms) p.rotation.z = windFactor * 0.14 + Math.sin(performance.now() * 0.002 + p.userData.phase) * 0.04;
 
+  // Slower, predictable car & yacht movement
   for(const v of vehicles){
     v.position.x += v.userData.speed * dt;
     if(v.userData.speed > 0 && v.position.x > 110) v.position.x = -110;
@@ -1769,15 +1793,62 @@ function updateWorldAndEntities(dt){
 
   beaconLight.intensity = 0.6 + (0.5 + 0.5 * Math.sin(performance.now() * 0.008)) * 2.2;
   bystanderGroup.rotation.y = -0.5 + Math.sin(performance.now() * 0.0022) * 0.25;
+
+  if(game.phase === 'climbing'){
+    const moveLeft = game.keysAim.left || game.pointerClimbDir < 0;
+    const moveRight = game.keysAim.right || game.pointerClimbDir > 0;
+    const laneSpeed = 3.2;
+    if(moveLeft) game.climbLaneX -= laneSpeed * dt;
+    if(moveRight) game.climbLaneX += laneSpeed * dt;
+    game.climbLaneX = clamp(game.climbLaneX, -1.95, 0.75);
+
+    game.climbProgress += dt / game.climbDuration;
+    const yPos = lerp(-35.0, 0.0, clamp(game.climbProgress, 0, 1));
+
+    // Check left/right obstacle clearance along the ladder
+    for(const obs of climbObstacles){
+      if(obs.hitCooldown > 0) obs.hitCooldown = Math.max(0, obs.hitCooldown - dt);
+      if(Math.abs(yPos - obs.y) < 0.75 && Math.abs(game.climbLaneX - obs.laneX) < 0.95 && obs.hitCooldown <= 0){
+        obs.hitCooldown = 1.2;
+        game.climbProgress = Math.max(0, game.climbProgress - 0.07);
+        game.climbBumpFlash = 0.35;
+        sound.climbBump();
+      }
+    }
+
+    if(game.climbBumpFlash > 0) game.climbBumpFlash = Math.max(0, game.climbBumpFlash - dt);
+    jasonGroup.position.set(game.climbLaneX, yPos, 3.85);
+    jasonGroup.rotation.set(0, Math.sin(performance.now() * 0.012) * 0.14, (moveLeft ? 0.12 : moveRight ? -0.12 : 0));
+    armPivot.rotation.x = Math.sin(performance.now() * 0.015) * 0.65;
+
+    camera.position.lerp(_tmpVecA.set(-14 + game.climbLaneX * 0.5, 36 + yPos + 5.2, 13.5), Math.min(1, dt * 6));
+    camera.lookAt(-14 + game.climbLaneX * 0.4, 36 + yPos + 1.4, 25.5);
+
+    if(game.climbProgress >= 1){
+      finishClimbToNest();
+    }
+    updateTrajectoryPreview(0.5);
+    return;
+  }
+
+  // Playing / ended aim & world update
+  const aimSpd = 18 * dt;
+  if(game.keysAim.left) game.aimPoint.x = clamp(game.aimPoint.x - aimSpd, -34, 34);
+  if(game.keysAim.right) game.aimPoint.x = clamp(game.aimPoint.x + aimSpd, -34, 34);
+  if(game.keysAim.up) game.aimPoint.z = clamp(game.aimPoint.z - aimSpd, -36, 24);
+  if(game.keysAim.down) game.aimPoint.z = clamp(game.aimPoint.z + aimSpd, -36, 24);
+  const overRoof = Math.abs(game.aimPoint.x - 8) <= 17 && Math.abs(game.aimPoint.z + 4) <= 9;
+  game.aimPoint.y = overRoof ? 2.2 : 0.05;
+
   jasonGroup.rotation.y = -0.35 + Math.sin(performance.now() * 0.0018) * 0.06;
-  armPivot.rotation.x = game.charging ? -lerp(0.2, 1.35, game.chargePower) : (game.diveCamTimer > 0.25 ? 1.1 : lerp(armPivot.rotation.x, -0.25, Math.min(1, dt * 10)));
+  armPivot.rotation.x = game.charging ? -lerp(0.2, 1.35, game.chargePower) : (game.diveCamTimer > 0.2 ? 1.1 : lerp(armPivot.rotation.x, -0.25, Math.min(1, dt * 10)));
 
   chopperGroup.visible = game.wantedStars >= 3 && game.phase === 'playing';
   if(chopperGroup.visible){
-    const tHeli = performance.now() * 0.0009;
+    const tHeli = performance.now() * 0.00075;
     chopperGroup.position.set(Math.cos(tHeli) * 18, 22, Math.sin(tHeli) * 14 - 2);
     chopperGroup.rotation.y = -tHeli + Math.PI * 0.5;
-    rotor.rotation.y += dt * 36;
+    rotor.rotation.y += dt * 32;
   }
 
   if(game.phase === 'playing'){
@@ -1786,9 +1857,9 @@ function updateWorldAndEntities(dt){
 
     game.gustTimer -= dt;
     if(game.gustTimer <= 0){
-      game.gustTimer = rand(7, 12);
-      game.gustActive = 2.4;
-      game.windSpeed = rand(4, Math.min(28, 7 + game.wave * 2.2));
+      game.gustTimer = rand(8, 13);
+      game.gustActive = 2.2;
+      game.windSpeed = rand(3, Math.min(20, 5 + game.wave * 1.5));
       game.windAngle = rand(-Math.PI, Math.PI);
       showBanner('GUST ALERT!', `WIND SHIFT: ${Math.round(game.windSpeed)} KT`, 1.2);
     }
@@ -1800,7 +1871,7 @@ function updateWorldAndEntities(dt){
     arenaEl.classList.toggle('frenzy-active', game.frenzyTime > 0);
 
     if(game.charging){
-      game.chargePower += game.chargeDir * dt * (1.35 + game.upgrades.w * 0.28);
+      game.chargePower += game.chargeDir * dt * (1.25 + game.upgrades.w * 0.25);
       if(game.chargePower >= 1){ game.chargePower = 1; game.chargeDir = -1; }
       if(game.chargePower <= 0.15){ game.chargePower = 0.15; game.chargeDir = 1; }
     }
@@ -1808,22 +1879,23 @@ function updateWorldAndEntities(dt){
 
   if(game.bannerTimer > 0){ game.bannerTimer -= dt; if(game.bannerTimer <= 0) $('banner').classList.remove('on'); }
 
-  const waveSpeedScale = 1 + (game.wave - 1) * 0.08;
+  // Reduced, steady target movement
+  const waveSpeedScale = 1 + (game.wave - 1) * 0.05;
   for(const t of targets){
     const ud = t.userData;
-    ud.phase += dt * 8;
+    ud.phase += dt * 5.5;
     if(ud.type === 'boss'){
-      const tBoss = performance.now() * 0.00075 + ud.phase;
-      t.position.set(Math.sin(tBoss) * 22, 0.25 + Math.sin(tBoss * 3) * 0.25, -34 + Math.sin(tBoss * 2) * 8);
-      t.rotation.y = Math.cos(tBoss) * 0.45;
+      const tBoss = performance.now() * 0.00045 + ud.phase;
+      t.position.set(Math.sin(tBoss) * 18, 0.25, -32 + Math.sin(tBoss * 2) * 5);
+      t.rotation.y = Math.cos(tBoss) * 0.35;
       continue;
     }
-    if(ud.stun > 0){ ud.stun -= dt; t.rotation.z = Math.sin(performance.now() * 0.03) * 0.25; continue; }
+    if(ud.stun > 0){ ud.stun -= dt; t.rotation.z = Math.sin(performance.now() * 0.025) * 0.2; continue; }
     t.rotation.z = 0;
 
     let spd = ud.spec.speed * waveSpeedScale;
-    if(ud.type === 'jeet' && Math.sin(ud.phase * 0.45) > 0.82) ud.vel.z *= -1;
-    else if(ud.type === 'paper' && ud.panic > 0){ ud.panic -= dt; spd *= 1.85; }
+    if(ud.type === 'jeet' && Math.sin(ud.phase * 0.35) > 0.88) ud.vel.z *= -1;
+    else if(ud.type === 'paper' && ud.panic > 0){ ud.panic -= dt; spd *= 1.45; }
 
     const dirLen = Math.hypot(ud.vel.x, ud.vel.z) || 1;
     t.position.x += (ud.vel.x / dirLen) * spd * dt;
@@ -1841,9 +1913,9 @@ function updateWorldAndEntities(dt){
 
     t.rotation.y = Math.atan2(ud.vel.x, ud.vel.z);
     if(ud.legL && ud.legR){
-      const sw = Math.sin(ud.phase) * 0.65;
+      const sw = Math.sin(ud.phase) * 0.5;
       ud.legL.rotation.x = sw; ud.legR.rotation.x = -sw;
-      ud.armL.rotation.x = -sw * 0.75; ud.armR.rotation.x = sw * 0.75;
+      ud.armL.rotation.x = -sw * 0.6; ud.armR.rotation.x = sw * 0.6;
     }
   }
 
@@ -1851,8 +1923,8 @@ function updateWorldAndEntities(dt){
   for(let i = projectiles.length - 1; i >= 0; i--){
     const pr = projectiles[i];
     pr.age += dt;
-    pr.vel.x += Math.cos(game.windAngle) * game.windSpeed * 0.24 * windResist * dt;
-    pr.vel.z += Math.sin(game.windAngle) * game.windSpeed * 0.24 * windResist * dt;
+    pr.vel.x += Math.cos(game.windAngle) * game.windSpeed * 0.2 * windResist * dt;
+    pr.vel.z += Math.sin(game.windAngle) * game.windSpeed * 0.2 * windResist * dt;
     pr.vel.y -= 28 * dt;
     pr.mesh.position.addScaledVector(pr.vel, dt);
     pr.mesh.rotation.y += pr.spinSpeed * dt;
@@ -1876,7 +1948,7 @@ function updateWorldAndEntities(dt){
     const cp = cashPickups[i];
     cp.userData.life -= dt; cp.userData.vy -= 14 * dt; cp.position.y += cp.userData.vy * dt;
     if(cp.position.y <= 2.45){ cp.position.y = 2.45; cp.userData.vy = 0; }
-    cp.rotation.y += dt * 1.8;
+    cp.rotation.y += dt * 1.5;
     if(cp.userData.life <= 0){ scene.remove(cp); cashPickups.splice(i, 1); }
   }
 
@@ -1885,29 +1957,21 @@ function updateWorldAndEntities(dt){
     p.userData.life -= dt;
     if(p.userData.life <= 0){ p.userData.active = false; p.visible = false; continue; }
     p.userData.vel.y -= 24 * dt; p.position.addScaledVector(p.userData.vel, dt);
-    p.rotation.x += dt * 8; p.rotation.y += dt * 6;
+    p.rotation.x += dt * 7; p.rotation.y += dt * 5;
     if(p.position.y < 0.12){ p.position.y = 0.12; p.userData.vel.y *= -0.35; p.userData.vel.x *= 0.7; p.userData.vel.z *= 0.7; }
   }
 
-  camera.fov = lerp(camera.fov, game.charging ? 54 : 60, Math.min(1, dt * 8));
+  camera.fov = lerp(camera.fov, game.charging ? 55 : 60, Math.min(1, dt * 8));
   camera.updateProjectionMatrix();
 
-  // Steady camera framing so aiming is never pulled away from the pointer
-  if(game.phase === 'intro'){
-    game.introTime += dt;
-    const t = clamp(game.introTime / game.introDur, 0, 1);
-    const climbY = lerp(12, 39.2, t);
-    camera.position.set(-13.8, climbY, lerp(26.5, 25.4, t));
-    camera.lookAt(-12.5, climbY + (t > 0.7 ? -6 : 2.5), t > 0.7 ? 4 : 20);
-    if(game.introTime >= game.introDur){ game.phase = 'playing'; spawnWaveTargets(); showBanner('WAVE 1 // THE NEST', 'REACH THE QUOTA BEFORE TIME EXPIRES', 1.6); }
-  } else if(game.diveCamTimer > 0 && projectiles.length > 0){
+  if(game.diveCamTimer > 0 && projectiles.length > 0){
     game.diveCamTimer -= dt;
-    const activeEgg = projectiles[0].mesh.position, ang = performance.now() * 0.015;
+    const activeEgg = projectiles[0].mesh.position, ang = performance.now() * 0.012;
     camera.position.set(activeEgg.x + Math.cos(ang) * 4.5, activeEgg.y + 3.2, activeEgg.z + Math.sin(ang) * 4.5);
     camera.lookAt(activeEgg);
   } else {
     if(game.diveCamTimer > 0) game.diveCamTimer -= dt;
-    camera.position.lerp(new THREE.Vector3(-13.5, 39.2, 25.2), Math.min(1, dt * 7));
+    camera.position.lerp(_tmpVecA.set(-13.5, 39.2, 25.2), Math.min(1, dt * 7));
     camera.lookAt(3.0, 1.5, 1.0);
   }
 
@@ -1947,8 +2011,13 @@ function drawRadar(){
   rCtx.beginPath(); rCtx.arc(mapX(game.aimPoint.x), mapZ(game.aimPoint.z), 4.5, 0, Math.PI * 2); rCtx.stroke();
 }
 
+const starSpans = Array.from(document.querySelectorAll('#wanted-stars .star-el'));
+let _lastStars = -1;
+
 function syncHUD(){
-  $('hud-mission').textContent = `${CONFIG.TOKEN_NAME} // WAVE ${game.wave}`;
+  $('hud-mission').textContent = game.phase === 'climbing'
+    ? `${CONFIG.TOKEN_NAME} // LADDER CLIMB`
+    : `${CONFIG.TOKEN_NAME} // WAVE ${game.wave}`;
   $('hud-quota').textContent = `QUOTA: ${fmtMoney(game.waveCash)} / ${fmtMoney(game.waveQuota)}`;
   $('quota-fill').style.width = clamp((game.waveCash / Math.max(1, game.waveQuota)) * 100, 0, 100).toFixed(1) + '%';
 
@@ -1960,7 +2029,11 @@ function syncHUD(){
   $('hud-wind').textContent = `WIND: ${Math.round(game.windSpeed)} KT`;
   $('hud-gust').textContent = game.gustActive > 0 ? 'GUST!' : '';
   $('hud-combo').textContent = (game.comboMult || 1).toFixed(1) + 'x';
-  $('wanted-stars').innerHTML = Array.from({ length: 5 }, (_, i) => `<span class="${i < game.wantedStars ? '' : 'star-off'}">★</span>`).join('');
+
+  if(game.wantedStars !== _lastStars){
+    _lastStars = game.wantedStars;
+    starSpans.forEach((sp, i) => sp.classList.toggle('star-off', i >= game.wantedStars));
+  }
 
   const showCombo = game.combo > 1 && game.comboTimer > 0;
   $('combo-hud').classList.toggle('show', showCombo);
@@ -2061,7 +2134,12 @@ function bindConfigAndUI(){
   glCanvas.addEventListener('pointerdown', e => {
     sound.unlock();
     updateAimFromClient(e.clientX, e.clientY);
-    if(game.phase === 'intro'){ game.introTime = game.introDur; game.phase = 'playing'; spawnWaveTargets(); return; }
+    if(game.phase === 'climbing'){
+      const rect = glCanvas.getBoundingClientRect();
+      const relX = (e.clientX - rect.left) / Math.max(1, rect.width);
+      game.pointerClimbDir = relX < 0.5 ? -1 : 1;
+      return;
+    }
     if(game.phase === 'playing'){
       game.charging = true;
       game.chargePower = 0.5;
@@ -2069,16 +2147,23 @@ function bindConfigAndUI(){
     }
   });
 
-  window.addEventListener('pointerup', finishThrow);
-  window.addEventListener('pointercancel', () => { game.charging = false; game.chargePower = 0; });
+  window.addEventListener('pointerup', () => {
+    game.pointerClimbDir = 0;
+    finishThrow();
+  });
+  window.addEventListener('pointercancel', () => {
+    game.pointerClimbDir = 0;
+    game.charging = false;
+    game.chargePower = 0;
+  });
 
   window.addEventListener('keydown', e => {
     sound.unlock();
-    if(game.phase === 'intro'){ game.introTime = game.introDur; game.phase = 'playing'; spawnWaveTargets(); return; }
     if(e.code === 'ArrowLeft' || e.code === 'KeyA') game.keysAim.left = true;
     else if(e.code === 'ArrowRight' || e.code === 'KeyD') game.keysAim.right = true;
     else if(e.code === 'ArrowUp' || e.code === 'KeyW') game.keysAim.up = true;
     else if(e.code === 'ArrowDown' || e.code === 'KeyS') game.keysAim.down = true;
+    else if(e.code === 'Enter' && game.phase === 'climbing'){ e.preventDefault(); finishClimbToNest(); }
     else if(e.code === 'Digit1') selectEgg(0);
     else if(e.code === 'Digit2') selectEgg(1);
     else if(e.code === 'Digit3') selectEgg(2);
@@ -2106,18 +2191,19 @@ function loop(now){
   lastTs = now;
   const dt = Math.min(Math.max(rawDt, 0), 0.05);
 
-  if(game.hitStop > 0) game.hitStop = Math.max(0, game.hitStop - dt);
-  else updateWorldAndEntities(dt);
-
-  sound.update(dt, game.frenzyTime > 0, targets.some(t => t.userData.type === 'boss'), game.wantedStars);
-  drawRadar();
-  syncHUD();
-  renderer.render(scene, camera);
+  if(!document.hidden){
+    updateWorldAndEntities(dt);
+    sound.update(dt, game.frenzyTime > 0, targets.some(t => t.userData.type === 'boss'), game.wantedStars);
+    drawRadar();
+    syncHUD();
+    renderer.render(scene, camera);
+  }
   requestAnimationFrame(loop);
 }
 
 bindConfigAndUI();
 handleResize();
+showBanner('LADDER CLIMB', 'A/D OR LEFT/RIGHT TO DODGE OBSTACLES', 1.7);
 requestAnimationFrame(loop);
 })();
 </script>
