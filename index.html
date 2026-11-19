@@ -29,7 +29,6 @@
 html{overflow-x:hidden;background:#0B0D11;color:var(--ink);font-family:'Trebuchet MS',Verdana,sans-serif;scroll-behavior:smooth}
 body{overflow-x:hidden;width:100%;min-height:100dvh;background:#0B0D11;color:var(--ink)}
 
-/* Primary full-bleed viewport */
 #arena{
   position:relative;
   width:100vw;
@@ -56,7 +55,6 @@ body{overflow-x:hidden;width:100%;min-height:100dvh;background:#0B0D11;color:var
   z-index:4;
 }
 
-/* HUD shared */
 .hud-layer{
   position:absolute;
   inset:0;
@@ -79,7 +77,6 @@ body{overflow-x:hidden;width:100%;min-height:100dvh;background:#0B0D11;color:var
   box-shadow:0 8px 24px rgba(0,0,0,0.45);
 }
 
-/* Top-Left Mission & Quota */
 .mission-box{padding:8px 11px;min-width:clamp(190px,28vw,320px)}
 .mission-head{display:flex;align-items:center;justify-content:space-between;gap:8px;flex-wrap:wrap}
 .mission-title{
@@ -122,7 +119,6 @@ body{overflow-x:hidden;width:100%;min-height:100dvh;background:#0B0D11;color:var
 .ca-val{font-family:monospace;color:var(--cream)}
 .copy-lbl{color:var(--sun-gold);font-weight:bold;font-size:0.64rem}
 
-/* Top-Right Cash, Wanted Stars, Wind & Links */
 .right-hud{display:flex;flex-direction:column;align-items:flex-end;gap:6px}
 .cash-card{padding:8px 12px;text-align:right;min-width:clamp(165px,24vw,265px)}
 .stars-row{font-size:clamp(0.8rem,1.4vw,1.05rem);letter-spacing:2px;color:var(--amber);line-height:1}
@@ -159,7 +155,6 @@ body{overflow-x:hidden;width:100%;min-height:100dvh;background:#0B0D11;color:var
 .hud-btn.buy-cta{background:var(--pump);color:#061306;border-color:var(--pump)}
 .hud-btn.buy-cta:hover{background:#22e627;color:#061306}
 
-/* Combo decay bar */
 .combo-wrap{
   align-self:center;
   width:clamp(180px,34vw,320px);
@@ -174,7 +169,6 @@ body{overflow-x:hidden;width:100%;min-height:100dvh;background:#0B0D11;color:var
 .combo-bar{height:5px;background:rgba(255,255,255,0.14);border-radius:99px;overflow:hidden;margin-top:4px}
 .combo-fill{height:100%;width:100%;background:linear-gradient(90deg,var(--sunset),var(--sun-gold))}
 
-/* Boss bar */
 .boss-wrap{
   position:absolute;
   top:max(58px,10vh);
@@ -193,7 +187,6 @@ body{overflow-x:hidden;width:100%;min-height:100dvh;background:#0B0D11;color:var
 .boss-track{height:9px;background:rgba(255,255,255,0.14);border-radius:4px;overflow:hidden;margin-top:4px}
 .boss-fill{height:100%;width:100%;background:linear-gradient(90deg,var(--crimson),var(--sunset));transition:width 0.12s ease-out}
 
-/* Banner */
 #banner{
   position:absolute;
   top:22%;
@@ -214,7 +207,6 @@ body{overflow-x:hidden;width:100%;min-height:100dvh;background:#0B0D11;color:var
 #banner h2{font-family:Impact,'Arial Black',sans-serif;font-size:clamp(1.3rem,3.4vw,2.4rem);color:var(--sun-gold);letter-spacing:1.5px}
 #banner p{font-size:clamp(0.75rem,1.3vw,0.95rem);color:var(--cream);margin-top:2px}
 
-/* Bottom-Left Radar */
 .radar-panel{
   padding:6px;
   display:flex;
@@ -232,7 +224,6 @@ body{overflow-x:hidden;width:100%;min-height:100dvh;background:#0B0D11;color:var
 }
 .radar-cap{font-size:0.62rem;letter-spacing:1px;color:var(--muted);font-weight:bold}
 
-/* Bottom-Center Eggs & Upgrades */
 .center-dock{
   pointer-events:auto;
   display:flex;
@@ -280,10 +271,8 @@ body{overflow-x:hidden;width:100%;min-height:100dvh;background:#0B0D11;color:var
 .egg-sub{font-size:0.62rem;color:var(--muted);margin-top:2px}
 .cd-bar{position:absolute;left:0;bottom:0;height:3px;width:0%;background:var(--sunset)}
 
-/* Bottom-Right Audio */
 .audio-panel{padding:6px;display:flex;flex-direction:column;gap:5px}
 
-/* Vault / End-of-Run Modal */
 #vault-modal{
   position:fixed;
   inset:0;
@@ -333,7 +322,6 @@ body{overflow-x:hidden;width:100%;min-height:100dvh;background:#0B0D11;color:var
 .cta-buy{background:var(--pump);color:#061306}
 .cta-share{background:var(--ocean);color:#fff}
 
-/* Below-the-fold GTA Pause Menu */
 #pause-menu{
   background:#0B0D11;
   border-top:3px solid var(--amber);
@@ -390,7 +378,6 @@ body{overflow-x:hidden;width:100%;min-height:100dvh;background:#0B0D11;color:var
 }
 #toast.on{opacity:1;transform:translateX(-50%) translateY(0)}
 
-/* Mobile (< 768px) layout adjustments */
 @media (max-width:767px){
   .hud-top{gap:6px}
   .mission-box{min-width:0;max-width:52vw;padding:6px 8px}
@@ -528,6 +515,7 @@ body{overflow-x:hidden;width:100%;min-height:100dvh;background:#0B0D11;color:var
     </div>
   </div>
 </div>
+
 <section id="pause-menu" aria-label="Pause Menu & Token Info">
   <div class="pause-inner">
     <div class="pause-top">
@@ -594,7 +582,6 @@ const CONFIG = {
 (function(){
 'use strict';
 
-/* ---------------- CONFIG BINDING & CLIPBOARD ---------------- */
 const $ = id => document.getElementById(id);
 const clamp = (v, a, b) => Math.max(a, Math.min(b, v));
 const lerp = (a, b, t) => a + (b - a) * t;
@@ -641,7 +628,7 @@ function copyCA(){
     fallback();
   }
 }
-/* ---------------- WEB AUDIO API SYNTHESIZER ---------------- */
+
 class SoundEngine{
   constructor(){
     this.ctx = null;
@@ -650,7 +637,6 @@ class SoundEngine{
     this.noiseBuf = null;
     this.sfxMuted = false;
     this.bgmMuted = false;
-    this.unlocked = false;
     this.step = 0;
     this.beatAccum = 0;
     this.chopperAccum = 0;
@@ -678,7 +664,6 @@ class SoundEngine{
     if(this.ctx && this.ctx.state === 'suspended'){
       this.ctx.resume().catch(() => {});
     }
-    this.unlocked = !!this.ctx;
   }
 
   setSfxMuted(m){
@@ -749,7 +734,6 @@ class SoundEngine{
   }
 
   uiClick(){ this.tone(760, 0.045, 'square', 0.08, 120); }
-  chargeTick(pct){ this.tone(170 + pct * 360, 0.05, 'sine', 0.05); }
   spiralThrow(eggIdx){
     const base = eggIdx === 2 ? 240 : eggIdx === 1 ? 340 : 440;
     this.burst(0.28, 0.16, 450, 3200, 'bandpass');
@@ -810,7 +794,7 @@ class SoundEngine{
 }
 
 const sound = new SoundEngine();
-/* ---------------- THREE.JS GOLDEN-HOUR 3D WORLD & RIGS ---------------- */
+
 const arenaEl = $('arena');
 const glCanvas = $('gl-canvas');
 const radarCanvas = $('radar');
@@ -826,10 +810,8 @@ renderer.toneMappingExposure = 1.08;
 
 const scene = new THREE.Scene();
 scene.fog = new THREE.FogExp2(0xF59E0B, 0.0021);
-
 const camera = new THREE.PerspectiveCamera(60, 16 / 9, 0.2, 650);
 
-// Sky dome (golden-hour Vice City gradient: cerulean -> sunset orange -> horizon gold; zero purple)
 function makeSkyTexture(){
   const c = document.createElement('canvas');
   c.width = 16; c.height = 256;
@@ -844,13 +826,11 @@ function makeSkyTexture(){
   g.fillRect(0, 0, 16, 256);
   return new THREE.CanvasTexture(c);
 }
-const skyDome = new THREE.Mesh(
+scene.add(new THREE.Mesh(
   new THREE.SphereGeometry(480, 24, 16),
   new THREE.MeshBasicMaterial({ map: makeSkyTexture(), side: THREE.BackSide, fog: false })
-);
-scene.add(skyDome);
+));
 
-// Procedural surface textures
 function makeNoiseTex(baseHex, speckHex, repeatX, repeatY){
   const c = document.createElement('canvas');
   c.width = 128; c.height = 128;
@@ -912,9 +892,7 @@ const eggMats = [
   new THREE.MeshStandardMaterial({ map: makeEggTexture(2), roughness: 0.32, metalness: 0.25 })
 ];
 
-// Golden-hour lights & shadows
-const hemiLight = new THREE.HemisphereLight(0xFDE68A, 0xEA580C, 0.85);
-scene.add(hemiLight);
+scene.add(new THREE.HemisphereLight(0xFDE68A, 0xEA580C, 0.85));
 
 const sunLight = new THREE.DirectionalLight(0xFBBF24, 1.85);
 sunLight.position.set(68, 54, 42);
@@ -923,15 +901,13 @@ sunLight.shadow.mapSize.width = 1024;
 sunLight.shadow.mapSize.height = 1024;
 sunLight.shadow.camera.near = 10;
 sunLight.shadow.camera.far = 220;
-const dCam = 52;
-sunLight.shadow.camera.left = -dCam;
-sunLight.shadow.camera.right = dCam;
-sunLight.shadow.camera.top = dCam;
-sunLight.shadow.camera.bottom = -dCam;
+sunLight.shadow.camera.left = -52;
+sunLight.shadow.camera.right = 52;
+sunLight.shadow.camera.top = 52;
+sunLight.shadow.camera.bottom = -52;
 sunLight.shadow.bias = -0.0005;
 scene.add(sunLight);
 
-// Broadcast tower summit & nest group (around y = 36, z = 24)
 const towerGroup = new THREE.Group();
 towerGroup.position.set(-14, 36, 22);
 scene.add(towerGroup);
@@ -945,39 +921,24 @@ platformMesh.position.set(0, -0.22, 0);
 platformMesh.receiveShadow = true;
 towerGroup.add(platformMesh);
 
-// Lattice legs descending below platform
-const legOffsets = [[-3.6, -3.2], [3.6, -3.2], [-3.6, 3.2], [3.6, 3.2]];
-legOffsets.forEach(([lx, lz], idx) => {
-  const mat = idx % 2 === 0 ? steelRed : steelWhite;
-  const leg = new THREE.Mesh(new THREE.CylinderGeometry(0.14, 0.22, 42, 8), mat);
+[[-3.6, -3.2], [3.6, -3.2], [-3.6, 3.2], [3.6, 3.2]].forEach(([lx, lz], idx) => {
+  const leg = new THREE.Mesh(new THREE.CylinderGeometry(0.14, 0.22, 42, 8), idx % 2 === 0 ? steelRed : steelWhite);
   leg.position.set(lx, -21, lz);
   leg.castShadow = true;
   towerGroup.add(leg);
 });
 
-// Railing & beacon
-const railMat = new THREE.MeshStandardMaterial({ color: 0xE2E8F0, metalness: 0.6, roughness: 0.35 });
-const frontRail = new THREE.Mesh(new THREE.BoxGeometry(8.4, 0.08, 0.08), railMat);
+const frontRail = new THREE.Mesh(new THREE.BoxGeometry(8.4, 0.08, 0.08), new THREE.MeshStandardMaterial({ color: 0xE2E8F0, metalness: 0.6, roughness: 0.35 }));
 frontRail.position.set(0, 1.05, 3.65);
 towerGroup.add(frontRail);
 
-const beaconMat = new THREE.MeshBasicMaterial({ color: 0xEF4444 });
-const beaconMesh = new THREE.Mesh(new THREE.SphereGeometry(0.24, 12, 12), beaconMat);
+const beaconMesh = new THREE.Mesh(new THREE.SphereGeometry(0.24, 12, 12), new THREE.MeshBasicMaterial({ color: 0xEF4444 }));
 beaconMesh.position.set(-3.6, 4.6, -3.2);
 towerGroup.add(beaconMesh);
 const beaconLight = new THREE.PointLight(0xEF4444, 1.6, 14);
 beaconLight.position.copy(beaconMesh.position);
 towerGroup.add(beaconLight);
 
-// Collectible card on tower beam during intro climb
-const cardMesh = new THREE.Mesh(
-  new THREE.BoxGeometry(0.45, 0.65, 0.03),
-  new THREE.MeshStandardMaterial({ color: 0xFDE047, emissive: 0xF59E0B, emissiveIntensity: 0.35 })
-);
-cardMesh.position.set(-14, 15, 25.2);
-scene.add(cardMesh);
-
-// Woven twig nest & eggs on tower deck
 const nestGroup = new THREE.Group();
 nestGroup.position.set(-1.7, 0.1, 0.6);
 towerGroup.add(nestGroup);
@@ -997,16 +958,13 @@ for(let i = 0; i < 24; i++){
   nestGroup.add(twig);
 }
 
-const nestEggs = [];
 [[-0.45, 0.42, 0.1], [0.05, 0.46, -0.25], [0.48, 0.42, 0.12]].forEach(([ex, ey, ez], idx) => {
   const eMesh = new THREE.Mesh(new THREE.SphereGeometry(0.28, 12, 12), eggMats[idx % 3]);
   eMesh.scale.set(0.85, 1.18, 0.85);
   eMesh.position.set(ex, ey, ez);
   nestGroup.add(eMesh);
-  nestEggs.push(eMesh);
 });
 
-// Articulated Jason rig at tower peak
 const jasonGroup = new THREE.Group();
 jasonGroup.position.set(0.35, 0, 0.9);
 towerGroup.add(jasonGroup);
@@ -1015,7 +973,7 @@ const jasonCoatMat = new THREE.MeshStandardMaterial({ color: 0x1E293B, roughness
 const jasonSkinMat = new THREE.MeshStandardMaterial({ color: 0xE7B896, roughness: 0.65 });
 const jasonCapMat = new THREE.MeshStandardMaterial({ color: 0xEA580C, roughness: 0.6 });
 
-const torso = new THREE.Mesh(new THREE.CapsuleGeometry ? new THREE.CapsuleGeometry(0.34, 0.65, 6, 10) : new THREE.CylinderGeometry(0.34, 0.3, 1.1, 10), jasonCoatMat);
+const torso = new THREE.Mesh(new THREE.CylinderGeometry(0.34, 0.3, 1.1, 10), jasonCoatMat);
 torso.position.y = 1.25;
 torso.castShadow = true;
 jasonGroup.add(torso);
@@ -1041,7 +999,6 @@ handEggMesh.scale.set(0.85, 1.2, 0.85);
 handEggMesh.position.set(0, -0.66, 0.06);
 armPivot.add(handEggMesh);
 
-// Bystander filming on phone near nest
 const bystanderGroup = new THREE.Group();
 bystanderGroup.position.set(2.35, 0, -1.2);
 towerGroup.add(bystanderGroup);
@@ -1055,7 +1012,6 @@ const phoneGlow = new THREE.Mesh(new THREE.BoxGeometry(0.08, 0.15, 0.02), new TH
 phoneGlow.position.set(-0.22, 1.55, 0.25);
 bystanderGroup.add(phoneGlow);
 
-// Coastal world below (y = 0 ground plane)
 const groundPlane = new THREE.Mesh(
   new THREE.PlaneGeometry(420, 420),
   new THREE.MeshStandardMaterial({ map: sandTex, roughness: 0.88 })
@@ -1064,20 +1020,16 @@ groundPlane.rotation.x = -Math.PI / 2;
 groundPlane.receiveShadow = true;
 scene.add(groundPlane);
 
-// Ocean channel & animated water
-const oceanMat = new THREE.MeshStandardMaterial({
-  color: 0x0284C7,
-  roughness: 0.22,
-  metalness: 0.45
-});
-const oceanMesh = new THREE.Mesh(new THREE.PlaneGeometry(460, 180, 24, 12), oceanMat);
+const oceanMesh = new THREE.Mesh(
+  new THREE.PlaneGeometry(460, 180, 24, 12),
+  new THREE.MeshStandardMaterial({ color: 0x0284C7, roughness: 0.22, metalness: 0.45 })
+);
 oceanMesh.rotation.x = -Math.PI / 2;
 oceanMesh.position.set(0, 0.15, -95);
 scene.add(oceanMesh);
 
-// 4-lane Ocean Drive boulevard
 const roadMesh = new THREE.Mesh(
-  new THREE.PlaneGeometry(220, 16, 1, 1),
+  new THREE.PlaneGeometry(220, 16),
   new THREE.MeshStandardMaterial({ map: asphaltTex, roughness: 0.78 })
 );
 roadMesh.rotation.x = -Math.PI / 2;
@@ -1093,7 +1045,6 @@ for(let x = -90; x <= 90; x += 10){
   scene.add(st);
 }
 
-// Art Deco penthouse rooftop & turquoise pool & helipad
 const roofGroup = new THREE.Group();
 roofGroup.position.set(8, 0, -4);
 scene.add(roofGroup);
@@ -1122,7 +1073,6 @@ padRing.rotation.x = -Math.PI / 2;
 padRing.position.set(9.5, 2.23, 1.2);
 roofGroup.add(padRing);
 
-// Swaying palm trees
 const palms = [];
 const trunkMat = new THREE.MeshStandardMaterial({ color: 0x78350F, roughness: 0.9 });
 const frondMat = new THREE.MeshStandardMaterial({ color: 0x16A34A, roughness: 0.65, side: THREE.DoubleSide });
@@ -1145,7 +1095,6 @@ const frondMat = new THREE.MeshStandardMaterial({ color: 0x16A34A, roughness: 0.
   palms.push(pGroup);
 });
 
-// Moving street cars & ocean yachts
 const vehicles = [];
 const carColors = [0xEA580C, 0xFACC15, 0xF8FAFC, 0x0284C7, 0xDC2626];
 for(let i = 0; i < 6; i++){
@@ -1185,7 +1134,6 @@ for(let i = 0; i < 2; i++){
   vehicles.push(yacht);
 }
 
-// VCPD police helicopter searchlight cone (active at 3+ stars)
 const chopperGroup = new THREE.Group();
 chopperGroup.position.set(18, 22, -12);
 const heliBody = new THREE.Mesh(new THREE.BoxGeometry(4.2, 1.5, 1.7), new THREE.MeshStandardMaterial({ color: 0x0F172A, roughness: 0.4, metalness: 0.5 }));
@@ -1205,7 +1153,6 @@ chopperGroup.add(beamCone);
 chopperGroup.visible = false;
 scene.add(chopperGroup);
 
-// Trajectory arc & ground blast ring
 const arcDots = [];
 const arcDotGeo = new THREE.SphereGeometry(0.16, 6, 6);
 const arcDotMat = new THREE.MeshBasicMaterial({ color: 0xFDE047 });
@@ -1223,7 +1170,6 @@ const aimRing = new THREE.Mesh(
 aimRing.rotation.x = -Math.PI / 2;
 aimRing.position.set(0, 2.35, 0);
 scene.add(aimRing);
-/* ---------------- ARTICULATED 3D TARGETS, SPIRAL EGGS & WAVE/UPGRADE LOOP ---------------- */
 const TARGET_SPECS = {
   jeet: { label: 'JEET', baseCash: 25000, speed: 9.5, radius: 1.25, color: 0x22C55E, hp: 1 },
   paper: { label: 'PAPER HANDS', baseCash: 50000, speed: 5.5, radius: 1.3, color: 0xFACC15, hp: 1 },
@@ -1233,9 +1179,9 @@ const TARGET_SPECS = {
 };
 
 const EGG_SPECS = [
-  { name: 'CLASSIC', mult: 1.0, cooldown: 0, blastRadius: 3.5, speedScale: 1.0 },
-  { name: 'BULL', mult: 2.0, cooldown: 2.5, blastRadius: 6.5, speedScale: 1.05 },
-  { name: 'WHALE', mult: 5.0, cooldown: 6.0, blastRadius: 11.0, speedScale: 0.96 }
+  { name: 'CLASSIC', mult: 1.0, cooldown: 0, blastRadius: 3.5 },
+  { name: 'BULL', mult: 2.0, cooldown: 2.5, blastRadius: 6.5 },
+  { name: 'WHALE', mult: 5.0, cooldown: 6.0, blastRadius: 11.0 }
 ];
 
 const UPG_COSTS = {
@@ -1245,7 +1191,7 @@ const UPG_COSTS = {
 };
 
 const game = {
-  phase: 'intro', // 'intro' | 'playing' | 'ended'
+  phase: 'intro',
   introTime: 0,
   introDur: 2.5,
   wave: 1,
@@ -1255,6 +1201,7 @@ const game = {
   cash: 0,
   bestCash: 0,
   combo: 0,
+  comboMult: 1.0,
   maxComboMult: 1.0,
   comboTimer: 0,
   comboMaxTime: 4.5,
@@ -1277,7 +1224,6 @@ const game = {
   shakeTime: 0,
   shakeMag: 0,
   diveCamTimer: 0,
-  diveTargetPos: new THREE.Vector3(),
   bannerTimer: 0
 };
 
@@ -1331,9 +1277,9 @@ function createArticulatedTarget(type){
 
     root.userData = {
       type, spec, hp: spec.hp, maxHp: spec.hp,
-      hpBarFill, legL: null, legR: null, armL: null, armR: null, prop: null,
-      phase: rand(0, 6.28), stun: 0, tumble: 0, vel: new THREE.Vector3(),
-      onRoof: false, baseY: 0.25
+      hpBarFill, legL: null, legR: null, armL: null, armR: null,
+      phase: rand(0, 6.28), stun: 0, panic: 0,
+      vel: new THREE.Vector3(), onRoof: false
     };
     return root;
   }
@@ -1388,34 +1334,27 @@ function createArticulatedTarget(type){
     root.add(visor);
   }
 
-  const startX = onRoof ? rand(8 - 13, 8 + 13) : rand(-24, 24);
-  const startZ = onRoof ? rand(-4 - 6.5, -4 + 6.5) : rand(12, 24);
+  const startX = onRoof ? rand(-5, 21) : rand(-24, 24);
+  const startZ = onRoof ? rand(-10.5, 2.5) : rand(12, 24);
   root.position.set(startX, baseY, startZ);
 
   const ang = rand(0, Math.PI * 2);
   root.userData = {
     type, spec, hp: spec.hp, maxHp: spec.hp,
-    legL, legR, armL, armR, torso,
-    phase: rand(0, 6.28),
-    stun: 0,
-    panic: 0,
-    tumble: 0,
+    legL, legR, armL, armR,
+    phase: rand(0, 6.28), stun: 0, panic: 0,
     vel: new THREE.Vector3(Math.cos(ang) * spec.speed, 0, Math.sin(ang) * spec.speed),
-    onRoof,
-    baseY
+    onRoof
   };
   return root;
 }
 
 function spawnWaveTargets(){
-  while(targets.length){
-    scene.remove(targets.pop());
-  }
+  while(targets.length) scene.remove(targets.pop());
   const pool = ['jeet', 'jeet', 'paper', 'lawyer', 'dev'];
   const count = Math.min(14, 6 + game.wave);
   for(let i = 0; i < count; i++){
-    const tType = pool[i % pool.length];
-    const tMesh = createArticulatedTarget(tType);
+    const tMesh = createArticulatedTarget(pool[i % pool.length]);
     scene.add(tMesh);
     targets.push(tMesh);
   }
@@ -1439,13 +1378,11 @@ function spawnCashPickup(x, y, z, amount){
   cashPickups.push(stack);
 }
 
-// Object-pooled 3D particles & shockwave rings (capped <= 120 active)
 const MAX_PARTICLES = 120;
 const particles = [];
 const pGeo = new THREE.BoxGeometry(0.24, 0.24, 0.24);
 for(let i = 0; i < MAX_PARTICLES; i++){
-  const mat = new THREE.MeshBasicMaterial({ color: 0xFDE047 });
-  const mesh = new THREE.Mesh(pGeo, mat);
+  const mesh = new THREE.Mesh(pGeo, new THREE.MeshBasicMaterial({ color: 0xFDE047 }));
   mesh.visible = false;
   mesh.userData = { active: false, vel: new THREE.Vector3(), life: 0 };
   scene.add(mesh);
@@ -1547,10 +1484,11 @@ function launchSpiralEgg(power, isSplitChild = false, customOrigin = null, custo
   } else {
     const flightTime = lerp(1.55, 1.12, power);
     const g = 28;
-    const vx = (game.aimPoint.x - startPos.x) / flightTime;
-    const vz = (game.aimPoint.z - startPos.z) / flightTime;
-    const vy = (game.aimPoint.y - startPos.y + 0.5 * g * flightTime * flightTime) / flightTime;
-    vel = new THREE.Vector3(vx, vy, vz);
+    vel = new THREE.Vector3(
+      (game.aimPoint.x - startPos.x) / flightTime,
+      (game.aimPoint.y - startPos.y + 0.5 * g * flightTime * flightTime) / flightTime,
+      (game.aimPoint.z - startPos.z) / flightTime
+    );
   }
 
   const mesh = new THREE.Mesh(new THREE.SphereGeometry(eggIdx === 2 ? 0.38 : 0.28, 12, 12), eggMats[eggIdx]);
@@ -1561,15 +1499,12 @@ function launchSpiralEgg(power, isSplitChild = false, customOrigin = null, custo
 
   projectiles.push({
     mesh, vel, eggIdx, spec,
-    isSplitChild,
-    splitDone: false,
-    spinSpeed: 24 + power * 18,
-    age: 0
+    isSplitChild, splitDone: false,
+    spinSpeed: 24 + power * 18, age: 0
   });
 
   if(!isSplitChild && (eggIdx >= 1 || game.combo >= 3)){
     game.diveCamTimer = 0.65;
-    game.diveTargetPos.copy(game.aimPoint);
   }
 }
 
@@ -1584,7 +1519,6 @@ function detonateEgg(proj){
   game.shakeMag = isHeavy ? 0.65 : 0.3;
   if(isHeavy) game.hitStop = 0.055;
 
-  // Check collectible cash stacks in blast
   for(let i = cashPickups.length - 1; i >= 0; i--){
     const cp = cashPickups[i];
     if(cp.position.distanceTo(pos) <= radius + 1.5){
@@ -1605,10 +1539,7 @@ function detonateEgg(proj){
       game.targetsHit++;
       const dmg = (proj.eggIdx === 2 && ud.type === 'dev') ? 2 : (proj.eggIdx === 1 && ud.type === 'dev') ? 1.5 : 1;
       ud.hp -= dmg;
-
-      if(proj.eggIdx === 1){
-        ud.stun = 1.5;
-      }
+      if(proj.eggIdx === 1) ud.stun = 1.5;
 
       if(ud.type === 'dev' && ud.hp > 0){
         sound.armorClang();
@@ -1618,9 +1549,7 @@ function detonateEgg(proj){
       }
 
       if(ud.hp <= 0){
-        if(ud.type === 'lawyer'){
-          spawnCashPickup(t.position.x, t.position.y, t.position.z, 50000);
-        }
+        if(ud.type === 'lawyer') spawnCashPickup(t.position.x, t.position.y, t.position.z, 50000);
         if(ud.type === 'boss'){
           game.hitStop = 0.08;
           game.shakeTime = 0.55;
@@ -1643,8 +1572,7 @@ function detonateEgg(proj){
           targets.push(rep);
         }
       } else if(ud.type === 'boss' && ud.hpBarFill){
-        const ratio = clamp(ud.hp / ud.maxHp, 0, 1);
-        ud.hpBarFill.scale.x = Math.max(0.01, ratio);
+        ud.hpBarFill.scale.x = Math.max(0.01, clamp(ud.hp / ud.maxHp, 0, 1));
         sound.armorClang();
         addCallout(t.position, 'BOSS HIT!', '#FDE047');
       }
@@ -1677,7 +1605,6 @@ function detonateEgg(proj){
     }
   }
 
-  // Check if throwing inside VCPD spotlight at 3+ stars
   if(game.wantedStars >= 3){
     const spotDist = Math.hypot(chopperGroup.position.x - 10, chopperGroup.position.z - 2);
     if(spotDist < 9.5){
@@ -1694,10 +1621,7 @@ function buyUpgrade(key){
   const lv = game.upgrades[key];
   if(lv >= 3) return;
   const cost = UPG_COSTS[key][lv];
-  if(game.cash < cost){
-    showToast('NOT ENOUGH CASH');
-    return;
-  }
+  if(game.cash < cost){ showToast('NOT ENOUGH CASH'); return; }
   game.cash -= cost;
   game.upgrades[key] = lv + 1;
   sound.upgrade();
@@ -1707,9 +1631,7 @@ function buyUpgrade(key){
 function selectEgg(idx){
   game.selectedEgg = clamp(idx, 0, 2);
   handEggMesh.material = eggMats[game.selectedEgg];
-  document.querySelectorAll('.egg-card').forEach((el, i) => {
-    el.classList.toggle('active', i === game.selectedEgg);
-  });
+  document.querySelectorAll('.egg-card').forEach((el, i) => el.classList.toggle('active', i === game.selectedEgg));
   sound.uiClick();
 }
 
@@ -1722,7 +1644,6 @@ function openVaultModal(reasonText){
   $('v-wave').textContent = String(game.wave);
   $('v-combo').textContent = game.maxComboMult.toFixed(1) + 'x';
   $('v-hits').textContent = String(game.targetsHit);
-
   const tweetText = `I hit ${fmtMoney(game.cash)} on Wave ${game.wave} (Max ${game.maxComboMult.toFixed(1)}x) in ${CONFIG.TOKEN_NAME} (${CONFIG.TICKER}) on ${CONFIG.CHAIN}! CA: ${CONFIG.CONTRACT_ADDRESS}`;
   $('vault-share').href = 'https://twitter.com/intent/tweet?text=' + encodeURIComponent(tweetText);
   $('vault-modal').classList.add('open');
@@ -1731,33 +1652,21 @@ function openVaultModal(reasonText){
 function startNewRun(){
   $('vault-modal').classList.remove('open');
   game.phase = 'playing';
-  game.wave = 1;
-  game.waveTime = 40;
-  game.waveQuota = 250000;
-  game.waveCash = 0;
-  game.cash = 0;
-  game.combo = 0;
-  game.comboMult = 1;
-  game.maxComboMult = 1;
-  game.comboTimer = 0;
-  game.frenzyTime = 0;
-  game.wantedStars = 1;
-  game.heatMeter = 0;
-  game.targetsHit = 0;
-  game.eggCooldowns = [0, 0, 0];
-  game.upgrades = { q: 0, w: 0, e: 0 };
-  game.charging = false;
-  game.chargePower = 0;
-  game.diveCamTimer = 0;
-  while(projectiles.length){ scene.remove(projectiles.pop().mesh); }
-  while(cashPickups.length){ scene.remove(cashPickups.pop()); }
+  game.wave = 1; game.waveTime = 40; game.waveQuota = 250000; game.waveCash = 0;
+  game.cash = 0; game.combo = 0; game.comboMult = 1; game.maxComboMult = 1;
+  game.comboTimer = 0; game.frenzyTime = 0; game.wantedStars = 1; game.heatMeter = 0;
+  game.targetsHit = 0; game.eggCooldowns = [0, 0, 0]; game.upgrades = { q: 0, w: 0, e: 0 };
+  game.charging = false; game.chargePower = 0; game.diveCamTimer = 0;
+  while(projectiles.length) scene.remove(projectiles.pop().mesh);
+  while(cashPickups.length) scene.remove(cashPickups.pop());
   spawnWaveTargets();
   showBanner('WAVE 1 // THE NEST', 'HIT THE QUOTA BEFORE TIME RUNS OUT', 1.6);
 }
-/* ---------------- CAMERA, TRAJECTORY, RADAR, INPUT & MAIN LOOP ---------------- */
+
 const raycaster = new THREE.Raycaster();
 const pointerNDC = new THREE.Vector2(0, 0);
-const groundPlaneMath = new THREE.Plane(new THREE.Vector3(0, 1, 0), -2.2);
+const roofPlaneMath = new THREE.Plane(new THREE.Vector3(0, 1, 0), -2.2);
+const streetPlaneMath = new THREE.Plane(new THREE.Vector3(0, 1, 0), -0.05);
 
 function updateAimFromClient(clientX, clientY){
   const rect = glCanvas.getBoundingClientRect();
@@ -1765,18 +1674,15 @@ function updateAimFromClient(clientX, clientY){
   pointerNDC.x = ((clientX - rect.left) / rect.width) * 2 - 1;
   pointerNDC.y = -((clientY - rect.top) / rect.height) * 2 + 1;
   raycaster.setFromCamera(pointerNDC, camera);
-
-  // Intersect penthouse deck (y = 2.2) first, then street/ground (y = 0.05)
   const hitRoof = new THREE.Vector3();
-  if(raycaster.ray.intersectPlane(groundPlaneMath, hitRoof)){
+  if(raycaster.ray.intersectPlane(roofPlaneMath, hitRoof)){
     if(Math.abs(hitRoof.x - 8) <= 17 && Math.abs(hitRoof.z + 4) <= 9){
       game.aimPoint.set(clamp(hitRoof.x, -10, 26), 2.2, clamp(hitRoof.z, -13, 5));
       return;
     }
   }
-  const streetPlane = new THREE.Plane(new THREE.Vector3(0, 1, 0), -0.05);
   const hitGround = new THREE.Vector3();
-  if(raycaster.ray.intersectPlane(streetPlane, hitGround)){
+  if(raycaster.ray.intersectPlane(streetPlaneMath, hitGround)){
     game.aimPoint.set(clamp(hitGround.x, -36, 36), 0.05, clamp(hitGround.z, -38, 26));
   }
 }
@@ -1785,8 +1691,7 @@ function updateTrajectoryPreview(power){
   const eggIdx = game.selectedEgg;
   const spec = EGG_SPECS[eggIdx];
   aimRing.position.set(game.aimPoint.x, game.aimPoint.y + 0.08, game.aimPoint.z);
-  const ringScale = spec.blastRadius * 0.42;
-  aimRing.scale.setScalar(Math.max(0.6, ringScale));
+  aimRing.scale.setScalar(Math.max(0.6, spec.blastRadius * 0.42));
   aimRing.visible = game.phase === 'playing';
 
   const startPos = new THREE.Vector3(-13.4, 37.5, 22.8);
@@ -1795,36 +1700,28 @@ function updateTrajectoryPreview(power){
   const vx = (game.aimPoint.x - startPos.x) / flightTime;
   const vz = (game.aimPoint.z - startPos.z) / flightTime;
   const vy = (game.aimPoint.y - startPos.y + 0.5 * g * flightTime * flightTime) / flightTime;
-
   const showArc = game.charging && game.phase === 'playing' && game.eggCooldowns[eggIdx] <= 0;
+
   for(let i = 0; i < arcDots.length; i++){
     const dot = arcDots[i];
     dot.visible = showArc;
     if(showArc){
       const t = ((i + 1) / arcDots.length) * flightTime;
-      dot.position.set(
-        startPos.x + vx * t,
-        startPos.y + vy * t - 0.5 * g * t * t,
-        startPos.z + vz * t
-      );
+      dot.position.set(startPos.x + vx * t, startPos.y + vy * t - 0.5 * g * t * t, startPos.z + vz * t);
     }
   }
 }
 
 function updateWorldAndEntities(dt){
-  // Animate pool waves, palm trees, street cars & ocean yachts
   const pPos = poolWater.geometry.attributes.position;
   for(let i = 0; i < pPos.count; i++){
-    const px = pPos.getX(i);
-    const py = pPos.getY(i);
+    const px = pPos.getX(i), py = pPos.getY(i);
     pPos.setZ(i, Math.sin(px * 1.4 + performance.now() * 0.004) * 0.06 + Math.cos(py * 1.6 + performance.now() * 0.003) * 0.05);
   }
   pPos.needsUpdate = true;
 
   const windFactor = (game.windSpeed / 25) * Math.sin(game.windAngle);
-  for(const p of palms){
-    p.rotation.z = windFactor * 0.14 + Math.sin(performance.now() * 0.002 + p.userData.phase) * 0.04;
-  }
+  for(const p of palms) p.rotation.z = windFactor * 0.14 + Math.sin(performance.now() * 0.002 + p.userData.phase) * 0.04;
 
   for(const v of vehicles){
     v.position.x += v.userData.speed * dt;
@@ -1832,22 +1729,11 @@ function updateWorldAndEntities(dt){
     if(v.userData.speed < 0 && v.position.x < -110) v.position.x = 110;
   }
 
-  // Beacon pulse & bystander phone sway
-  const pulse = 0.5 + 0.5 * Math.sin(performance.now() * 0.008);
-  beaconLight.intensity = 0.6 + pulse * 2.2;
+  beaconLight.intensity = 0.6 + (0.5 + 0.5 * Math.sin(performance.now() * 0.008)) * 2.2;
   bystanderGroup.rotation.y = -0.5 + Math.sin(performance.now() * 0.0022) * 0.25;
-
-  // Jason idle sway & throwing arm animation
   jasonGroup.rotation.y = -0.35 + Math.sin(performance.now() * 0.0018) * 0.06;
-  if(game.charging){
-    armPivot.rotation.x = -lerp(0.2, 1.35, game.chargePower);
-  } else if(game.diveCamTimer > 0.35){
-    armPivot.rotation.x = 1.1;
-  } else {
-    armPivot.rotation.x = lerp(armPivot.rotation.x, -0.25, Math.min(1, dt * 10));
-  }
+  armPivot.rotation.x = game.charging ? -lerp(0.2, 1.35, game.chargePower) : (game.diveCamTimer > 0.35 ? 1.1 : lerp(armPivot.rotation.x, -0.25, Math.min(1, dt * 10)));
 
-  // VCPD helicopter at 3+ stars
   chopperGroup.visible = game.wantedStars >= 3 && game.phase === 'playing';
   if(chopperGroup.visible){
     const tHeli = performance.now() * 0.0009;
@@ -1856,43 +1742,23 @@ function updateWorldAndEntities(dt){
     rotor.rotation.y += dt * 36;
   }
 
-  // Update wave timer, wind gusts, combo & frenzy
   if(game.phase === 'playing'){
     game.waveTime -= dt;
-    if(game.waveTime <= 0){
-      game.waveTime = 0;
-      openVaultModal('Wave clock hit 0.0s before reaching the cash quota.');
-      return;
-    }
+    if(game.waveTime <= 0){ game.waveTime = 0; openVaultModal('Wave clock hit 0.0s before reaching the cash quota.'); return; }
 
     game.gustTimer -= dt;
     if(game.gustTimer <= 0){
       game.gustTimer = rand(7, 12);
       game.gustActive = 2.4;
-      const maxWind = Math.min(28, 7 + game.wave * 2.2);
-      game.windSpeed = rand(4, maxWind);
+      game.windSpeed = rand(4, Math.min(28, 7 + game.wave * 2.2));
       game.windAngle = rand(-Math.PI, Math.PI);
       showBanner('GUST ALERT!', `WIND SHIFT: ${Math.round(game.windSpeed)} KT`, 1.2);
     }
     if(game.gustActive > 0) game.gustActive -= dt;
 
-    for(let i = 0; i < 3; i++){
-      if(game.eggCooldowns[i] > 0) game.eggCooldowns[i] = Math.max(0, game.eggCooldowns[i] - dt);
-    }
-
-    if(game.combo > 0){
-      game.comboTimer -= dt;
-      if(game.comboTimer <= 0){
-        game.combo = 0;
-        game.comboMult = 1;
-      }
-    }
-
-    if(game.frenzyTime > 0){
-      game.frenzyTime = Math.max(0, game.frenzyTime - dt);
-      game.eggCooldowns[1] = 0;
-      game.eggCooldowns[2] = 0;
-    }
+    for(let i = 0; i < 3; i++) if(game.eggCooldowns[i] > 0) game.eggCooldowns[i] = Math.max(0, game.eggCooldowns[i] - dt);
+    if(game.combo > 0){ game.comboTimer -= dt; if(game.comboTimer <= 0){ game.combo = 0; game.comboMult = 1; } }
+    if(game.frenzyTime > 0){ game.frenzyTime = Math.max(0, game.frenzyTime - dt); game.eggCooldowns[1] = 0; game.eggCooldowns[2] = 0; }
     arenaEl.classList.toggle('frenzy-active', game.frenzyTime > 0);
 
     if(game.charging){
@@ -1902,42 +1768,24 @@ function updateWorldAndEntities(dt){
     }
   }
 
-  if(game.bannerTimer > 0){
-    game.bannerTimer -= dt;
-    if(game.bannerTimer <= 0) $('banner').classList.remove('on');
-  }
+  if(game.bannerTimer > 0){ game.bannerTimer -= dt; if(game.bannerTimer <= 0) $('banner').classList.remove('on'); }
 
-  // Update articulated 3D targets
   const waveSpeedScale = 1 + (game.wave - 1) * 0.08;
   for(const t of targets){
     const ud = t.userData;
     ud.phase += dt * 8;
-
     if(ud.type === 'boss'){
       const tBoss = performance.now() * 0.00075 + ud.phase;
-      t.position.x = Math.sin(tBoss) * 22;
-      t.position.z = -34 + Math.sin(tBoss * 2) * 8;
-      t.position.y = 0.25 + Math.sin(tBoss * 3) * 0.25;
+      t.position.set(Math.sin(tBoss) * 22, 0.25 + Math.sin(tBoss * 3) * 0.25, -34 + Math.sin(tBoss * 2) * 8);
       t.rotation.y = Math.cos(tBoss) * 0.45;
       continue;
     }
-
-    if(ud.stun > 0){
-      ud.stun -= dt;
-      t.rotation.z = Math.sin(performance.now() * 0.03) * 0.25;
-      continue;
-    }
+    if(ud.stun > 0){ ud.stun -= dt; t.rotation.z = Math.sin(performance.now() * 0.03) * 0.25; continue; }
     t.rotation.z = 0;
 
     let spd = ud.spec.speed * waveSpeedScale;
-    if(ud.type === 'jeet'){
-      if(Math.sin(ud.phase * 0.45) > 0.82) ud.vel.z *= -1;
-    } else if(ud.type === 'paper'){
-      if(ud.panic > 0){
-        ud.panic -= dt;
-        spd *= 1.85;
-      }
-    }
+    if(ud.type === 'jeet' && Math.sin(ud.phase * 0.45) > 0.82) ud.vel.z *= -1;
+    else if(ud.type === 'paper' && ud.panic > 0){ ud.panic -= dt; spd *= 1.85; }
 
     const dirLen = Math.hypot(ud.vel.x, ud.vel.z) || 1;
     t.position.x += (ud.vel.x / dirLen) * spd * dt;
@@ -1946,50 +1794,36 @@ function updateWorldAndEntities(dt){
     if(ud.onRoof){
       if(t.position.x < -7 || t.position.x > 23) ud.vel.x *= -1;
       if(t.position.z < -11.5 || t.position.z > 3.5) ud.vel.z *= -1;
-      t.position.x = clamp(t.position.x, -7, 23);
-      t.position.z = clamp(t.position.z, -11.5, 3.5);
+      t.position.x = clamp(t.position.x, -7, 23); t.position.z = clamp(t.position.z, -11.5, 3.5);
     } else {
       if(t.position.x < -30 || t.position.x > 30) ud.vel.x *= -1;
       if(t.position.z < -18 || t.position.z > 24) ud.vel.z *= -1;
-      t.position.x = clamp(t.position.x, -30, 30);
-      t.position.z = clamp(t.position.z, -18, 24);
+      t.position.x = clamp(t.position.x, -30, 30); t.position.z = clamp(t.position.z, -18, 24);
     }
 
     t.rotation.y = Math.atan2(ud.vel.x, ud.vel.z);
     if(ud.legL && ud.legR){
-      const swing = Math.sin(ud.phase) * 0.65;
-      ud.legL.rotation.x = swing;
-      ud.legR.rotation.x = -swing;
-      ud.armL.rotation.x = -swing * 0.75;
-      ud.armR.rotation.x = swing * 0.75;
+      const sw = Math.sin(ud.phase) * 0.65;
+      ud.legL.rotation.x = sw; ud.legR.rotation.x = -sw;
+      ud.armL.rotation.x = -sw * 0.75; ud.armR.rotation.x = sw * 0.75;
     }
   }
 
-  // Update spiral egg projectiles & MEGA WHALE 3-way split
   const windResist = [1, 0.65, 0.35, 0.1][game.upgrades.q] || 1;
   for(let i = projectiles.length - 1; i >= 0; i--){
     const pr = projectiles[i];
     pr.age += dt;
-    const windAccelX = Math.cos(game.windAngle) * game.windSpeed * 0.28 * windResist;
-    const windAccelZ = Math.sin(game.windAngle) * game.windSpeed * 0.28 * windResist;
-
-    pr.vel.x += windAccelX * dt;
-    pr.vel.z += windAccelZ * dt;
+    pr.vel.x += Math.cos(game.windAngle) * game.windSpeed * 0.28 * windResist * dt;
+    pr.vel.z += Math.sin(game.windAngle) * game.windSpeed * 0.28 * windResist * dt;
     pr.vel.y -= 28 * dt;
-
     pr.mesh.position.addScaledVector(pr.vel, dt);
     pr.mesh.rotation.y += pr.spinSpeed * dt;
     pr.mesh.rotation.z = Math.sin(pr.age * 18) * 0.35;
 
-    // MEGA WHALE splits 15m above ground while descending
     if(pr.eggIdx === 2 && !pr.isSplitChild && !pr.splitDone && pr.vel.y < 0 && pr.mesh.position.y <= 15.0){
       pr.splitDone = true;
-      const baseOrigin = pr.mesh.position.clone();
-      const baseVel = pr.vel.clone();
-      [-2.8, 2.8].forEach(spreadX => {
-        const subVel = new THREE.Vector3(baseVel.x + spreadX, baseVel.y + 1.5, baseVel.z + rand(-1.5, 1.5));
-        launchSpiralEgg(0.85, true, baseOrigin, subVel);
-      });
+      const baseOrigin = pr.mesh.position.clone(), baseVel = pr.vel.clone();
+      [-2.8, 2.8].forEach(spreadX => launchSpiralEgg(0.85, true, baseOrigin, new THREE.Vector3(baseVel.x + spreadX, baseVel.y + 1.5, baseVel.z + rand(-1.5, 1.5))));
     }
 
     const floorY = (Math.abs(pr.mesh.position.x - 8) <= 17 && Math.abs(pr.mesh.position.z + 4) <= 9) ? 2.25 : 0.15;
@@ -2000,142 +1834,84 @@ function updateWorldAndEntities(dt){
     }
   }
 
-  // Update cash pickups
   for(let i = cashPickups.length - 1; i >= 0; i--){
     const cp = cashPickups[i];
-    cp.userData.life -= dt;
-    cp.userData.vy -= 14 * dt;
-    cp.position.y += cp.userData.vy * dt;
-    if(cp.position.y <= 2.45){
-      cp.position.y = 2.45;
-      cp.userData.vy = 0;
-    }
+    cp.userData.life -= dt; cp.userData.vy -= 14 * dt; cp.position.y += cp.userData.vy * dt;
+    if(cp.position.y <= 2.45){ cp.position.y = 2.45; cp.userData.vy = 0; }
     cp.rotation.y += dt * 1.8;
-    if(cp.userData.life <= 0){
-      scene.remove(cp);
-      cashPickups.splice(i, 1);
-    }
+    if(cp.userData.life <= 0){ scene.remove(cp); cashPickups.splice(i, 1); }
   }
 
-  // Update pooled 3D particles
   for(const p of particles){
     if(!p.userData.active) continue;
     p.userData.life -= dt;
-    if(p.userData.life <= 0){
-      p.userData.active = false;
-      p.visible = false;
-      continue;
-    }
-    p.userData.vel.y -= 24 * dt;
-    p.position.addScaledVector(p.userData.vel, dt);
-    p.rotation.x += dt * 8;
-    p.rotation.y += dt * 6;
-    if(p.position.y < 0.12){
-      p.position.y = 0.12;
-      p.userData.vel.y *= -0.35;
-      p.userData.vel.x *= 0.7;
-      p.userData.vel.z *= 0.7;
-    }
+    if(p.userData.life <= 0){ p.userData.active = false; p.visible = false; continue; }
+    p.userData.vel.y -= 24 * dt; p.position.addScaledVector(p.userData.vel, dt);
+    p.rotation.x += dt * 8; p.rotation.y += dt * 6;
+    if(p.position.y < 0.12){ p.position.y = 0.12; p.userData.vel.y *= -0.35; p.userData.vel.x *= 0.7; p.userData.vel.z *= 0.7; }
   }
 
-  // Camera: 2.5s skippable ladder intro, over-the-shoulder aim, or spiral dive
-  const targetFov = game.charging ? 52 : 60;
-  camera.fov = lerp(camera.fov, targetFov, Math.min(1, dt * 8));
+  camera.fov = lerp(camera.fov, game.charging ? 52 : 60, Math.min(1, dt * 8));
   camera.updateProjectionMatrix();
 
   if(game.phase === 'intro'){
     game.introTime += dt;
     const t = clamp(game.introTime / game.introDur, 0, 1);
     const climbY = lerp(12, 39.2, t);
-    const camZ = lerp(26.5, 25.4, t);
-    camera.position.set(-13.8, climbY, camZ);
+    camera.position.set(-13.8, climbY, lerp(26.5, 25.4, t));
     camera.lookAt(-12.5, climbY + (t > 0.7 ? -6 : 2.5), t > 0.7 ? 4 : 20);
-    if(game.introTime >= game.introDur){
-      game.phase = 'playing';
-      spawnWaveTargets();
-      showBanner('WAVE 1 // THE NEST', 'REACH THE QUOTA BEFORE TIME EXPIRES', 1.6);
-    }
+    if(game.introTime >= game.introDur){ game.phase = 'playing'; spawnWaveTargets(); showBanner('WAVE 1 // THE NEST', 'REACH THE QUOTA BEFORE TIME EXPIRES', 1.6); }
   } else if(game.diveCamTimer > 0 && projectiles.length > 0){
     game.diveCamTimer -= dt;
-    const activeEgg = projectiles[0].mesh.position;
-    const ang = performance.now() * 0.015;
-    camera.position.set(
-      activeEgg.x + Math.cos(ang) * 4.5,
-      activeEgg.y + 3.2,
-      activeEgg.z + Math.sin(ang) * 4.5
-    );
+    const activeEgg = projectiles[0].mesh.position, ang = performance.now() * 0.015;
+    camera.position.set(activeEgg.x + Math.cos(ang) * 4.5, activeEgg.y + 3.2, activeEgg.z + Math.sin(ang) * 4.5);
     camera.lookAt(activeEgg);
   } else {
     if(game.diveCamTimer > 0) game.diveCamTimer -= dt;
-    const leadX = (game.aimPoint.x - 4) * 0.08;
-    const leadZ = (game.aimPoint.z - 2) * 0.06;
-    const desiredPos = new THREE.Vector3(-13.5 + leadX, 39.2, 25.2 + leadZ);
-    camera.position.lerp(desiredPos, Math.min(1, dt * 7));
+    camera.position.lerp(new THREE.Vector3(-13.5 + (game.aimPoint.x - 4) * 0.08, 39.2, 25.2 + (game.aimPoint.z - 2) * 0.06), Math.min(1, dt * 7));
     camera.lookAt(game.aimPoint.x * 0.35, 1.5, game.aimPoint.z * 0.35);
   }
 
   if(game.shakeTime > 0){
     game.shakeTime = Math.max(0, game.shakeTime - dt);
     const mag = game.shakeMag * (game.shakeTime / 0.4);
-    camera.position.x += rand(-mag, mag);
-    camera.position.y += rand(-mag, mag);
+    camera.position.x += rand(-mag, mag); camera.position.y += rand(-mag, mag);
   }
 
   updateTrajectoryPreview(game.charging ? game.chargePower : 0.5);
 }
 
 function drawRadar(){
-  const rw = radarCanvas.width;
-  const rh = radarCanvas.height;
+  const rw = radarCanvas.width, rh = radarCanvas.height;
   rCtx.clearRect(0, 0, rw, rh);
-  rCtx.fillStyle = '#09131C';
-  rCtx.fillRect(0, 0, rw, rh);
-
-  // Subtle radar grid & rooftop outline
-  rCtx.strokeStyle = 'rgba(253,224,71,0.18)';
-  rCtx.lineWidth = 1;
-  rCtx.strokeRect(8, 8, rw - 16, rh - 16);
+  rCtx.fillStyle = '#09131C'; rCtx.fillRect(0, 0, rw, rh);
+  rCtx.strokeStyle = 'rgba(253,224,71,0.18)'; rCtx.lineWidth = 1; rCtx.strokeRect(8, 8, rw - 16, rh - 16);
 
   const mapX = x => ((x + 36) / 72) * (rw - 16) + 8;
   const mapZ = z => ((z + 42) / 74) * (rh - 16) + 8;
 
-  // Rooftop box on radar
   rCtx.strokeStyle = 'rgba(251,113,133,0.6)';
   rCtx.strokeRect(mapX(-9), mapZ(-13), (34 / 72) * (rw - 16), (18 / 74) * (rh - 16));
 
-  // Police spotlight cone
   if(chopperGroup.visible){
-    const sx = mapX(chopperGroup.position.x);
-    const sz = mapZ(chopperGroup.position.z);
     rCtx.fillStyle = 'rgba(253,224,71,0.22)';
-    rCtx.beginPath();
-    rCtx.moveTo(sx, sz);
-    rCtx.arc(sx, sz, 14, 0, Math.PI * 2);
-    rCtx.fill();
+    rCtx.beginPath(); rCtx.moveTo(mapX(chopperGroup.position.x), mapZ(chopperGroup.position.z));
+    rCtx.arc(mapX(chopperGroup.position.x), mapZ(chopperGroup.position.z), 14, 0, Math.PI * 2); rCtx.fill();
   }
 
-  // Targets
   for(const t of targets){
-    const tx = mapX(t.position.x);
-    const tz = mapZ(t.position.z);
     rCtx.fillStyle = '#' + t.userData.spec.color.toString(16).padStart(6, '0');
-    rCtx.beginPath();
-    rCtx.arc(tx, tz, t.userData.type === 'boss' ? 5 : 3, 0, Math.PI * 2);
-    rCtx.fill();
+    rCtx.beginPath(); rCtx.arc(mapX(t.position.x), mapZ(t.position.z), t.userData.type === 'boss' ? 5 : 3, 0, Math.PI * 2); rCtx.fill();
   }
 
-  // Aim reticle dot
-  rCtx.strokeStyle = '#FDE047';
-  rCtx.lineWidth = 1.5;
-  rCtx.beginPath();
-  rCtx.arc(mapX(game.aimPoint.x), mapZ(game.aimPoint.z), 4.5, 0, Math.PI * 2);
-  rCtx.stroke();
+  rCtx.strokeStyle = '#FDE047'; rCtx.lineWidth = 1.5;
+  rCtx.beginPath(); rCtx.arc(mapX(game.aimPoint.x), mapZ(game.aimPoint.z), 4.5, 0, Math.PI * 2); rCtx.stroke();
 }
+
 function syncHUD(){
   $('hud-mission').textContent = `${CONFIG.TOKEN_NAME} // WAVE ${game.wave}`;
   $('hud-quota').textContent = `QUOTA: ${fmtMoney(game.waveCash)} / ${fmtMoney(game.waveQuota)}`;
-  const pct = clamp((game.waveCash / Math.max(1, game.waveQuota)) * 100, 0, 100);
-  $('quota-fill').style.width = pct.toFixed(1) + '%';
+  $('quota-fill').style.width = clamp((game.waveCash / Math.max(1, game.waveQuota)) * 100, 0, 100).toFixed(1) + '%';
 
   const timerEl = $('hud-timer');
   timerEl.textContent = game.waveTime.toFixed(1) + 's';
@@ -2145,11 +1921,7 @@ function syncHUD(){
   $('hud-wind').textContent = `WIND: ${Math.round(game.windSpeed)} KT`;
   $('hud-gust').textContent = game.gustActive > 0 ? 'GUST!' : '';
   $('hud-combo').textContent = (game.comboMult || 1).toFixed(1) + 'x';
-
-  const starsHtml = Array.from({ length: 5 }, (_, i) =>
-    `<span class="${i < game.wantedStars ? '' : 'star-off'}">★</span>`
-  ).join('');
-  $('wanted-stars').innerHTML = starsHtml;
+  $('wanted-stars').innerHTML = Array.from({ length: 5 }, (_, i) => `<span class="${i < game.wantedStars ? '' : 'star-off'}">★</span>`).join('');
 
   const showCombo = game.combo > 1 && game.comboTimer > 0;
   $('combo-hud').classList.toggle('show', showCombo);
@@ -2165,49 +1937,31 @@ function syncHUD(){
     $('boss-fill').style.width = clamp((boss.userData.hp / boss.userData.maxHp) * 100, 0, 100) + '%';
   }
 
-  // Cooldown bars
   for(let i = 1; i <= 2; i++){
-    const spec = EGG_SPECS[i];
-    const rem = game.eggCooldowns[i];
     const bar = $('cd-' + (i + 1));
-    if(bar){
-      const ratio = spec.cooldown > 0 ? clamp(rem / spec.cooldown, 0, 1) : 0;
-      bar.style.width = (ratio * 100).toFixed(0) + '%';
-    }
+    if(bar) bar.style.width = (clamp(game.eggCooldowns[i] / EGG_SPECS[i].cooldown, 0, 1) * 100).toFixed(0) + '%';
   }
 
-  // Upgrades
   ['q', 'w', 'e'].forEach(k => {
-    const lv = game.upgrades[k];
-    const btn = $('upg-' + k);
-    const costEl = $('upg-' + k + '-cost');
-    if(lv >= 3){
-      costEl.textContent = 'MAX';
-      btn.disabled = true;
-    } else {
-      const c = UPG_COSTS[k][lv];
-      costEl.textContent = '$' + (c / 1000) + 'K';
-      btn.disabled = game.cash < c || game.phase !== 'playing';
-    }
+    const lv = game.upgrades[k], btn = $('upg-' + k), costEl = $('upg-' + k + '-cost');
+    if(lv >= 3){ costEl.textContent = 'MAX'; btn.disabled = true; }
+    else { const c = UPG_COSTS[k][lv]; costEl.textContent = '$' + (c / 1000) + 'K'; btn.disabled = game.cash < c || game.phase !== 'playing'; }
   });
 }
 
 function handleResize(){
-  const w = arenaEl.clientWidth || window.innerWidth;
-  const h = arenaEl.clientHeight || window.innerHeight;
+  const w = arenaEl.clientWidth || window.innerWidth, h = arenaEl.clientHeight || window.innerHeight;
   camera.aspect = w / Math.max(1, h);
   camera.updateProjectionMatrix();
   renderer.setSize(w, h, false);
 }
 
-// Bind all CONFIG values & DOM controls
 function bindConfigAndUI(){
   document.title = `${CONFIG.TOKEN_NAME} — ${CONFIG.TICKER}`;
   $('hud-chain').textContent = CONFIG.CHAIN;
   $('ca-short').textContent = shortCA(CONFIG.CONTRACT_ADDRESS);
   $('ca-full').textContent = CONFIG.CONTRACT_ADDRESS;
   $('v-ca').textContent = CONFIG.CONTRACT_ADDRESS;
-
   $('pause-heading').textContent = `${CONFIG.TOKEN_NAME} (${CONFIG.TICKER}) — MISSION BRIEF`;
   $('tok-title').textContent = `TOKENOMICS — ${CONFIG.TICKER}`;
   $('tok-name').textContent = CONFIG.TOKEN_NAME;
@@ -2219,10 +1973,7 @@ function bindConfigAndUI(){
     if(!el) return;
     if(id === 'link-x') el.href = CONFIG.TWITTER_URL;
     else if(id === 'link-chart') el.href = CONFIG.CHART_URL;
-    else {
-      el.href = CONFIG.BUY_URL;
-      el.textContent = `BUY ${CONFIG.TICKER}`;
-    }
+    else { el.href = CONFIG.BUY_URL; el.textContent = `BUY ${CONFIG.TICKER}`; }
   });
 
   ['copy-ca-hud', 'copy-ca-vault', 'copy-ca-bar'].forEach(id => {
@@ -2234,23 +1985,16 @@ function bindConfigAndUI(){
   $('btn-replay').addEventListener('click', startNewRun);
 
   $('btn-sfx').addEventListener('click', () => {
-    sound.unlock();
-    sound.setSfxMuted(!sound.sfxMuted);
-    $('btn-sfx').textContent = 'SFX: ' + (sound.sfxMuted ? 'OFF' : 'ON');
-    sound.uiClick();
+    sound.unlock(); sound.setSfxMuted(!sound.sfxMuted);
+    $('btn-sfx').textContent = 'SFX: ' + (sound.sfxMuted ? 'OFF' : 'ON'); sound.uiClick();
   });
   $('btn-bgm').addEventListener('click', () => {
-    sound.unlock();
-    sound.setBgmMuted(!sound.bgmMuted);
-    $('btn-bgm').textContent = 'GROOVE: ' + (sound.bgmMuted ? 'OFF' : 'ON');
-    sound.uiClick();
+    sound.unlock(); sound.setBgmMuted(!sound.bgmMuted);
+    $('btn-bgm').textContent = 'GROOVE: ' + (sound.bgmMuted ? 'OFF' : 'ON'); sound.uiClick();
   });
 
   document.querySelectorAll('.egg-card').forEach(card => {
-    card.addEventListener('click', () => {
-      sound.unlock();
-      selectEgg(+(card.dataset.egg || 0));
-    });
+    card.addEventListener('click', () => { sound.unlock(); selectEgg(+(card.dataset.egg || 0)); });
   });
 
   $('upg-q').addEventListener('click', () => { sound.unlock(); buyUpgrade('q'); });
@@ -2266,23 +2010,12 @@ function bindConfigAndUI(){
     });
   });
 
-  glCanvas.addEventListener('pointermove', e => {
-    updateAimFromClient(e.clientX, e.clientY);
-  });
-
+  glCanvas.addEventListener('pointermove', e => updateAimFromClient(e.clientX, e.clientY));
   glCanvas.addEventListener('pointerdown', e => {
-    sound.unlock();
-    updateAimFromClient(e.clientX, e.clientY);
-    if(game.phase === 'intro'){
-      game.introTime = game.introDur;
-      game.phase = 'playing';
-      spawnWaveTargets();
-      return;
-    }
+    sound.unlock(); updateAimFromClient(e.clientX, e.clientY);
+    if(game.phase === 'intro'){ game.introTime = game.introDur; game.phase = 'playing'; spawnWaveTargets(); return; }
     if(game.phase === 'playing' && game.eggCooldowns[game.selectedEgg] <= 0){
-      game.charging = true;
-      game.chargePower = 0.25;
-      game.chargeDir = 1;
+      game.charging = true; game.chargePower = 0.25; game.chargeDir = 1;
       try{ glCanvas.setPointerCapture(e.pointerId); }catch(_){}
     }
   });
@@ -2290,9 +2023,7 @@ function bindConfigAndUI(){
   const finishThrow = () => {
     if(!game.charging) return;
     game.charging = false;
-    if(game.phase === 'playing'){
-      launchSpiralEgg(game.chargePower, false);
-    }
+    if(game.phase === 'playing') launchSpiralEgg(game.chargePower, false);
     game.chargePower = 0;
   };
 
@@ -2301,12 +2032,7 @@ function bindConfigAndUI(){
 
   window.addEventListener('keydown', e => {
     sound.unlock();
-    if(game.phase === 'intro'){
-      game.introTime = game.introDur;
-      game.phase = 'playing';
-      spawnWaveTargets();
-      return;
-    }
+    if(game.phase === 'intro'){ game.introTime = game.introDur; game.phase = 'playing'; spawnWaveTargets(); return; }
     if(e.code === 'Digit1') selectEgg(0);
     else if(e.code === 'Digit2') selectEgg(1);
     else if(e.code === 'Digit3') selectEgg(2);
@@ -2314,18 +2040,12 @@ function bindConfigAndUI(){
     else if(e.code === 'KeyW') buyUpgrade('w');
     else if(e.code === 'KeyE') buyUpgrade('e');
     else if(e.code === 'Space' && !game.charging && game.phase === 'playing' && game.eggCooldowns[game.selectedEgg] <= 0){
-      e.preventDefault();
-      game.charging = true;
-      game.chargePower = 0.25;
-      game.chargeDir = 1;
+      e.preventDefault(); game.charging = true; game.chargePower = 0.25; game.chargeDir = 1;
     }
   });
 
   window.addEventListener('keyup', e => {
-    if(e.code === 'Space' && game.charging){
-      e.preventDefault();
-      finishThrow();
-    }
+    if(e.code === 'Space' && game.charging){ e.preventDefault(); finishThrow(); }
   });
 
   window.addEventListener('resize', handleResize);
@@ -2337,11 +2057,8 @@ function loop(now){
   lastTs = now;
   const dt = Math.min(Math.max(rawDt, 0), 0.05);
 
-  if(game.hitStop > 0){
-    game.hitStop = Math.max(0, game.hitStop - dt);
-  } else {
-    updateWorldAndEntities(dt);
-  }
+  if(game.hitStop > 0) game.hitStop = Math.max(0, game.hitStop - dt);
+  else updateWorldAndEntities(dt);
 
   sound.update(dt, game.frenzyTime > 0, targets.some(t => t.userData.type === 'boss'), game.wantedStars);
   drawRadar();
