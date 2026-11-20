@@ -881,7 +881,7 @@
 
     <div class="climb-controls-wrap active" id="climbControlsWrap">
       <div class="panel climb-banner">
-        <span>Watch hammers hold at top • Dodge left/right • 3 hits = LOSE!</span>
+        <span>Watch rogue drones hold at top • Dodge left/right • 3 hits = LOSE!</span>
         <button class="btn primary" id="skipClimbBtn" type="button">NEST [ENTER]</button>
       </div>
       <div class="climb-pad">
@@ -947,7 +947,7 @@
       </div>
 
       <div class="tab-pane active" id="tab-brief">
-        <p><strong>THE NEST ($EGG)</strong> brings the Leonida tower-nest egg drop to a golden-hour coastal boulevard. Watch hammers hold at the top of the ladder before dropping across 4 lanes/sides—dodge left/right as speed intensifies (3 hits = lose). At the nest deck, see both your character on top and the targets below—drag to aim and release to throw. Missing pays <strong>$0</strong>.</p>
+        <p><strong>THE NEST ($EGG)</strong> brings the Leonida tower-nest egg drop to a golden-hour coastal boulevard. Watch rogue drones hold at the top of the shaft before dropping across 4 lanes/sides—dodge left/right as speed intensifies (3 hits = lose). At the nest deck, drag to aim and release to throw. Missing pays <strong>$0</strong>.</p>
       </div>
 
       <div class="tab-pane" id="tab-targets">
@@ -1062,7 +1062,7 @@
       return `${Math.round(n).toLocaleString()}`;
     }
 
-    const BEST_KEY = "the_nest_egg_best_cash_v9";
+    const BEST_KEY = "the_nest_egg_best_cash_v10";
     const CLIMB_LANES = [-1.8, -0.6, 0.6, 1.8];
     const START_LANE_IDX = 1;
 
@@ -1094,7 +1094,7 @@
       climbHits: 0,
       climbStunTimer: 0,
       climbKnockTimer: 0,
-      aimPoint: new THREE.Vector3(0, 0.12, 5.2),
+      aimPoint: new THREE.Vector3(0, 0.12, 4.5),
       modalOpen: false,
       simTime: 0
     };
@@ -1502,7 +1502,8 @@
       ladderGroup.add(rung);
     }
 
-    function createHumanCharacter(opts = {}) {
+    // Block character builder (clean blocky head & limbs, GTA street styling for Jack)
+    function createBlockCharacter(opts = {}) {
       const g = new THREE.Group();
       const torsoMat = new THREE.MeshStandardMaterial({ color: opts.torsoColor || 0xF8FAFC, roughness: 0.5 });
       const pantsMat = new THREE.MeshStandardMaterial({ color: opts.pantsColor || 0x1E293B, roughness: 0.68 });
@@ -1510,80 +1511,65 @@
       const hairMat = new THREE.MeshStandardMaterial({ color: opts.hairColor || 0x111827, roughness: 0.72 });
       const shoeMat = new THREE.MeshStandardMaterial({ color: 0x0F172A, roughness: 0.42 });
 
-      const hips = new THREE.Mesh(new THREE.CylinderGeometry(0.38, 0.34, 0.28, 12), pantsMat);
+      const hips = new THREE.Mesh(new THREE.BoxGeometry(0.68, 0.28, 0.44), pantsMat);
       hips.position.y = 0.86;
       hips.castShadow = true;
       g.add(hips);
 
-      const chest = new THREE.Mesh(new THREE.CylinderGeometry(0.46, 0.37, 0.72, 12), torsoMat);
-      chest.scale.set(1.05, 1, 0.65);
+      const chest = new THREE.Mesh(new THREE.BoxGeometry(0.84, 0.72, 0.5), torsoMat);
       chest.position.y = 1.36;
       chest.castShadow = true;
       g.add(chest);
 
-      const shoulderGeo = new THREE.SphereGeometry(0.18, 12, 12);
-      [-0.47, 0.47].forEach((sx) => {
-        const cap = new THREE.Mesh(shoulderGeo, torsoMat);
-        cap.position.set(sx, 1.66, 0);
-        cap.castShadow = true;
-        g.add(cap);
-      });
-
-      const neck = new THREE.Mesh(new THREE.CylinderGeometry(0.11, 0.13, 0.18, 10), skinMat);
+      const neck = new THREE.Mesh(new THREE.BoxGeometry(0.24, 0.16, 0.24), skinMat);
       neck.position.y = 1.78;
       g.add(neck);
 
-      const head = new THREE.Mesh(new THREE.SphereGeometry(0.26, 14, 14), skinMat);
-      head.scale.set(0.92, 1.12, 0.96);
-      head.position.y = 2.13;
+      // Block head + cropped block hair
+      const head = new THREE.Mesh(new THREE.BoxGeometry(0.48, 0.52, 0.48), skinMat);
+      head.position.y = 2.11;
       head.castShadow = true;
       g.add(head);
 
-      const hair = new THREE.Mesh(new THREE.SphereGeometry(0.275, 14, 12, 0, Math.PI * 2, 0, Math.PI * 0.58), hairMat);
-      hair.scale.set(0.95, 1.05, 1.0);
-      hair.position.set(0, 2.17, -0.02);
+      const hair = new THREE.Mesh(new THREE.BoxGeometry(0.51, 0.18, 0.51), hairMat);
+      hair.position.set(0, 2.31, -0.01);
       g.add(hair);
 
-      if (opts.isGtaLead) {
-        // Coral/gold street stripe & gold chain accent for GTA lead vibe
+      if (opts.isJack) {
         const stripe = new THREE.Mesh(
-          new THREE.BoxGeometry(0.66, 0.16, 0.56),
+          new THREE.BoxGeometry(0.87, 0.15, 0.53),
           new THREE.MeshStandardMaterial({ color: 0xFB7185, roughness: 0.45 })
         );
-        stripe.position.set(0, 1.44, 0.02);
+        stripe.position.set(0, 1.44, 0);
         g.add(stripe);
 
         const chain = new THREE.Mesh(
-          new THREE.TorusGeometry(0.2, 0.025, 8, 18),
+          new THREE.BoxGeometry(0.38, 0.05, 0.54),
           new THREE.MeshStandardMaterial({ color: 0xFDE047, metalness: 0.8, roughness: 0.2 })
         );
-        chain.rotation.x = Math.PI / 2;
-        chain.position.set(0, 1.68, 0.12);
+        chain.position.set(0, 1.66, 0.01);
         g.add(chain);
       }
 
       function makeArm(side) {
         const pivot = new THREE.Group();
-        pivot.position.set(side * 0.51, 1.66, 0);
+        pivot.position.set(side * 0.54, 1.66, 0);
 
-        const upper = new THREE.Mesh(new THREE.CylinderGeometry(0.11, 0.095, 0.4, 10), torsoMat);
-        upper.position.y = -0.2;
+        const upper = new THREE.Mesh(new THREE.BoxGeometry(0.22, 0.38, 0.22), torsoMat);
+        upper.position.y = -0.19;
         upper.castShadow = true;
         pivot.add(upper);
 
         const elbow = new THREE.Group();
-        elbow.position.set(0, -0.41, 0);
-        const joint = new THREE.Mesh(new THREE.SphereGeometry(0.095, 8, 8), skinMat);
-        elbow.add(joint);
+        elbow.position.set(0, -0.39, 0);
 
-        const fore = new THREE.Mesh(new THREE.CylinderGeometry(0.09, 0.075, 0.39, 10), skinMat);
-        fore.position.y = -0.2;
+        const fore = new THREE.Mesh(new THREE.BoxGeometry(0.2, 0.36, 0.2), skinMat);
+        fore.position.y = -0.18;
         fore.castShadow = true;
         elbow.add(fore);
 
-        const hand = new THREE.Mesh(new THREE.SphereGeometry(0.11, 10, 10), skinMat);
-        hand.scale.set(0.95, 1.15, 0.85);
-        hand.position.y = -0.42;
+        const hand = new THREE.Mesh(new THREE.BoxGeometry(0.22, 0.2, 0.22), skinMat);
+        hand.position.y = -0.4;
         elbow.add(hand);
 
         pivot.add(elbow);
@@ -1595,22 +1581,20 @@
         const pivot = new THREE.Group();
         pivot.position.set(side * 0.21, 0.74, 0);
 
-        const thigh = new THREE.Mesh(new THREE.CylinderGeometry(0.135, 0.11, 0.38, 10), pantsMat);
+        const thigh = new THREE.Mesh(new THREE.BoxGeometry(0.26, 0.36, 0.28), pantsMat);
         thigh.position.y = -0.18;
         thigh.castShadow = true;
         pivot.add(thigh);
 
         const knee = new THREE.Group();
-        knee.position.set(0, -0.38, 0);
-        const kneeCap = new THREE.Mesh(new THREE.SphereGeometry(0.108, 8, 8), pantsMat);
-        knee.add(kneeCap);
+        knee.position.set(0, -0.36, 0);
 
-        const shin = new THREE.Mesh(new THREE.CylinderGeometry(0.105, 0.082, 0.36, 10), pantsMat);
+        const shin = new THREE.Mesh(new THREE.BoxGeometry(0.24, 0.36, 0.26), pantsMat);
         shin.position.y = -0.18;
         shin.castShadow = true;
         knee.add(shin);
 
-        const shoe = new THREE.Mesh(new THREE.BoxGeometry(0.22, 0.12, 0.38), shoeMat);
+        const shoe = new THREE.Mesh(new THREE.BoxGeometry(0.26, 0.14, 0.4), shoeMat);
         shoe.position.set(0, -0.37, 0.06);
         shoe.castShadow = true;
         knee.add(shoe);
@@ -1626,33 +1610,25 @@
       const rightLeg = makeLeg(1);
 
       if (opts.isLawyer) {
-        const shirt = new THREE.Mesh(
-          new THREE.BoxGeometry(0.28, 0.62, 0.05),
-          new THREE.MeshStandardMaterial({ color: 0xF8FAFC, roughness: 0.45 })
-        );
-        shirt.position.set(0, 1.38, 0.23);
-        g.add(shirt);
-
         const tie = new THREE.Mesh(
-          new THREE.BoxGeometry(0.1, 0.5, 0.08),
+          new THREE.BoxGeometry(0.11, 0.48, 0.08),
           new THREE.MeshStandardMaterial({ color: 0xDC2626, roughness: 0.35 })
         );
-        tie.position.set(0, 1.36, 0.25);
+        tie.position.set(0, 1.36, 0.26);
         g.add(tie);
 
         const shades = new THREE.Mesh(
           new THREE.BoxGeometry(0.46, 0.12, 0.1),
           new THREE.MeshStandardMaterial({ color: 0x090D16, roughness: 0.2, metalness: 0.65 })
         );
-        shades.position.set(0, 2.15, 0.23);
+        shades.position.set(0, 2.14, 0.24);
         g.add(shades);
 
         const briefcase = new THREE.Mesh(
-          new THREE.BoxGeometry(0.56, 0.38, 0.15),
+          new THREE.BoxGeometry(0.52, 0.34, 0.14),
           new THREE.MeshStandardMaterial({ color: 0xFDE047, metalness: 0.75, roughness: 0.2 })
         );
-        briefcase.position.set(0, -0.44, 0.06);
-        briefcase.rotation.x = Math.PI / 2;
+        briefcase.position.set(0, -0.42, 0.08);
         rightArm.elbow.add(briefcase);
       }
 
@@ -1661,49 +1637,32 @@
           new THREE.BoxGeometry(0.48, 0.14, 0.12),
           new THREE.MeshBasicMaterial({ color: 0x06B6D4 })
         );
-        visor.position.set(0, 2.15, 0.23);
+        visor.position.set(0, 2.14, 0.24);
         g.add(visor);
 
         const pack = new THREE.Mesh(
-          new THREE.BoxGeometry(0.62, 0.58, 0.3),
+          new THREE.BoxGeometry(0.58, 0.54, 0.28),
           new THREE.MeshStandardMaterial({ color: 0x0F172A, metalness: 0.5, roughness: 0.35 })
         );
-        pack.position.set(0, 1.38, -0.36);
+        pack.position.set(0, 1.38, -0.35);
         g.add(pack);
-
-        [-0.2, 0.2].forEach((ax) => {
-          const ant = new THREE.Mesh(
-            new THREE.CylinderGeometry(0.025, 0.025, 0.52, 6),
-            new THREE.MeshBasicMaterial({ color: 0xFDE047 })
-          );
-          ant.position.set(ax, 1.92, -0.36);
-          g.add(ant);
-        });
       }
 
       if (opts.isJeet) {
-        const capCrown = new THREE.Mesh(
-          new THREE.SphereGeometry(0.26, 12, 10, 0, Math.PI * 2, 0, Math.PI * 0.52),
+        const cap = new THREE.Mesh(
+          new THREE.BoxGeometry(0.5, 0.14, 0.62),
           new THREE.MeshStandardMaterial({ color: 0x16A34A, roughness: 0.5 })
         );
-        capCrown.position.set(0, 2.22, 0);
-        g.add(capCrown);
-
-        const bill = new THREE.Mesh(
-          new THREE.BoxGeometry(0.32, 0.05, 0.24),
-          new THREE.MeshStandardMaterial({ color: 0x15803D, roughness: 0.5 })
-        );
-        bill.position.set(0, 2.24, 0.28);
-        g.add(bill);
+        cap.position.set(0, 2.38, 0.04);
+        g.add(cap);
       }
 
       if (opts.isPaperHands) {
         const chart = new THREE.Mesh(
-          new THREE.BoxGeometry(0.48, 0.36, 0.04),
+          new THREE.BoxGeometry(0.44, 0.34, 0.04),
           new THREE.MeshStandardMaterial({ color: 0xF8FAFC, roughness: 0.4 })
         );
-        chart.position.set(0, -0.43, 0.12);
-        chart.rotation.x = Math.PI / 3;
+        chart.position.set(0, -0.42, 0.12);
         leftArm.elbow.add(chart);
       }
 
@@ -1724,12 +1683,12 @@
       return { group: g, leftArm, rightArm, leftLeg, rightLeg, heldEgg };
     }
 
-    const playerChar = createHumanCharacter({
+    const playerChar = createBlockCharacter({
       torsoColor: 0xF8FAFC,
       pantsColor: 0x0F172A,
       skinColor: 0xE5A67B,
       hairColor: 0x111827,
-      isGtaLead: true
+      isJack: true
     });
     scene.add(playerChar.group);
 
@@ -1738,46 +1697,47 @@
       return choices[Math.floor(Math.random() * choices.length)];
     }
 
-    // Hammer obstacles with handle + heavy head + telegraph cue
+    // Sleeker GTA-fitting hazard: Rogue Quad-Drone with cross-arms, rotors, and pulsing eye core
     const ladderObstacles = [];
 
-    function createHammerObstacle(laneIdx, sideIndex, initialDelay) {
+    function createDroneObstacle(laneIdx, sideIndex, initialDelay) {
       const grp = new THREE.Group();
 
-      const handle = new THREE.Mesh(
-        new THREE.CylinderGeometry(0.055, 0.065, 0.62, 8),
-        new THREE.MeshStandardMaterial({ color: 0x92400E, roughness: 0.7 })
-      );
-      handle.position.y = -0.1;
-      handle.castShadow = true;
-      grp.add(handle);
+      const armMat = new THREE.MeshStandardMaterial({ color: 0x1E293B, metalness: 0.5, roughness: 0.35 });
+      const armX = new THREE.Mesh(new THREE.BoxGeometry(0.88, 0.07, 0.1), armMat);
+      grp.add(armX);
+      const armZ = new THREE.Mesh(new THREE.BoxGeometry(0.1, 0.07, 0.68), armMat);
+      grp.add(armZ);
 
-      const head = new THREE.Mesh(
-        new THREE.BoxGeometry(0.56, 0.24, 0.26),
-        new THREE.MeshStandardMaterial({
-          color: 0xDC2626,
-          metalness: 0.45,
-          roughness: 0.32
-        })
+      const pod = new THREE.Mesh(
+        new THREE.BoxGeometry(0.36, 0.24, 0.36),
+        new THREE.MeshStandardMaterial({ color: 0x0F172A, metalness: 0.6, roughness: 0.3 })
       );
-      head.position.y = 0.2;
-      head.castShadow = true;
-      grp.add(head);
+      pod.castShadow = true;
+      grp.add(pod);
 
-      const strikeCap = new THREE.Mesh(
-        new THREE.BoxGeometry(0.62, 0.12, 0.3),
-        new THREE.MeshBasicMaterial({ color: 0xFDE047 })
+      const eye = new THREE.Mesh(
+        new THREE.BoxGeometry(0.24, 0.1, 0.4),
+        new THREE.MeshBasicMaterial({ color: 0xEF4444 })
       );
-      strikeCap.position.y = 0.2;
-      grp.add(strikeCap);
+      grp.add(eye);
+
+      const rotorMat = new THREE.MeshBasicMaterial({ color: 0xFDE047 });
+      const rotors = [];
+      [[-0.42, 0], [0.42, 0], [0, -0.32], [0, 0.32]].forEach(([rx, rz]) => {
+        const blade = new THREE.Mesh(new THREE.BoxGeometry(0.26, 0.025, 0.05), rotorMat);
+        blade.position.set(rx, 0.08, rz);
+        grp.add(blade);
+        rotors.push(blade);
+      });
 
       const cueMat = new THREE.MeshBasicMaterial({
         color: 0xFDE047,
         transparent: true,
         opacity: 0.9
       });
-      const cue = new THREE.Mesh(new THREE.BoxGeometry(0.66, 0.1, 0.08), cueMat);
-      cue.position.set(0, -0.45, 0.18);
+      const cue = new THREE.Mesh(new THREE.BoxGeometry(0.62, 0.09, 0.07), cueMat);
+      cue.position.set(0, -0.32, 0.2);
       grp.add(cue);
 
       const sideZ = TOWER_Z + 1.55 + ((sideIndex % 4) - 1.5) * 0.22;
@@ -1786,6 +1746,7 @@
 
       return {
         mesh: grp,
+        rotors,
         cueMat,
         laneIdx,
         y: TOP_Y - 0.3,
@@ -1798,7 +1759,7 @@
 
     for (let i = 0; i < 4; i++) {
       const lIdx = i === 0 ? 0 : i === 1 ? 2 : 3;
-      ladderObstacles.push(createHammerObstacle(lIdx, i, 0.7 + i * 0.85));
+      ladderObstacles.push(createDroneObstacle(lIdx, i, 0.75 + i * 0.85));
     }
 
     const aimRing = new THREE.Mesh(
@@ -1806,7 +1767,7 @@
       new THREE.MeshBasicMaterial({ color: 0xFDE047, side: THREE.DoubleSide })
     );
     aimRing.rotation.x = -Math.PI / 2;
-    aimRing.position.set(0, 0.12, 5.2);
+    aimRing.position.set(0, 0.12, 4.5);
     aimRing.visible = false;
     scene.add(aimRing);
 
@@ -1878,7 +1839,7 @@
     function createTargetEntity(type, x, z, dir = 1) {
       let mesh, rig = null, hp = 1, maxHp = 1, baseCash = 120000, speed = 2.4;
       if (type === "lawyer") {
-        const c = createHumanCharacter({
+        const c = createBlockCharacter({
           torsoColor: 0x1E293B,
           pantsColor: 0x0F172A,
           skinColor: 0xE5A67B,
@@ -1891,7 +1852,7 @@
         baseCash = 120000;
         speed = 2.4;
       } else if (type === "jeet") {
-        const c = createHumanCharacter({
+        const c = createBlockCharacter({
           torsoColor: 0x22C55E,
           pantsColor: 0x334155,
           skinColor: 0xE5A67B,
@@ -1903,7 +1864,7 @@
         baseCash = 40000;
         speed = 3.0;
       } else if (type === "paperhands") {
-        const c = createHumanCharacter({
+        const c = createBlockCharacter({
           torsoColor: 0xFB7185,
           pantsColor: 0x1E293B,
           skinColor: 0xE5A67B,
@@ -1915,7 +1876,7 @@
         baseCash = 75000;
         speed = 2.6;
       } else if (type === "scamdev") {
-        const c = createHumanCharacter({
+        const c = createBlockCharacter({
           torsoColor: 0x0284C7,
           pantsColor: 0x1E293B,
           skinColor: 0x94A3B8,
@@ -2144,13 +2105,13 @@
       document.getElementById("phaseLabel").textContent = "NEST DECK — DRAG & RELEASE EGG";
       aimRing.visible = true;
       playerChar.heldEgg.visible = true;
-      playerChar.group.position.set(1.6, TOP_Y + 0.35, TOWER_Z + 1.9);
+      playerChar.group.position.set(1.8, TOP_Y + 0.35, TOWER_Z + 1.85);
       playerChar.group.rotation.set(0, 0.25, 0);
       playerChar.leftLeg.pivot.rotation.x = 0;
       playerChar.rightLeg.pivot.rotation.x = 0;
       playerChar.leftLeg.knee.rotation.x = 0;
       playerChar.rightLeg.knee.rotation.x = 0;
-      spawnCallout(new THREE.Vector3(1.6, TOP_Y + 2.8, TOWER_Z + 1.9), "40.0s CLOCK LIVE!", "warn");
+      spawnCallout(new THREE.Vector3(1.8, TOP_Y + 2.8, TOWER_Z + 1.85), "40.0s CLOCK LIVE!", "warn");
     }
 
     function startClimbForWave() {
@@ -2617,18 +2578,11 @@
         playerChar.leftLeg.knee.rotation.x = 0.65 + Math.max(0, -stepOsc) * 0.45;
         playerChar.rightLeg.knee.rotation.x = 0.65 + Math.max(0, stepOsc) * 0.45;
 
-        const nearTopSafeZone = py >= TOP_Y - 1.25;
         const topPreviewY = Math.min(TOP_Y - 0.25, py + (isMobile ? 5.6 : 6.2));
 
         for (const obs of ladderObstacles) {
           if (obs.hitCooldown > 0) obs.hitCooldown -= dt;
-
-          // No obstacles when player reaches the top of the tower
-          if (nearTopSafeZone) {
-            obs.mesh.visible = false;
-            continue;
-          }
-          obs.mesh.visible = true;
+          for (const b of obs.rotors) b.rotation.y += 28 * dt;
 
           const obsX = CLIMB_LANES[obs.laneIdx];
           const sideZ = TOWER_Z + 1.55 + ((obs.sideIndex % 4) - 1.5) * 0.22;
@@ -2637,7 +2591,6 @@
             obs.holdTimer -= dt;
             obs.y = topPreviewY;
             obs.mesh.position.set(obsX, obs.y, sideZ);
-            obs.mesh.rotation.z = Math.sin(state.simTime * 26) * 0.35;
             obs.cueMat.color.setHex(0xEF4444);
             obs.cueMat.opacity = 0.5 + Math.abs(Math.sin(state.simTime * 24)) * 0.5;
             continue;
@@ -2647,7 +2600,6 @@
           obs.y -= dt * dropSpeed;
           obs.cueMat.color.setHex(0xFDE047);
           obs.cueMat.opacity = 0.85;
-          obs.mesh.rotation.z = Math.sin(state.simTime * 12 + obs.sideIndex) * 0.45;
 
           if (obs.y < Math.max(0.5, py - 2.5)) {
             obs.laneIdx = pickNonStartLane(state.climbLaneIdx);
@@ -2667,7 +2619,7 @@
             state.climbKnockTimer = 0.38;
             AudioEngine.bump();
             spawnBurst(playerChar.group.position, 0xEF4444, 12);
-            spawnCallout(playerChar.group.position, `HAMMER HIT (${state.climbHits}/3)!`, "warn");
+            spawnCallout(playerChar.group.position, `DRONE HIT (${state.climbHits}/3)!`, "warn");
 
             if (state.climbHits >= 3) {
               state.phase = "gameover";
@@ -2754,14 +2706,13 @@
           trajectoryDots.forEach((d) => (d.visible = false));
         }
 
-        // Camera positioned so both the throwing character at the nest AND street targets below stay clearly in frame
         const charPos = playerChar.group.position;
         if (isMobile) {
-          camera.position.lerp(_tempVec.set(charPos.x * 0.3, TOP_Y + 8.6, TOWER_Z + 16.5), 0.14);
-          camera.lookAt(0, 6.2, 4.5);
+          camera.position.lerp(_tempVec.set(charPos.x * 0.45, TOP_Y + 6.4, TOWER_Z + 11.5), 0.14);
+          camera.lookAt(0, 7.2, 2.5);
         } else {
-          camera.position.lerp(_tempVec.set(charPos.x * 0.35, TOP_Y + 7.4, TOWER_Z + 14.2), 0.14);
-          camera.lookAt(0, 6.8, 3.8);
+          camera.position.lerp(_tempVec.set(charPos.x * 0.45, TOP_Y + 5.6, TOWER_Z + 10.2), 0.14);
+          camera.lookAt(0, 7.6, 2.2);
         }
       }
 
