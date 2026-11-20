@@ -15,8 +15,8 @@
       --cyan: #06B6D4;
       --palm: #16A34A;
       --cash: #22C55E;
-      --panel: rgba(10, 12, 16, 0.86);
-      --border: rgba(253, 224, 71, 0.24);
+      --panel: rgba(10, 12, 16, 0.88);
+      --border: rgba(253, 224, 71, 0.25);
       --text: #F8FAFC;
       --muted: #CBD5E1;
     }
@@ -41,9 +41,11 @@
     .game-stage-wrap {
       position: relative;
       width: 100%;
+      max-width: 1600px;
+      margin: 0 auto;
       height: 100dvh;
-      min-height: 600px;
-      max-height: 1020px;
+      min-height: 580px;
+      max-height: 1040px;
       overflow: hidden;
       background: linear-gradient(180deg, #F59E0B 0%, #EA580C 48%, #0284C7 100%);
     }
@@ -96,13 +98,13 @@
     /* TOP HUD */
     .hud-top {
       position: absolute;
-      top: 8px;
-      left: 8px;
-      right: 8px;
+      top: 10px;
+      left: 10px;
+      right: 10px;
       display: flex;
       justify-content: space-between;
       align-items: flex-start;
-      gap: 8px;
+      gap: 10px;
       z-index: 10;
       pointer-events: none;
     }
@@ -110,8 +112,8 @@
     .hud-top > * { pointer-events: auto; }
 
     .mission-box {
-      padding: 8px 11px;
-      width: 340px;
+      padding: 9px 12px;
+      width: 345px;
       max-width: 100%;
     }
 
@@ -300,7 +302,7 @@
 
     .boss-bar-wrap {
       position: absolute;
-      top: 94px;
+      top: 96px;
       left: 50%;
       transform: translateX(-50%);
       width: min(340px, 88vw);
@@ -334,35 +336,65 @@
       transition: width 0.15s ease;
     }
 
-    /* COMPACT CLIMB BAR SITTING CLEANLY ABOVE BOTTOM DOCK */
-    .climb-banner {
+    /* CLIMB ARCADE CONTROLS */
+    .climb-controls-wrap {
       position: absolute;
-      bottom: 126px;
+      bottom: 118px;
       left: 50%;
       transform: translateX(-50%);
-      width: min(520px, 94vw);
-      padding: 6px 10px;
+      width: min(460px, 94vw);
       display: none;
+      flex-direction: column;
+      gap: 6px;
+      z-index: 11;
+    }
+
+    .climb-controls-wrap.active { display: flex; }
+
+    .climb-banner {
+      padding: 6px 10px;
+      display: flex;
       align-items: center;
       justify-content: space-between;
       gap: 8px;
-      z-index: 11;
       font-size: 11px;
       font-weight: 800;
     }
 
-    .climb-banner.active { display: flex; }
+    .climb-pad {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 8px;
+    }
+
+    .dodge-btn {
+      padding: 12px 10px;
+      border-radius: 12px;
+      background: rgba(10, 12, 16, 0.92);
+      border: 1px solid rgba(253, 224, 71, 0.45);
+      color: var(--gold);
+      font-size: 13px;
+      font-weight: 900;
+      letter-spacing: 0.06em;
+      cursor: pointer;
+      box-shadow: 0 6px 18px rgba(0, 0, 0, 0.45);
+    }
+
+    .dodge-btn:active {
+      transform: scale(0.97);
+      background: rgba(253, 224, 71, 0.22);
+    }
 
     /* BOTTOM DOCK */
     .hud-bottom {
       position: absolute;
-      bottom: 8px;
-      left: 8px;
-      right: 8px;
+      bottom: 10px;
+      left: 10px;
+      right: 10px;
       display: flex;
       justify-content: space-between;
       align-items: flex-end;
-      gap: 8px;
+      gap: 10px;
       z-index: 10;
       pointer-events: none;
     }
@@ -386,8 +418,8 @@
     }
 
     #radarCanvas {
-      width: 96px;
-      height: 96px;
+      width: 92px;
+      height: 92px;
       border-radius: 8px;
       background: rgba(7, 13, 20, 0.92);
       border: 1px solid rgba(6, 182, 212, 0.35);
@@ -397,22 +429,22 @@
       display: flex;
       flex-direction: column;
       align-items: center;
-      gap: 5px;
+      gap: 6px;
       flex: 1;
       min-width: 0;
     }
 
     .upgrades-row, .eggs-row {
       display: flex;
-      gap: 5px;
+      gap: 6px;
       flex-wrap: nowrap;
       justify-content: center;
       width: 100%;
     }
 
     .upg-btn {
-      padding: 5px 7px;
-      border-radius: 8px;
+      padding: 6px 8px;
+      border-radius: 9px;
       background: var(--panel);
       border: 1px solid rgba(255, 255, 255, 0.14);
       color: var(--text);
@@ -423,7 +455,7 @@
       flex-direction: column;
       align-items: flex-start;
       flex: 1;
-      max-width: 132px;
+      max-width: 138px;
       min-width: 0;
     }
 
@@ -440,7 +472,7 @@
 
     .egg-card {
       position: relative;
-      padding: 6px 8px;
+      padding: 6px 9px;
       border-radius: 9px;
       background: var(--panel);
       border: 1px solid rgba(255, 255, 255, 0.14);
@@ -449,7 +481,7 @@
       font-weight: 800;
       cursor: pointer;
       flex: 1;
-      max-width: 136px;
+      max-width: 138px;
       min-width: 0;
       overflow: hidden;
       text-align: left;
@@ -487,12 +519,12 @@
       flex-shrink: 0;
     }
 
-    /* MOBILE-FIRST OVERRIDES (< 760px) */
+    /* DEDICATED MOBILE GAME HUD (< 760px) */
     @media (max-width: 760px) {
       .hud-top {
         flex-direction: column;
         align-items: stretch;
-        gap: 5px;
+        gap: 4px;
         top: 6px;
         left: 6px;
         right: 6px;
@@ -501,78 +533,121 @@
       .mission-box {
         width: 100%;
         padding: 6px 9px;
+        border-radius: 10px;
       }
+
+      .brand-title { font-size: 12px; }
+      .quota-row { font-size: 9px; margin-bottom: 3px; }
+      .quota-bar { height: 5px; margin-bottom: 4px; }
 
       .right-hud {
         flex-direction: row;
         align-items: center;
         justify-content: space-between;
         width: 100%;
-        gap: 5px;
+        gap: 4px;
       }
 
       .stats-strip {
-        padding: 5px 7px;
-        gap: 4px;
+        padding: 4px 6px;
+        gap: 2px;
         flex: 1;
+        border-radius: 10px;
+        justify-content: space-between;
       }
 
       .stat-item {
-        padding: 0 4px;
+        padding: 0 3px;
+        border-right: 1px solid rgba(255, 255, 255, 0.08);
       }
 
-      .stat-val {
-        font-size: 11px;
-      }
+      .stat-item.hide-sm { display: none; }
+      .stat-label { font-size: 7.5px; }
+      .stat-val { font-size: 10.5px; }
 
       .action-row {
-        gap: 4px;
+        gap: 3px;
         flex-wrap: nowrap;
       }
 
       .btn {
-        padding: 5px 7px;
+        padding: 5px 6px;
         font-size: 9px;
+        border-radius: 7px;
+      }
+
+      /* Keep radar tucked out of center gameplay on phone */
+      .radar-box {
+        position: fixed;
+        top: 104px;
+        right: 6px;
+        padding: 3px;
+        border-radius: 9px;
+        z-index: 9;
+      }
+
+      .radar-title { display: none; }
+      #radarCanvas {
+        width: 54px;
+        height: 54px;
+        border-radius: 6px;
       }
 
       .boss-bar-wrap {
-        top: 118px;
+        top: 104px;
+        left: 6px;
+        right: 68px;
+        width: auto;
+        transform: none;
+        padding: 5px 8px;
+      }
+
+      .climb-controls-wrap {
+        bottom: 98px;
+        width: 95vw;
+        gap: 5px;
       }
 
       .climb-banner {
-        bottom: 116px;
         font-size: 10px;
         padding: 5px 8px;
+        border-radius: 9px;
+      }
+
+      .dodge-btn {
+        padding: 11px 8px;
+        font-size: 12px;
       }
 
       .hud-bottom {
         bottom: 6px;
         left: 6px;
         right: 6px;
-        gap: 5px;
+        gap: 4px;
+        align-items: stretch;
       }
 
-      .radar-box {
-        padding: 4px;
+      .center-controls { gap: 4px; }
+
+      .upgrades-row, .eggs-row { gap: 4px; }
+
+      .upg-btn, .egg-card {
+        padding: 4px 6px;
+        border-radius: 8px;
+        font-size: 9.5px;
       }
 
-      #radarCanvas {
-        width: 68px;
-        height: 68px;
-      }
+      .egg-stats, .upg-sub { font-size: 8.5px; }
 
       .audio-box {
         padding: 4px;
         gap: 4px;
+        justify-content: center;
       }
 
       .audio-box .btn {
-        padding: 5px 6px;
-        font-size: 8.5px;
-      }
-
-      .upg-btn, .egg-card {
-        padding: 4px 6px;
+        padding: 5px 5px;
+        font-size: 8px;
       }
     }
 
@@ -750,7 +825,7 @@
           <div class="quota-fill" id="quotaFill"></div>
         </div>
         <div class="mission-meta">
-          <span class="timer-pill" id="timerPill">40.0s (PAUSED ON CLIMB)</span>
+          <span class="timer-pill" id="timerPill">40.0s • 1.0x SPEED</span>
           <button class="ca-pill" id="topCopyCa" type="button" title="Copy Contract Address">
             <span>CA:</span>
             <span id="shortCaText">EGG111...1pump</span>
@@ -765,10 +840,10 @@
             <span class="stat-val cash" id="cashVal">$0</span>
           </div>
           <div class="stat-item">
-            <span class="stat-label">CLIMB HITS</span>
+            <span class="stat-label">HITS</span>
             <span class="stat-val danger" id="climbHitsVal">0 / 3</span>
           </div>
-          <div class="stat-item">
+          <div class="stat-item hide-sm">
             <span class="stat-label">BEST</span>
             <span class="stat-val" id="bestVal">$0</span>
           </div>
@@ -780,11 +855,11 @@
             <span class="stat-label">STREAK</span>
             <span class="stat-val" id="streakVal">0 (1.0x)</span>
           </div>
-          <div class="stat-item">
+          <div class="stat-item hide-sm">
             <span class="stat-label">WIND</span>
             <span class="stat-val" id="windVal">0 KT</span>
           </div>
-          <div class="stat-item">
+          <div class="stat-item hide-sm">
             <span class="stat-label">WANTED</span>
             <span class="stat-val stars" id="starsVal">★☆☆☆☆</span>
           </div>
@@ -809,15 +884,21 @@
       </div>
     </div>
 
-    <div class="panel climb-banner active" id="climbBanner">
-      <span>Tap Left/Right or A/D to dodge • Watch warning flash • Speed escalates! (3 hits = LOSE)</span>
-      <button class="btn primary" id="skipClimbBtn" type="button">NEST [ENTER]</button>
+    <div class="climb-controls-wrap active" id="climbControlsWrap">
+      <div class="panel climb-banner">
+        <span>Watch top warning hold (1.2s) before drop • 3 hits = LOSE!</span>
+        <button class="btn primary" id="skipClimbBtn" type="button">NEST [ENTER]</button>
+      </div>
+      <div class="climb-pad">
+        <button class="dodge-btn" id="dodgeLeftBtn" type="button">◀ DODGE LEFT</button>
+        <button class="dodge-btn" id="dodgeRightBtn" type="button">DODGE RIGHT ▶</button>
+      </div>
     </div>
 
     <div class="hud-bottom">
       <div class="panel radar-box">
         <span class="radar-title">LEONIDA RADAR</span>
-        <canvas id="radarCanvas" width="96" height="96"></canvas>
+        <canvas id="radarCanvas" width="92" height="92"></canvas>
       </div>
 
       <div class="center-controls">
@@ -871,7 +952,7 @@
       </div>
 
       <div class="tab-pane active" id="tab-brief">
-        <p><strong>THE NEST ($EGG)</strong> brings the Leonida tower-nest egg drop to a golden-hour coastal boulevard. Dodge compact button-phone style hazards across 4 lanes/sides as speed escalates over time (3 hits = lose). At the nest deck, drag to aim and release to watch your character swing and throw the egg onto targets below. Missing pays <strong>$0</strong>.</p>
+        <p><strong>THE NEST ($EGG)</strong> brings the Leonida tower-nest egg drop to a golden-hour coastal boulevard. Watch hazards hold at the top of the ladder for ~1.25s before dropping across 4 lanes/sides—dodge left/right as speed intensifies (3 hits = lose). At the nest deck, see both your character on top and the targets below—drag to aim and release to throw. Missing pays <strong>$0</strong>.</p>
       </div>
 
       <div class="tab-pane" id="tab-targets">
@@ -986,7 +1067,7 @@
       return `${Math.round(n).toLocaleString()}`;
     }
 
-    const BEST_KEY = "the_nest_egg_best_cash_v7";
+    const BEST_KEY = "the_nest_egg_best_cash_v8";
     const state = {
       phase: "climb",
       wave: 1,
@@ -1015,7 +1096,7 @@
       climbHits: 0,
       climbStunTimer: 0,
       climbKnockTimer: 0,
-      aimPoint: new THREE.Vector3(0, 0.12, 2.5),
+      aimPoint: new THREE.Vector3(0, 0.12, 4.5),
       modalOpen: false,
       simTime: 0
     };
@@ -1161,7 +1242,7 @@
     scene.fog = new THREE.FogExp2(0xF59E0B, 0.0045);
 
     function getBaseFov() {
-      return window.innerWidth < 760 ? 60 : 52;
+      return window.innerWidth < 760 ? 64 : 54;
     }
 
     const camera = new THREE.PerspectiveCamera(
@@ -1611,11 +1692,11 @@
       }
 
       const heldEgg = new THREE.Mesh(
-        new THREE.SphereGeometry(0.44, 14, 14),
+        new THREE.SphereGeometry(0.46, 14, 14),
         new THREE.MeshStandardMaterial({
           map: eggSkins.classic,
           emissive: 0x92400E,
-          emissiveIntensity: 0.55,
+          emissiveIntensity: 0.6,
           roughness: 0.25
         })
       );
@@ -1635,14 +1716,14 @@
     });
     scene.add(playerChar.group);
 
-    // Button-phone style 4-lane / 4-side telegraphed obstacles with escalating speed & telegraph cues
+    // Top-hold-then-drop obstacles across 4 lanes/sides (button-phone arcade style)
     const CLIMB_LANES = [-1.8, -0.6, 0.6, 1.8];
     const ladderObstacles = [];
 
-    function createClimbObstacle(laneIdx, yPos, sideIndex) {
+    function createClimbObstacle(laneIdx, sideIndex, initialDelay) {
       const grp = new THREE.Group();
       const body = new THREE.Mesh(
-        new THREE.BoxGeometry(0.56, 0.34, 0.46),
+        new THREE.BoxGeometry(0.54, 0.32, 0.44),
         new THREE.MeshStandardMaterial({
           color: 0xDC2626,
           emissive: 0x7F1D1D,
@@ -1653,40 +1734,39 @@
       grp.add(body);
 
       const core = new THREE.Mesh(
-        new THREE.BoxGeometry(0.42, 0.16, 0.52),
+        new THREE.BoxGeometry(0.4, 0.14, 0.5),
         new THREE.MeshBasicMaterial({ color: 0xFDE047 })
       );
       grp.add(core);
 
-      // Telegraph cue bar right in front of the obstacle so the player sees it coming
       const cueMat = new THREE.MeshBasicMaterial({
         color: 0xFDE047,
         transparent: true,
-        opacity: 0.85
+        opacity: 0.9
       });
-      const cue = new THREE.Mesh(new THREE.BoxGeometry(0.62, 0.12, 0.08), cueMat);
+      const cue = new THREE.Mesh(new THREE.BoxGeometry(0.66, 0.12, 0.1), cueMat);
       cue.position.set(0, -0.34, 0.22);
       grp.add(cue);
 
-      const sideZ = TOWER_Z + 1.55 + ((sideIndex % 4) - 1.5) * 0.24;
-      grp.position.set(CLIMB_LANES[laneIdx], yPos, sideZ);
+      const sideZ = TOWER_Z + 1.55 + ((sideIndex % 4) - 1.5) * 0.22;
+      grp.position.set(CLIMB_LANES[laneIdx], TOP_Y - 0.3, sideZ);
       scene.add(grp);
 
       return {
         mesh: grp,
-        cue,
         cueMat,
         laneIdx,
-        y: yPos,
+        y: TOP_Y - 0.3,
         sideIndex,
-        speedMult: 0.9 + (sideIndex % 3) * 0.18,
+        holdTimer: initialDelay,
+        speedMult: 0.92 + (sideIndex % 3) * 0.16,
         hitCooldown: 0
       };
     }
 
     for (let i = 0; i < 4; i++) {
       const lIdx = (i + 1) % CLIMB_LANES.length;
-      ladderObstacles.push(createClimbObstacle(lIdx, TOP_Y - 0.5 - i * 3.5, i));
+      ladderObstacles.push(createClimbObstacle(lIdx, i, 0.6 + i * 0.85));
     }
 
     const aimRing = new THREE.Mesh(
@@ -1694,7 +1774,7 @@
       new THREE.MeshBasicMaterial({ color: 0xFDE047, side: THREE.DoubleSide })
     );
     aimRing.rotation.x = -Math.PI / 2;
-    aimRing.position.set(0, 0.12, 2.5);
+    aimRing.position.set(0, 0.12, 4.5);
     aimRing.visible = false;
     scene.add(aimRing);
 
@@ -2025,17 +2105,17 @@
       state.climbStunTimer = 0;
       state.climbKnockTimer = 0;
       state.reloadEggTimer = 0;
-      document.getElementById("climbBanner").classList.remove("active");
+      document.getElementById("climbControlsWrap").classList.remove("active");
       document.getElementById("phaseLabel").textContent = "NEST DECK — DRAG & RELEASE EGG";
       aimRing.visible = true;
       playerChar.heldEgg.visible = true;
-      playerChar.group.position.set(1.2, TOP_Y + 0.35, TOWER_Z + 1.65);
+      playerChar.group.position.set(1.8, TOP_Y + 0.35, TOWER_Z + 1.85);
       playerChar.group.rotation.set(0, 0.25, 0);
       playerChar.leftLeg.pivot.rotation.x = 0;
       playerChar.rightLeg.pivot.rotation.x = 0;
       playerChar.leftLeg.knee.rotation.x = 0;
       playerChar.rightLeg.knee.rotation.x = 0;
-      spawnCallout(new THREE.Vector3(1.2, TOP_Y + 2.8, TOWER_Z + 1.65), "40.0s CLOCK LIVE!", "warn");
+      spawnCallout(new THREE.Vector3(1.8, TOP_Y + 2.8, TOWER_Z + 1.85), "40.0s CLOCK LIVE!", "warn");
     }
 
     function startClimbForWave() {
@@ -2055,12 +2135,13 @@
       aimRing.visible = false;
       trajectoryDots.forEach((d) => (d.visible = false));
       playerChar.heldEgg.visible = false;
-      document.getElementById("climbBanner").classList.add("active");
+      document.getElementById("climbControlsWrap").classList.add("active");
       document.getElementById("phaseLabel").textContent = "CLIMBING LADDER";
       ladderObstacles.forEach((obs, idx) => {
-        obs.y = TOP_Y - 0.5 - idx * 3.5;
+        obs.y = TOP_Y - 0.3;
         obs.laneIdx = (idx + 1) % CLIMB_LANES.length;
         obs.sideIndex = idx % 4;
+        obs.holdTimer = 0.6 + idx * 0.85;
         obs.hitCooldown = 0;
       });
       populateWaveTargets();
@@ -2125,12 +2206,22 @@
     });
 
     function stepClimbLane(deltaIdx) {
+      if (state.phase !== "climb" || state.modalOpen) return;
       const next = Math.max(0, Math.min(CLIMB_LANES.length - 1, state.climbLaneIdx + deltaIdx));
       if (next !== state.climbLaneIdx) {
         state.climbLaneIdx = next;
         AudioEngine.miss();
       }
     }
+
+    document.getElementById("dodgeLeftBtn").addEventListener("pointerdown", (e) => {
+      e.stopPropagation();
+      stepClimbLane(-1);
+    });
+    document.getElementById("dodgeRightBtn").addEventListener("pointerdown", (e) => {
+      e.stopPropagation();
+      stepClimbLane(1);
+    });
 
     const keys = new Set();
     window.addEventListener("keydown", (e) => {
@@ -2187,9 +2278,8 @@
       if (state.phase === "climb") {
         const rect = canvas.getBoundingClientRect();
         const relX = (e.clientX - rect.left) / rect.width;
-        if (relX < 0.42) stepClimbLane(-1);
-        else if (relX > 0.58) stepClimbLane(1);
-        else enterNestPhase();
+        if (relX < 0.45) stepClimbLane(-1);
+        else if (relX > 0.55) stepClimbLane(1);
         return;
       }
       if (state.phase === "nest") {
@@ -2458,10 +2548,10 @@
 
         if (!isStunned && !isKnocked) {
           const targetX = CLIMB_LANES[state.climbLaneIdx];
-          state.climbX += (targetX - state.climbX) * Math.min(1, dt * 16);
+          state.climbX += (targetX - state.climbX) * Math.min(1, dt * 18);
           state.climbY = Math.min(TOP_Y, state.climbY + dt * (climbHeld ? 3.5 : 1.15));
         } else if (isKnocked) {
-          state.climbY = Math.max(0.6, state.climbY - dt * 5.2);
+          state.climbY = Math.max(0.6, state.climbY - dt * 5.0);
         }
 
         const px = state.climbX + (isStunned ? Math.sin(state.simTime * 50) * 0.14 : 0);
@@ -2484,32 +2574,42 @@
         playerChar.leftLeg.knee.rotation.x = 0.65 + Math.max(0, -stepOsc) * 0.45;
         playerChar.rightLeg.knee.rotation.x = 0.65 + Math.max(0, stepOsc) * 0.45;
 
+        // Visible top hold (~1.25s tightening with intensity) right above the player's view before dropping
+        const topPreviewY = Math.min(TOP_Y - 0.25, py + (isMobile ? 5.6 : 6.2));
         for (const obs of ladderObstacles) {
           if (obs.hitCooldown > 0) obs.hitCooldown -= dt;
-          const dropSpeed = 5.4 * obs.speedMult * escalation;
-          obs.y -= dt * dropSpeed;
-
-          if (obs.y < 1.0) {
-            obs.y = TOP_Y - 0.4;
-            // Pick a lane that isn't identical to all other active top obstacles
-            const candidate = Math.floor(Math.random() * CLIMB_LANES.length);
-            obs.laneIdx = candidate;
-            obs.sideIndex = (obs.sideIndex + 1) % 4;
-            obs.speedMult = 0.85 + Math.random() * 0.42;
-          }
 
           const obsX = CLIMB_LANES[obs.laneIdx];
-          const sideZ = TOWER_Z + 1.55 + ((obs.sideIndex % 4) - 1.5) * 0.24;
+          const sideZ = TOWER_Z + 1.55 + ((obs.sideIndex % 4) - 1.5) * 0.22;
+
+          if (obs.holdTimer > 0) {
+            obs.holdTimer -= dt;
+            obs.y = topPreviewY;
+            obs.mesh.position.set(obsX, obs.y, sideZ);
+            obs.mesh.rotation.z = Math.sin(state.simTime * 28) * 0.25;
+            obs.cueMat.color.setHex(0xEF4444);
+            obs.cueMat.opacity = 0.5 + Math.abs(Math.sin(state.simTime * 24)) * 0.5;
+            continue;
+          }
+
+          const dropSpeed = 5.6 * obs.speedMult * escalation;
+          obs.y -= dt * dropSpeed;
+          obs.cueMat.color.setHex(0xFDE047);
+          obs.cueMat.opacity = 0.85;
+
+          if (obs.y < Math.max(0.5, py - 2.5)) {
+            obs.laneIdx = Math.floor(Math.random() * CLIMB_LANES.length);
+            obs.sideIndex = (obs.sideIndex + 1) % 4;
+            obs.speedMult = 0.9 + Math.random() * 0.42;
+            obs.holdTimer = Math.max(0.55, 1.35 / escalation);
+            obs.y = topPreviewY;
+          }
+
           obs.mesh.position.set(obsX, obs.y, sideZ);
-          obs.mesh.rotation.z = state.simTime * 5 * (obs.sideIndex % 2 === 0 ? 1 : -1);
+          obs.mesh.rotation.z = state.simTime * 5.5 * (obs.sideIndex % 2 === 0 ? 1 : -1);
 
-          // Telegraph cue pulses brightly right before it reaches the player
           const distToPlayerY = obs.y - (py + 1.1);
-          const incomingSoon = distToPlayerY > 0 && distToPlayerY < 4.5;
-          obs.cueMat.color.setHex(incomingSoon ? 0xEF4444 : 0xFDE047);
-          obs.cueMat.opacity = incomingSoon ? 0.65 + Math.abs(Math.sin(state.simTime * 22)) * 0.35 : 0.45;
-
-          if (obs.hitCooldown <= 0 && Math.abs(distToPlayerY) < 0.48 && Math.abs(obsX - px) < 0.58) {
+          if (obs.hitCooldown <= 0 && Math.abs(distToPlayerY) < 0.48 && Math.abs(obsX - px) < 0.56) {
             obs.hitCooldown = 1.0;
             state.climbHits++;
             state.climbStunTimer = 0.65;
@@ -2527,9 +2627,9 @@
           }
         }
 
-        const camDist = isMobile ? 12.2 : 10.6;
-        camera.position.lerp(_tempVec.set(px * 0.22, py + 2.3, TOWER_Z + camDist), 0.14);
-        camera.lookAt(px * 0.2, py + 1.3, TOWER_Z + 1.2);
+        const camDist = isMobile ? 12.6 : 10.8;
+        camera.position.lerp(_tempVec.set(px * 0.2, py + 2.6, TOWER_Z + camDist), 0.14);
+        camera.lookAt(px * 0.15, py + 2.2, TOWER_Z + 1.2);
 
         if (state.climbY >= TOP_Y) enterNestPhase();
       } else if (state.phase === "nest") {
@@ -2567,7 +2667,6 @@
         const lookDz = state.aimPoint.z - playerChar.group.position.z;
         playerChar.group.rotation.y = Math.atan2(lookDx, lookDz) * 0.72;
 
-        // Character wind-up while dragging and full throw swing on release
         if (state.throwAnimTimer > 0) {
           state.throwAnimTimer = Math.max(0, state.throwAnimTimer - dt);
           const tNorm = 1 - state.throwAnimTimer / 0.48;
@@ -2604,12 +2703,15 @@
           trajectoryDots.forEach((d) => (d.visible = false));
         }
 
-        // Camera frames your character clearly on the nest deck plus the drop zone below
+        // Dual-view elevated camera: keeps character on top AND lawyers/targets below both in frame
         const charPos = playerChar.group.position;
-        const camBack = isMobile ? 9.2 : 7.8;
-        const camUp = isMobile ? 3.8 : 3.3;
-        camera.position.lerp(_tempVec.set(charPos.x + 1.2, charPos.y + camUp, charPos.z + camBack), 0.14);
-        camera.lookAt(charPos.x * 0.4, charPos.y + 0.9, charPos.z + 4.2);
+        if (isMobile) {
+          camera.position.lerp(_tempVec.set(charPos.x * 0.45, TOP_Y + 6.4, TOWER_Z + 11.5), 0.14);
+          camera.lookAt(0, 7.2, 2.5);
+        } else {
+          camera.position.lerp(_tempVec.set(charPos.x * 0.45, TOP_Y + 5.6, TOWER_Z + 10.2), 0.14);
+          camera.lookAt(0, 7.6, 2.2);
+        }
       }
 
       for (let i = 0; i < targets.length; i++) {
