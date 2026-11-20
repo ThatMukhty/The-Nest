@@ -112,7 +112,7 @@
     .mission-box {
       padding: 10px 14px;
       min-width: 280px;
-      max-width: 380px;
+      max-width: 390px;
     }
 
     .mission-head {
@@ -246,6 +246,7 @@
     }
 
     .stat-val.cash { color: var(--cash); }
+    .stat-val.danger { color: var(--coral); }
     .stat-val.stars { color: var(--gold); letter-spacing: 1px; }
 
     .action-row {
@@ -413,7 +414,7 @@
       display: flex;
       flex-direction: column;
       align-items: flex-start;
-      min-width: 112px;
+      min-width: 116px;
     }
 
     .upg-btn:hover:not(:disabled) { border-color: var(--gold); }
@@ -626,7 +627,7 @@
           <span class="chain-badge" id="hudChain">SOLANA // PUMPFUN</span>
         </div>
         <div class="quota-row">
-          <span id="quotaLabel">WAVE 1 QUOTA: $0 / $6,000</span>
+          <span id="quotaLabel">WAVE 1 QUOTA: $0 / $750K</span>
           <span id="phaseLabel">CLIMBING TOWER</span>
         </div>
         <div class="quota-bar">
@@ -646,6 +647,10 @@
           <div class="stat-item">
             <span class="stat-label">CASH</span>
             <span class="stat-val cash" id="cashVal">$0</span>
+          </div>
+          <div class="stat-item">
+            <span class="stat-label">CLIMB HITS</span>
+            <span class="stat-val danger" id="climbHitsVal">0 / 3</span>
           </div>
           <div class="stat-item">
             <span class="stat-label">BEST</span>
@@ -689,7 +694,7 @@
     </div>
 
     <div class="panel climb-banner active" id="climbBanner">
-      <span>Hold W/↑ to climb • A/D or ←/→ to dodge • Struts stun & knock back!</span>
+      <span>Hold W/↑ to climb • A/D or ←/→ to dodge • 3 strut hits before reaching top = LOSE!</span>
       <button class="btn primary" id="skipClimbBtn" type="button">SKIP TO NEST [ENTER]</button>
     </div>
 
@@ -703,32 +708,32 @@
         <div class="upgrades-row">
           <button class="upg-btn" id="upgWind" type="button">
             <span>[Q] WIND STAB <span id="lvlWind">Lv.0/3</span></span>
-            <span class="upg-sub" id="costWind">$3.5K</span>
+            <span class="upg-sub" id="costWind">$300K</span>
           </button>
           <button class="upg-btn" id="upgTurbo" type="button">
             <span>[W] TURBO NEST <span id="lvlTurbo">Lv.0/3</span></span>
-            <span class="upg-sub" id="costTurbo">$4.5K</span>
+            <span class="upg-sub" id="costTurbo">$350K</span>
           </button>
           <button class="upg-btn" id="upgGold" type="button">
             <span>[E] GOLD YOLK <span id="lvlGold">Lv.0/3</span></span>
-            <span class="upg-sub" id="costGold">$6.0K</span>
+            <span class="upg-sub" id="costGold">$400K</span>
           </button>
         </div>
 
         <div class="eggs-row">
           <button class="egg-card selected" id="eggClassic" type="button">
             <div>[1] CLASSIC</div>
-            <div class="egg-stats">1.0x • 2.4m • Fast Drop</div>
+            <div class="egg-stats">1.0x • 2.1m • Fast Drop</div>
             <div class="cd-bar" id="cdClassic"></div>
           </button>
           <button class="egg-card" id="eggBull" type="button">
             <div>[2] BULL</div>
-            <div class="egg-stats">2.0x • 4.2m • Stun/Crack</div>
+            <div class="egg-stats">2.0x • 3.8m • Stun/Crack</div>
             <div class="cd-bar" id="cdBull"></div>
           </button>
           <button class="egg-card" id="eggWhale" type="button">
             <div>[3] WHALE</div>
-            <div class="egg-stats">5.0x • 6.8m • 3x Split</div>
+            <div class="egg-stats">5.0x • 6.2m • 3x Split</div>
             <div class="cd-bar" id="cdWhale"></div>
           </button>
         </div>
@@ -750,22 +755,22 @@
       </div>
 
       <div class="tab-pane active" id="tab-brief">
-        <p><strong>THE NEST ($EGG)</strong> brings the Leonida tower-nest egg drop to a golden-hour coastal boulevard. Face the ladder as you climb, hold <strong>W / ↑</strong> to ascend, and steer <strong>A/D or ←/→</strong> past telegraphed struts while your <strong>40.0s</strong> wave timer stays paused until you reach the nest. At the top, aim onto a target and release click/touch or <strong>Space</strong> to hurl spinning eggs onto the Sleazy Lawyer and targets below.</p>
+        <p><strong>THE NEST ($EGG)</strong> brings the Leonida tower-nest egg drop to a golden-hour coastal boulevard. Climb the narrow two-sided tower by holding <strong>W / ↑</strong> and steering <strong>A/D or ←/→</strong> past clearly visible incoming struts while your <strong>40.0s</strong> wave timer stays paused. Take <strong>3 strut hits</strong> before reaching the top and you lose the climb! At the nest deck, aim onto a target and release click/touch or <strong>Space</strong> to watch your character wind up and hurl spinning eggs below.</p>
       </div>
 
       <div class="tab-pane" id="tab-targets">
         <div class="info-grid-3">
           <div class="mini-box">
-            <strong>Sleazy Lawyer (+$2,500 + $1,000 Drop)</strong>
-            <span>Charcoal suit jacket, white collar, crimson tie, dark shades, and gold briefcase. Drops a cash stack on hit.</span>
+            <strong>Sleazy Lawyer (+$120K + $50K Drop)</strong>
+            <span>Tailored dark suit, white collar, crimson tie, sunglasses, and gold briefcase. Must take a direct egg hit.</span>
           </div>
           <div class="mini-box">
-            <strong>Scam Dev (+$5,000) & Rugger Boss (+$25,000)</strong>
-            <span>Scam Dev wears a cyan tech hoodie, glowing visor, and server backpack rig (2 hits or heavy egg). Boss spawns every 3rd wave with 5 HP.</span>
+            <strong>Scam Dev (+$220K) & Rugger Boss (+$900K)</strong>
+            <span>Scam Dev wears a cyan tech hoodie, glowing visor, and dual server pack (2 hits or heavy egg). Boss spawns every 3rd wave with 5 HP.</span>
           </div>
           <div class="mini-box">
-            <strong>Jeet (+$500) & Paper Hands (+$1,000)</strong>
-            <span>Jeet wears a neon-green windbreaker and cap and reverses on close calls; Paper Hands carries a paper chart and speeds up on nearby blasts.</span>
+            <strong>High-Tier Upgrades ($300K – $500K)</strong>
+            <span>Spend earned cash on Wind Stab, Turbo Nest, and Gold Yolk upgrades priced between $300K and $500K to push past steep wave quotas.</span>
           </div>
         </div>
       </div>
@@ -861,18 +866,18 @@
     function formatMoney(n) {
       const abs = Math.abs(Math.round(n));
       if (abs >= 1000000) return `${(n / 1000000).toFixed(2).replace(/\.00$/, "")}M`;
-      if (abs >= 1000) return `${(n / 1000).toFixed(1).replace(/\.0$/, "")}K`;
+      if (abs >= 1000) return `${Math.round(n / 1000)}K`;
       return `${Math.round(n).toLocaleString()}`;
     }
 
-    const BEST_KEY = "the_nest_egg_best_cash_v2";
+    const BEST_KEY = "the_nest_egg_best_cash_v3";
     const state = {
       phase: "climb",
       wave: 1,
       waveTime: 40.0,
       cash: 0,
       bestCash: Number(localStorage.getItem(BEST_KEY) || 0),
-      quota: 6000,
+      quota: 750000,
       streak: 0,
       maxStreak: 0,
       hits: 0,
@@ -884,10 +889,11 @@
       cooldowns: { classic: 0, bull: 0, whale: 0 },
       upgrades: { wind: 0, turbo: 0, gold: 0 },
       charging: false,
-      chargePower: 0.6,
+      chargePower: 0.65,
       throwAnimTimer: 0,
       climbProgress: 0,
       climbLaneX: 0,
+      climbHits: 0,
       climbStunTimer: 0,
       climbKnockTimer: 0,
       aimPoint: new THREE.Vector3(0, 0.12, 5.5),
@@ -1066,15 +1072,16 @@
     }
 
     function getQuotaForWave(w) {
-      return Math.round(6000 * Math.pow(1.35, w - 1));
+      return Math.round(750000 * Math.pow(1.3, w - 1));
     }
 
+    // Expensive upgrades in the $300K - $500K range
     function getUpgradeCost(key) {
       const lvl = state.upgrades[key];
       const tiers = {
-        wind: [3500, 8500, 18000],
-        turbo: [4500, 10000, 22000],
-        gold: [6000, 14000, 30000]
+        wind: [300000, 380000, 460000],
+        turbo: [320000, 400000, 480000],
+        gold: [350000, 425000, 500000]
       };
       return tiers[key][Math.min(2, lvl)];
     }
@@ -1202,7 +1209,8 @@
       palms.push({ tree, phase: i * 0.8 });
     }
 
-    const TOWER_Z = -11;
+    // NARROW TWO-SIDED TOWER (slim profile, tight depth so there is not too much empty space)
+    const TOWER_Z = -10.5;
     const TOP_Y = 16;
 
     const towerGroup = new THREE.Group();
@@ -1210,7 +1218,7 @@
     scene.add(towerGroup);
 
     const shaft = new THREE.Mesh(
-      new THREE.BoxGeometry(7.2, TOP_Y, 6.2),
+      new THREE.BoxGeometry(5.6, TOP_Y, 2.4),
       new THREE.MeshStandardMaterial({ color: 0xE2E8F0, roughness: 0.75 })
     );
     shaft.position.y = TOP_Y / 2;
@@ -1220,26 +1228,26 @@
 
     const trimMat = new THREE.MeshStandardMaterial({ color: 0xEA580C, roughness: 0.6 });
     [4, 9, 14].forEach((ty) => {
-      const band = new THREE.Mesh(new THREE.BoxGeometry(7.45, 0.55, 6.45), trimMat);
+      const band = new THREE.Mesh(new THREE.BoxGeometry(5.8, 0.5, 2.6), trimMat);
       band.position.y = ty;
       towerGroup.add(band);
     });
 
     const deck = new THREE.Mesh(
-      new THREE.BoxGeometry(10.5, 0.7, 7.5),
+      new THREE.BoxGeometry(8.2, 0.7, 4.4),
       new THREE.MeshStandardMaterial({ color: 0x334155, roughness: 0.7 })
     );
-    deck.position.set(0, TOP_Y, 1.5);
+    deck.position.set(0, TOP_Y, 0.7);
     deck.castShadow = true;
     deck.receiveShadow = true;
     towerGroup.add(deck);
 
     const nestGroup = new THREE.Group();
-    nestGroup.position.set(-2.3, TOP_Y + 0.55, 0.6);
+    nestGroup.position.set(-1.9, TOP_Y + 0.55, 0.1);
     towerGroup.add(nestGroup);
 
     const nestRing = new THREE.Mesh(
-      new THREE.TorusGeometry(1.45, 0.36, 10, 22),
+      new THREE.TorusGeometry(1.35, 0.34, 10, 22),
       new THREE.MeshStandardMaterial({ color: 0x92400E, roughness: 0.95 })
     );
     nestRing.rotation.x = Math.PI / 2;
@@ -1253,34 +1261,34 @@
     };
     ["classic", "bull", "whale"].forEach((k, idx) => {
       const m = new THREE.Mesh(
-        new THREE.SphereGeometry(0.36, 14, 12),
+        new THREE.SphereGeometry(0.35, 14, 12),
         new THREE.MeshStandardMaterial({ map: eggSkins[k], roughness: 0.35 })
       );
       m.scale.set(0.85, 1.25, 0.85);
-      m.position.set((idx - 1) * 0.55, 0.25, idx % 2 === 0 ? -0.22 : 0.22);
+      m.position.set((idx - 1) * 0.52, 0.25, idx % 2 === 0 ? -0.2 : 0.2);
       nestGroup.add(m);
     });
 
     const mast = new THREE.Mesh(
-      new THREE.CylinderGeometry(0.14, 0.26, 6.5, 8),
+      new THREE.CylinderGeometry(0.14, 0.24, 5.5, 8),
       new THREE.MeshStandardMaterial({ color: 0xCBD5E1, metalness: 0.6, roughness: 0.3 })
     );
-    mast.position.set(0, TOP_Y + 3.5, -1.8);
+    mast.position.set(0, TOP_Y + 2.8, -0.8);
     towerGroup.add(mast);
 
     const beaconMat = new THREE.MeshBasicMaterial({ color: 0xEF4444 });
-    const beacon = new THREE.Mesh(new THREE.SphereGeometry(0.34, 10, 10), beaconMat);
-    beacon.position.set(0, TOP_Y + 6.9, -1.8);
+    const beacon = new THREE.Mesh(new THREE.SphereGeometry(0.32, 10, 10), beaconMat);
+    beacon.position.set(0, TOP_Y + 5.7, -0.8);
     towerGroup.add(beacon);
 
-    // Ladder with clear 3 lanes (-2.2, 0, +2.2)
+    // Narrow 2-sided ladder (-1.8 and +1.8 lanes) mounted right on the front tower face
     const ladderGroup = new THREE.Group();
-    ladderGroup.position.set(0, 0, TOWER_Z + 3.45);
+    ladderGroup.position.set(0, 0, TOWER_Z + 1.55);
     scene.add(ladderGroup);
 
     const railMat = new THREE.MeshStandardMaterial({ color: 0xFDE047, metalness: 0.3, roughness: 0.4 });
-    [-3.2, 3.2].forEach((rx) => {
-      const rail = new THREE.Mesh(new THREE.CylinderGeometry(0.13, 0.13, TOP_Y, 8), railMat);
+    [-2.5, 2.5].forEach((rx) => {
+      const rail = new THREE.Mesh(new THREE.CylinderGeometry(0.12, 0.12, TOP_Y, 8), railMat);
       rail.position.set(rx, TOP_Y / 2, 0);
       rail.castShadow = true;
       ladderGroup.add(rail);
@@ -1288,71 +1296,80 @@
 
     const rungMat = new THREE.MeshStandardMaterial({ color: 0xF8FAFC, roughness: 0.5 });
     for (let ry = 1.0; ry < TOP_Y; ry += 1.0) {
-      const rung = new THREE.Mesh(new THREE.CylinderGeometry(0.09, 0.09, 6.4, 8), rungMat);
+      const rung = new THREE.Mesh(new THREE.CylinderGeometry(0.085, 0.085, 5.0, 8), rungMat);
       rung.rotation.z = Math.PI / 2;
       rung.position.set(0, ry, 0);
       rung.castShadow = true;
       ladderGroup.add(rung);
     }
 
-    // GTA-style human-proportioned character with distinct archetype gear
+    // MORE REALISTIC TAPERED HUMAN CHARACTERS (sculpted torso, rounded head/joints, tapered limbs, distinct gear)
     function createHumanCharacter(opts = {}) {
       const g = new THREE.Group();
-      const torsoMat = new THREE.MeshStandardMaterial({ color: opts.torsoColor || 0xEA580C, roughness: 0.55 });
-      const pantsMat = new THREE.MeshStandardMaterial({ color: opts.pantsColor || 0x1E293B, roughness: 0.72 });
-      const skinMat = new THREE.MeshStandardMaterial({ color: opts.skinColor || 0xFDBA74, roughness: 0.62 });
-      const hairMat = new THREE.MeshStandardMaterial({ color: opts.hairColor || 0x111827, roughness: 0.75 });
-      const shoeMat = new THREE.MeshStandardMaterial({ color: 0x0F172A, roughness: 0.45 });
+      const torsoMat = new THREE.MeshStandardMaterial({ color: opts.torsoColor || 0xEA580C, roughness: 0.52 });
+      const pantsMat = new THREE.MeshStandardMaterial({ color: opts.pantsColor || 0x1E293B, roughness: 0.68 });
+      const skinMat = new THREE.MeshStandardMaterial({ color: opts.skinColor || 0xE5A67B, roughness: 0.58 });
+      const hairMat = new THREE.MeshStandardMaterial({ color: opts.hairColor || 0x111827, roughness: 0.72 });
+      const shoeMat = new THREE.MeshStandardMaterial({ color: 0x0F172A, roughness: 0.42 });
 
-      const hips = new THREE.Mesh(new THREE.BoxGeometry(0.76, 0.28, 0.46), pantsMat);
+      // Tapered athletic torso & pelvis
+      const hips = new THREE.Mesh(new THREE.CylinderGeometry(0.38, 0.34, 0.28, 12), pantsMat);
       hips.position.y = 0.86;
       hips.castShadow = true;
       g.add(hips);
 
-      const chest = new THREE.Mesh(new THREE.BoxGeometry(0.94, 0.74, 0.54), torsoMat);
+      const chest = new THREE.Mesh(new THREE.CylinderGeometry(0.46, 0.37, 0.72, 12), torsoMat);
+      chest.scale.set(1.05, 1, 0.65);
       chest.position.y = 1.36;
       chest.castShadow = true;
       g.add(chest);
 
-      const shoulderGeo = new THREE.SphereGeometry(0.21, 10, 10);
-      [-0.49, 0.49].forEach((sx) => {
+      const shoulderGeo = new THREE.SphereGeometry(0.18, 12, 12);
+      [-0.47, 0.47].forEach((sx) => {
         const cap = new THREE.Mesh(shoulderGeo, torsoMat);
         cap.position.set(sx, 1.66, 0);
         cap.castShadow = true;
         g.add(cap);
       });
 
-      const neck = new THREE.Mesh(new THREE.CylinderGeometry(0.13, 0.15, 0.2, 8), skinMat);
+      const neck = new THREE.Mesh(new THREE.CylinderGeometry(0.11, 0.13, 0.18, 10), skinMat);
       neck.position.y = 1.78;
       g.add(neck);
 
-      const head = new THREE.Mesh(new THREE.BoxGeometry(0.5, 0.52, 0.5), skinMat);
-      head.position.y = 2.12;
+      // Rounded human head + jawline + hair
+      const head = new THREE.Mesh(new THREE.SphereGeometry(0.26, 14, 14), skinMat);
+      head.scale.set(0.92, 1.12, 0.96);
+      head.position.y = 2.13;
       head.castShadow = true;
       g.add(head);
 
-      const hair = new THREE.Mesh(new THREE.BoxGeometry(0.54, 0.22, 0.54), hairMat);
-      hair.position.set(0, 2.39, -0.02);
+      const hair = new THREE.Mesh(new THREE.SphereGeometry(0.275, 14, 12, 0, Math.PI * 2, 0, Math.PI * 0.58), hairMat);
+      hair.scale.set(0.95, 1.05, 1.0);
+      hair.position.set(0, 2.17, -0.02);
       g.add(hair);
 
       function makeArm(side) {
         const pivot = new THREE.Group();
-        pivot.position.set(side * 0.54, 1.66, 0);
+        pivot.position.set(side * 0.51, 1.66, 0);
 
-        const upper = new THREE.Mesh(new THREE.BoxGeometry(0.24, 0.42, 0.24), torsoMat);
+        const upper = new THREE.Mesh(new THREE.CylinderGeometry(0.11, 0.095, 0.4, 10), torsoMat);
         upper.position.y = -0.2;
         upper.castShadow = true;
         pivot.add(upper);
 
         const elbow = new THREE.Group();
-        elbow.position.set(0, -0.42, 0);
-        const fore = new THREE.Mesh(new THREE.BoxGeometry(0.21, 0.4, 0.21), skinMat);
+        elbow.position.set(0, -0.41, 0);
+        const joint = new THREE.Mesh(new THREE.SphereGeometry(0.095, 8, 8), skinMat);
+        elbow.add(joint);
+
+        const fore = new THREE.Mesh(new THREE.CylinderGeometry(0.09, 0.075, 0.39, 10), skinMat);
         fore.position.y = -0.2;
         fore.castShadow = true;
         elbow.add(fore);
 
-        const hand = new THREE.Mesh(new THREE.SphereGeometry(0.13, 8, 8), skinMat);
-        hand.position.y = -0.43;
+        const hand = new THREE.Mesh(new THREE.SphereGeometry(0.1, 10, 10), skinMat);
+        hand.scale.set(0.9, 1.15, 0.8);
+        hand.position.y = -0.42;
         elbow.add(hand);
 
         pivot.add(elbow);
@@ -1362,21 +1379,24 @@
 
       function makeLeg(side) {
         const pivot = new THREE.Group();
-        pivot.position.set(side * 0.22, 0.74, 0);
+        pivot.position.set(side * 0.21, 0.74, 0);
 
-        const thigh = new THREE.Mesh(new THREE.BoxGeometry(0.27, 0.38, 0.28), pantsMat);
+        const thigh = new THREE.Mesh(new THREE.CylinderGeometry(0.135, 0.11, 0.38, 10), pantsMat);
         thigh.position.y = -0.18;
         thigh.castShadow = true;
         pivot.add(thigh);
 
         const knee = new THREE.Group();
         knee.position.set(0, -0.38, 0);
-        const shin = new THREE.Mesh(new THREE.BoxGeometry(0.23, 0.36, 0.24), pantsMat);
+        const kneeCap = new THREE.Mesh(new THREE.SphereGeometry(0.108, 8, 8), pantsMat);
+        knee.add(kneeCap);
+
+        const shin = new THREE.Mesh(new THREE.CylinderGeometry(0.105, 0.082, 0.36, 10), pantsMat);
         shin.position.y = -0.18;
         shin.castShadow = true;
         knee.add(shin);
 
-        const shoe = new THREE.Mesh(new THREE.BoxGeometry(0.26, 0.14, 0.4), shoeMat);
+        const shoe = new THREE.Mesh(new THREE.BoxGeometry(0.22, 0.12, 0.38), shoeMat);
         shoe.position.set(0, -0.37, 0.06);
         shoe.castShadow = true;
         knee.add(shoe);
@@ -1391,89 +1411,98 @@
       const leftLeg = makeLeg(-1);
       const rightLeg = makeLeg(1);
 
-      // Sleazy Lawyer: suit lapels, white shirt, red tie, shades, gold briefcase
+      // Sleazy Lawyer: crisp white shirt front, red tie, dark shades, gold briefcase
       if (opts.isLawyer) {
         const shirt = new THREE.Mesh(
-          new THREE.BoxGeometry(0.32, 0.68, 0.06),
+          new THREE.BoxGeometry(0.28, 0.62, 0.05),
           new THREE.MeshStandardMaterial({ color: 0xF8FAFC, roughness: 0.45 })
         );
-        shirt.position.set(0, 1.38, 0.26);
+        shirt.position.set(0, 1.38, 0.23);
         g.add(shirt);
 
         const tie = new THREE.Mesh(
-          new THREE.BoxGeometry(0.12, 0.54, 0.09),
+          new THREE.BoxGeometry(0.1, 0.5, 0.08),
           new THREE.MeshStandardMaterial({ color: 0xDC2626, roughness: 0.35 })
         );
-        tie.position.set(0, 1.36, 0.28);
+        tie.position.set(0, 1.36, 0.25);
         g.add(tie);
 
         const shades = new THREE.Mesh(
-          new THREE.BoxGeometry(0.54, 0.14, 0.11),
+          new THREE.BoxGeometry(0.46, 0.12, 0.1),
           new THREE.MeshStandardMaterial({ color: 0x090D16, roughness: 0.2, metalness: 0.65 })
         );
-        shades.position.set(0, 2.15, 0.25);
+        shades.position.set(0, 2.15, 0.23);
         g.add(shades);
 
         const briefcase = new THREE.Mesh(
-          new THREE.BoxGeometry(0.6, 0.42, 0.16),
+          new THREE.BoxGeometry(0.56, 0.38, 0.15),
           new THREE.MeshStandardMaterial({ color: 0xFDE047, metalness: 0.75, roughness: 0.2 })
         );
-        briefcase.position.set(0, -0.45, 0.06);
+        briefcase.position.set(0, -0.44, 0.06);
         briefcase.rotation.x = Math.PI / 2;
         rightArm.elbow.add(briefcase);
       }
 
-      // Scam Dev: glowing cyan visor + backpack server rig + utility belt
+      // Scam Dev: glowing cyan visor + backpack server rig + twin antennas
       if (opts.isScamDev) {
         const visor = new THREE.Mesh(
-          new THREE.BoxGeometry(0.56, 0.16, 0.14),
+          new THREE.BoxGeometry(0.48, 0.14, 0.12),
           new THREE.MeshBasicMaterial({ color: 0x06B6D4 })
         );
-        visor.position.set(0, 2.15, 0.25);
+        visor.position.set(0, 2.15, 0.23);
         g.add(visor);
 
         const pack = new THREE.Mesh(
-          new THREE.BoxGeometry(0.68, 0.62, 0.34),
+          new THREE.BoxGeometry(0.62, 0.58, 0.3),
           new THREE.MeshStandardMaterial({ color: 0x0F172A, metalness: 0.5, roughness: 0.35 })
         );
-        pack.position.set(0, 1.38, -0.42);
+        pack.position.set(0, 1.38, -0.36);
         g.add(pack);
 
-        const antenna = new THREE.Mesh(
-          new THREE.CylinderGeometry(0.03, 0.03, 0.55, 6),
-          new THREE.MeshBasicMaterial({ color: 0xFDE047 })
-        );
-        antenna.position.set(0.24, 1.95, -0.42);
-        g.add(antenna);
+        [-0.2, 0.2].forEach((ax) => {
+          const ant = new THREE.Mesh(
+            new THREE.CylinderGeometry(0.025, 0.025, 0.52, 6),
+            new THREE.MeshBasicMaterial({ color: 0xFDE047 })
+          );
+          ant.position.set(ax, 1.92, -0.36);
+          g.add(ant);
+        });
       }
 
-      // Jeet: bright cap + neon windbreaker
+      // Jeet: cap with bill
       if (opts.isJeet) {
-        const cap = new THREE.Mesh(
-          new THREE.BoxGeometry(0.54, 0.14, 0.66),
+        const capCrown = new THREE.Mesh(
+          new THREE.SphereGeometry(0.26, 12, 10, 0, Math.PI * 2, 0, Math.PI * 0.52),
           new THREE.MeshStandardMaterial({ color: 0x16A34A, roughness: 0.5 })
         );
-        cap.position.set(0, 2.38, 0.06);
-        g.add(cap);
+        capCrown.position.set(0, 2.22, 0);
+        g.add(capCrown);
+
+        const bill = new THREE.Mesh(
+          new THREE.BoxGeometry(0.32, 0.05, 0.24),
+          new THREE.MeshStandardMaterial({ color: 0x15803D, roughness: 0.5 })
+        );
+        bill.position.set(0, 2.24, 0.28);
+        g.add(bill);
       }
 
-      // Paper Hands: white chart sheet held in front
+      // Paper Hands: chart sheet held in left hand
       if (opts.isPaperHands) {
         const chart = new THREE.Mesh(
-          new THREE.BoxGeometry(0.52, 0.38, 0.04),
+          new THREE.BoxGeometry(0.48, 0.36, 0.04),
           new THREE.MeshStandardMaterial({ color: 0xF8FAFC, roughness: 0.4 })
         );
-        chart.position.set(0, -0.44, 0.12);
+        chart.position.set(0, -0.43, 0.12);
         chart.rotation.x = Math.PI / 3;
         leftArm.elbow.add(chart);
       }
 
       const heldEgg = new THREE.Mesh(
-        new THREE.SphereGeometry(0.24, 12, 12),
+        new THREE.SphereGeometry(0.25, 12, 12),
         new THREE.MeshStandardMaterial({ map: eggSkins.classic, roughness: 0.32 })
       );
       heldEgg.scale.set(0.85, 1.25, 0.85);
-      heldEgg.position.set(0, -0.45, 0.08);
+      heldEgg.position.set(0, -0.45, 0.1);
       heldEgg.visible = false;
       rightArm.elbow.add(heldEgg);
 
@@ -1483,42 +1512,46 @@
     const playerChar = createHumanCharacter({
       torsoColor: 0xEA580C,
       pantsColor: 0x0F172A,
-      skinColor: 0xFDBA74,
+      skinColor: 0xE5A67B,
       hairColor: 0x111827
     });
     scene.add(playerChar.group);
 
-    // TELEGRAPHED LADDER OBSTACLES
+    // HIGH-VISIBILITY LANE OBSTACLES (solid red/gold hazard bar + glowing front face so you see it directly)
     const ladderObstacles = [];
     function createClimbObstacle(laneX, yPos) {
       const grp = new THREE.Group();
       const body = new THREE.Mesh(
-        new THREE.BoxGeometry(1.55, 0.72, 0.9),
-        new THREE.MeshStandardMaterial({ color: 0xEF4444, roughness: 0.45 })
+        new THREE.BoxGeometry(1.5, 0.78, 1.1),
+        new THREE.MeshStandardMaterial({
+          color: 0xDC2626,
+          emissive: 0x7F1D1D,
+          roughness: 0.35
+        })
       );
       body.castShadow = true;
       grp.add(body);
 
-      const warnStrip = new THREE.Mesh(
-        new THREE.BoxGeometry(1.45, 0.22, 0.98),
+      const frontPlate = new THREE.Mesh(
+        new THREE.BoxGeometry(1.36, 0.34, 1.22),
         new THREE.MeshBasicMaterial({ color: 0xFDE047 })
       );
-      warnStrip.position.y = 0.24;
-      grp.add(warnStrip);
+      frontPlate.position.y = 0.06;
+      grp.add(frontPlate);
 
       const beaconBeam = new THREE.Mesh(
-        new THREE.CylinderGeometry(0.14, 0.14, 3.2, 8),
-        new THREE.MeshBasicMaterial({ color: 0xFDE047, transparent: true, opacity: 0.45 })
+        new THREE.CylinderGeometry(0.18, 0.18, 3.6, 8),
+        new THREE.MeshBasicMaterial({ color: 0xFDE047, transparent: true, opacity: 0.55 })
       );
-      beaconBeam.position.set(0, 1.9, 0);
+      beaconBeam.position.set(0, 2.0, 0.2);
       grp.add(beaconBeam);
 
-      grp.position.set(laneX, yPos, TOWER_Z + 3.55);
+      grp.position.set(laneX, yPos, TOWER_Z + 1.68);
       scene.add(grp);
-      return { mesh: grp, warnStrip, beaconBeam, laneX, y: yPos, hitCooldown: 0 };
+      return { mesh: grp, frontPlate, beaconBeam, laneX, y: yPos, hitCooldown: 0 };
     }
 
-    [-2.2, 0, 2.2].forEach((lx, idx) => {
+    [-1.8, 0, 1.8].forEach((lx, idx) => {
       ladderObstacles.push(createClimbObstacle(lx, TOP_Y - 1.5 - idx * 4.8));
     });
 
@@ -1594,45 +1627,45 @@
     const activeEggs = [];
     const particles = [];
 
-    // Balanced payouts aligned with upgrade costs
+    // Payouts tuned for $300K - $500K upgrades
     function createTargetEntity(type, x, z) {
-      let mesh, rig = null, hp = 1, maxHp = 1, baseCash = 2500, speed = 2.4;
+      let mesh, rig = null, hp = 1, maxHp = 1, baseCash = 120000, speed = 2.4;
       if (type === "lawyer") {
         const c = createHumanCharacter({
           torsoColor: 0x1E293B,
           pantsColor: 0x0F172A,
-          skinColor: 0xFDBA74,
+          skinColor: 0xE5A67B,
           hairColor: 0x090D16,
           isLawyer: true
         });
         c.group.scale.setScalar(1.25);
         rig = c;
         mesh = c.group;
-        baseCash = 2500;
+        baseCash = 120000;
         speed = 2.4;
       } else if (type === "jeet") {
         const c = createHumanCharacter({
           torsoColor: 0x22C55E,
           pantsColor: 0x334155,
-          skinColor: 0xFDBA74,
+          skinColor: 0xE5A67B,
           hairColor: 0xF59E0B,
           isJeet: true
         });
         rig = c;
         mesh = c.group;
-        baseCash = 500;
+        baseCash = 40000;
         speed = 3.1;
       } else if (type === "paperhands") {
         const c = createHumanCharacter({
           torsoColor: 0xFB7185,
           pantsColor: 0x1E293B,
-          skinColor: 0xFDBA74,
+          skinColor: 0xE5A67B,
           hairColor: 0x475569,
           isPaperHands: true
         });
         rig = c;
         mesh = c.group;
-        baseCash = 1000;
+        baseCash = 75000;
         speed = 2.6;
       } else if (type === "scamdev") {
         const c = createHumanCharacter({
@@ -1647,7 +1680,7 @@
         mesh = c.group;
         hp = 2;
         maxHp = 2;
-        baseCash = 5000;
+        baseCash = 220000;
         speed = 2.3;
       } else {
         const g = new THREE.Group();
@@ -1667,7 +1700,7 @@
         mesh = g;
         hp = 5;
         maxHp = 5;
-        baseCash = 25000;
+        baseCash = 900000;
         speed = 2.8;
       }
 
@@ -1703,7 +1736,7 @@
 
     populateWaveTargets();
 
-    function spawnCashPickup(pos, amount = 1000) {
+    function spawnCashPickup(pos, amount = 50000) {
       const m = new THREE.Mesh(
         new THREE.BoxGeometry(0.9, 0.35, 0.55),
         new THREE.MeshStandardMaterial({ color: 0x22C55E, emissive: 0x14532D, roughness: 0.35 })
@@ -1734,9 +1767,9 @@
     }
 
     const EGG_SPECS = {
-      classic: { mult: 1.0, radius: 2.4, cd: 0, flightTime: 0.52, gravity: 38 },
-      bull: { mult: 2.0, radius: 4.2, cd: 2.5, flightTime: 0.58, gravity: 36 },
-      whale: { mult: 5.0, radius: 6.8, cd: 6.0, flightTime: 0.64, gravity: 34 }
+      classic: { mult: 1.0, radius: 2.1, cd: 0, flightTime: 0.52, gravity: 38 },
+      bull: { mult: 2.0, radius: 3.8, cd: 2.5, flightTime: 0.58, gravity: 36 },
+      whale: { mult: 5.0, radius: 6.2, cd: 6.0, flightTime: 0.64, gravity: 34 }
     };
 
     function selectEgg(type) {
@@ -1762,7 +1795,7 @@
 
     function computeLaunchVelocity(targetPos, power) {
       const spec = EGG_SPECS[state.selectedEgg] || EGG_SPECS.classic;
-      const startPos = _tempVec.set(0.3, TOP_Y + 1.45, TOWER_Z + 2.6);
+      const startPos = _tempVec.set(0.4, TOP_Y + 1.5, TOWER_Z + 1.4);
       const flightTime = spec.flightTime * (1.08 - Math.min(1, power) * 0.16);
       const g = spec.gravity;
       const windFactor = Math.max(0, 1 - state.upgrades.wind * 0.3);
@@ -1804,13 +1837,13 @@
       trajectoryDots.forEach((d) => (d.visible = false));
 
       if (state.phase !== "nest" || state.modalOpen) {
-        state.chargePower = 0.6;
+        state.chargePower = 0.65;
         return;
       }
 
       const eggKey = state.selectedEgg;
       if (state.cooldowns[eggKey] > 0) {
-        state.chargePower = 0.6;
+        state.chargePower = 0.65;
         return;
       }
 
@@ -1818,10 +1851,10 @@
       if (cd > 0) state.cooldowns[eggKey] = cd;
 
       const pwr = Math.max(0.45, Math.min(1.0, state.chargePower));
-      state.chargePower = 0.6;
-      state.throwAnimTimer = 0.32;
+      state.chargePower = 0.65;
+      state.throwAnimTimer = 0.36;
 
-      const startPos = new THREE.Vector3(0.3, TOP_Y + 1.45, TOWER_Z + 2.6);
+      const startPos = new THREE.Vector3(0.4, TOP_Y + 1.5, TOWER_Z + 1.4);
       const v = computeLaunchVelocity(state.aimPoint, pwr);
       launchSingleEgg(eggKey, startPos, v, false);
       AudioEngine.throwEgg(eggKey !== "classic");
@@ -1844,30 +1877,32 @@
     function enterNestPhase() {
       state.phase = "nest";
       state.climbProgress = 1;
+      state.climbHits = 0;
       state.climbStunTimer = 0;
       state.climbKnockTimer = 0;
       document.getElementById("climbBanner").classList.remove("active");
       document.getElementById("phaseLabel").textContent = "NEST DECK — AIM & RELEASE";
       aimRing.visible = true;
       playerChar.heldEgg.visible = true;
-      playerChar.group.position.set(0, TOP_Y + 0.35, TOWER_Z + 2.4);
-      playerChar.group.rotation.set(0, 0, 0);
+      playerChar.group.position.set(0.2, TOP_Y + 0.35, TOWER_Z + 1.2);
+      playerChar.group.rotation.set(0, 0.2, 0);
       playerChar.leftLeg.pivot.rotation.x = 0;
       playerChar.rightLeg.pivot.rotation.x = 0;
       playerChar.leftLeg.knee.rotation.x = 0;
       playerChar.rightLeg.knee.rotation.x = 0;
-      spawnCallout(new THREE.Vector3(0, TOP_Y + 2.5, TOWER_Z + 2), "40.0s CLOCK LIVE!", "warn");
+      spawnCallout(new THREE.Vector3(0, TOP_Y + 2.5, TOWER_Z + 1.2), "40.0s CLOCK LIVE!", "warn");
     }
 
     function startClimbForWave() {
       state.phase = "climb";
       state.climbProgress = 0;
       state.climbLaneX = 0;
+      state.climbHits = 0;
       state.climbStunTimer = 0;
       state.climbKnockTimer = 0;
       state.waveTime = 40.0;
       state.charging = false;
-      state.chargePower = 0.6;
+      state.chargePower = 0.65;
       state.throwAnimTimer = 0;
       aimRing.visible = false;
       trajectoryDots.forEach((d) => (d.visible = false));
@@ -1990,8 +2025,8 @@
       if (state.phase === "climb") {
         const rect = canvas.getBoundingClientRect();
         const relX = (e.clientX - rect.left) / rect.width;
-        if (relX < 0.35) state.climbLaneX = Math.max(-2.2, state.climbLaneX - 2.2);
-        else if (relX > 0.65) state.climbLaneX = Math.min(2.2, state.climbLaneX + 2.2);
+        if (relX < 0.35) state.climbLaneX = Math.max(-1.8, state.climbLaneX - 1.8);
+        else if (relX > 0.65) state.climbLaneX = Math.min(1.8, state.climbLaneX + 1.8);
         else enterNestPhase();
         return;
       }
@@ -2005,7 +2040,7 @@
     window.addEventListener("pointerup", () => releaseThrow());
     window.addEventListener("pointercancel", () => {
       state.charging = false;
-      state.chargePower = 0.6;
+      state.chargePower = 0.65;
       trajectoryDots.forEach((d) => (d.visible = false));
     });
 
@@ -2040,6 +2075,7 @@
       }
 
       document.getElementById("cashVal").textContent = `$${formatMoney(state.cash)}`;
+      document.getElementById("climbHitsVal").textContent = `${state.climbHits} / 3`;
       document.getElementById("bestVal").textContent = `$${formatMoney(state.bestCash)}`;
       document.getElementById("waveVal").textContent = `${state.wave}`;
       const mult = getStreakMult().toFixed(1);
@@ -2112,6 +2148,7 @@
       }
     }
 
+    // Strict ground-level hit detection so wide or early bursts never award cash
     function detonateEgg(egg) {
       const spec = EGG_SPECS[egg.type];
       const pos = egg.mesh.position;
@@ -2124,56 +2161,58 @@
       AudioEngine.hit(egg.type !== "classic");
 
       let anyHit = false;
-      for (const t of targets) {
-        if (t.hp <= 0 || !t.mesh.visible) continue;
-        const dist = Math.hypot(t.mesh.position.x - pos.x, t.mesh.position.z - pos.z);
+      if (pos.y <= 1.2) {
+        for (const t of targets) {
+          if (t.hp <= 0 || !t.mesh.visible) continue;
+          const dist = Math.hypot(t.mesh.position.x - pos.x, t.mesh.position.z - pos.z);
 
-        if (dist <= spec.radius) {
-          anyHit = true;
-          const dmg = egg.type === "classic" ? 1 : 2;
-          if (t.type === "scamdev" && dmg < 2 && t.hp === 2) {
-            t.hp--;
-            AudioEngine.clang();
-            spawnCallout(t.mesh.position, "ARMOR CRACKED!", "warn");
-            continue;
-          }
-          t.hp -= dmg;
-          t.tumbleTimer = 0.65;
-          if (egg.type === "bull") t.stunTimer = 2.0;
-
-          if (t.hp <= 0) {
-            state.hits++;
-            state.streak++;
-            state.maxStreak = Math.max(state.maxStreak, state.streak);
-            const payout = Math.round(t.baseCash * spec.mult * streakMult * goldMult * frenzyMult * waveMult);
-            state.cash += payout;
-            state.wanted = Math.min(5, 1 + Math.floor(state.hits / 3));
-            AudioEngine.cash();
-            spawnCallout(t.mesh.position, `+$${formatMoney(payout)}`, "");
-
-            if (t.type === "lawyer") {
-              spawnCashPickup(t.mesh.position, Math.round(1000 * goldMult));
+          if (dist <= spec.radius) {
+            anyHit = true;
+            const dmg = egg.type === "classic" ? 1 : 2;
+            if (t.type === "scamdev" && dmg < 2 && t.hp === 2) {
+              t.hp--;
+              AudioEngine.clang();
+              spawnCallout(t.mesh.position, "ARMOR CRACKED!", "warn");
+              continue;
             }
+            t.hp -= dmg;
+            t.tumbleTimer = 0.65;
+            if (egg.type === "bull") t.stunTimer = 2.0;
 
-            if (t.type !== "boss") {
-              t.mesh.visible = false;
-              setTimeout(() => {
-                if (state.phase === "gameover") return;
-                t.hp = t.maxHp;
-                t.mesh.visible = true;
-                t.mesh.position.x = (Math.random() - 0.5) * 18;
-                t.mesh.position.z = t.type === "lawyer" ? 1.8 : 9.5;
-              }, 1600);
+            if (t.hp <= 0) {
+              state.hits++;
+              state.streak++;
+              state.maxStreak = Math.max(state.maxStreak, state.streak);
+              const payout = Math.round(t.baseCash * spec.mult * streakMult * goldMult * frenzyMult * waveMult);
+              state.cash += payout;
+              state.wanted = Math.min(5, 1 + Math.floor(state.hits / 3));
+              AudioEngine.cash();
+              spawnCallout(t.mesh.position, `+$${formatMoney(payout)}`, "");
+
+              if (t.type === "lawyer") {
+                spawnCashPickup(t.mesh.position, Math.round(50000 * goldMult));
+              }
+
+              if (t.type !== "boss") {
+                t.mesh.visible = false;
+                setTimeout(() => {
+                  if (state.phase === "gameover") return;
+                  t.hp = t.maxHp;
+                  t.mesh.visible = true;
+                  t.mesh.position.x = (Math.random() - 0.5) * 18;
+                  t.mesh.position.z = t.type === "lawyer" ? 1.8 : 9.5;
+                }, 1600);
+              } else {
+                t.mesh.visible = false;
+                spawnCallout(t.mesh.position, "BOSS DOWN!", "hit");
+              }
             } else {
-              t.mesh.visible = false;
-              spawnCallout(t.mesh.position, "BOSS DOWN!", "hit");
+              spawnCallout(t.mesh.position, `HIT! (${t.hp} HP)`, "hit");
             }
-          } else {
-            spawnCallout(t.mesh.position, `HIT! (${t.hp} HP)`, "hit");
+          } else if (dist <= spec.radius * 1.25) {
+            if (t.type === "jeet") t.dir *= -1;
+            if (t.type === "paperhands") t.boostTimer = 1.6;
           }
-        } else if (dist <= spec.radius * 1.35) {
-          if (t.type === "jeet") t.dir *= -1;
-          if (t.type === "paperhands") t.boostTimer = 1.6;
         }
       }
 
@@ -2184,7 +2223,7 @@
       }
 
       if (state.cash >= state.quota) {
-        const bonus = Math.round(2500 * state.wave * goldMult);
+        const bonus = Math.round(150000 * state.wave * goldMult);
         state.cash += bonus;
         state.wave++;
         state.quota = getQuotaForWave(state.wave);
@@ -2250,57 +2289,77 @@
           let steer = 0;
           if (keys.has("KeyA") || keys.has("ArrowLeft")) steer -= 1;
           if (keys.has("KeyD") || keys.has("ArrowRight")) steer += 1;
-          state.climbLaneX = Math.max(-2.2, Math.min(2.2, state.climbLaneX + steer * 4.5 * dt));
+          state.climbLaneX = Math.max(-1.8, Math.min(1.8, state.climbLaneX + steer * 4.6 * dt));
 
-          const climbRate = climbHeld ? 0.14 : 0.055;
+          const climbRate = climbHeld ? 0.145 : 0.05;
           state.climbProgress = Math.min(1, state.climbProgress + dt * climbRate);
         } else if (isKnocked) {
-          state.climbProgress = Math.max(0, state.climbProgress - dt * 0.34);
+          state.climbProgress = Math.max(0, state.climbProgress - dt * 0.36);
         }
 
-        const py = 0.6 + state.climbProgress * (TOP_Y - 0.8);
+        // Quantize rung stepping so hands & feet lift in real rung cycles rather than smooth sliding
+        const rawY = 0.6 + state.climbProgress * (TOP_Y - 0.8);
+        const rungStep = Math.floor(rawY);
+        const rungFrac = rawY - rungStep;
+        const py = rungStep + Math.pow(rungFrac, 0.72);
         const px = state.climbLaneX + (isStunned ? Math.sin(state.simTime * 50) * 0.16 : 0);
 
-        playerChar.group.position.set(px, py, TOWER_Z + 3.05);
+        playerChar.group.position.set(px, py, TOWER_Z + 1.2);
         // Face into the ladder/tower (-Z) while climbing
         playerChar.group.rotation.y = Math.PI;
-        playerChar.group.rotation.x = isKnocked ? -0.25 : 0;
+        playerChar.group.rotation.x = isKnocked ? -0.28 : 0.08;
         playerChar.group.rotation.z = isStunned ? 0.18 : 0;
 
-        const swing = isStunned ? 0 : Math.sin(state.simTime * (climbHeld ? 14 : 8)) * 0.55;
-        playerChar.leftArm.pivot.rotation.x = -1.25 + swing;
-        playerChar.rightArm.pivot.rotation.x = -1.25 - swing;
-        playerChar.leftArm.elbow.rotation.x = -0.35;
-        playerChar.rightArm.elbow.rotation.x = -0.35;
-        playerChar.leftLeg.pivot.rotation.x = swing;
-        playerChar.rightLeg.pivot.rotation.x = -swing;
-        playerChar.leftLeg.knee.rotation.x = Math.max(0, -swing * 0.7);
-        playerChar.rightLeg.knee.rotation.x = Math.max(0, swing * 0.7);
+        // Alternating hand-over-hand rung reach & foot step
+        const cycle = (rungStep + rungFrac) * Math.PI;
+        const reach = isStunned ? 0 : Math.sin(cycle);
+        playerChar.leftArm.pivot.rotation.x = -1.65 + reach * 0.55;
+        playerChar.rightArm.pivot.rotation.x = -1.65 - reach * 0.55;
+        playerChar.leftArm.elbow.rotation.x = -0.45 + reach * 0.25;
+        playerChar.rightArm.elbow.rotation.x = -0.45 - reach * 0.25;
+
+        playerChar.leftLeg.pivot.rotation.x = -0.55 + reach * 0.45;
+        playerChar.rightLeg.pivot.rotation.x = -0.55 - reach * 0.45;
+        playerChar.leftLeg.knee.rotation.x = Math.max(0.2, 0.75 - reach * 0.45);
+        playerChar.rightLeg.knee.rotation.x = Math.max(0.2, 0.75 + reach * 0.45);
 
         for (const obs of ladderObstacles) {
           if (obs.hitCooldown > 0) obs.hitCooldown -= dt;
-          obs.y -= dt * 3.5;
+          obs.y -= dt * 3.6;
           if (obs.y < 1.2) {
             obs.y = TOP_Y - 0.8;
-            const lanes = [-2.2, 0, 2.2];
+            const lanes = [-1.8, 0, 1.8];
             obs.laneX = lanes[Math.floor(Math.random() * lanes.length)];
           }
-          obs.mesh.position.set(obs.laneX, obs.y, TOWER_Z + 3.55);
-          const pulse = 0.75 + 0.25 * Math.sin(state.simTime * 14);
-          obs.warnStrip.scale.setScalar(pulse);
+          obs.mesh.position.set(obs.laneX, obs.y, TOWER_Z + 1.68);
+          const pulse = 0.8 + 0.2 * Math.sin(state.simTime * 14);
+          obs.frontPlate.scale.setScalar(pulse);
 
-          if (obs.hitCooldown <= 0 && Math.abs(obs.y - py) < 0.72 && Math.abs(obs.laneX - px) < 1.0) {
-            obs.hitCooldown = 1.1;
+          if (obs.hitCooldown <= 0 && Math.abs(obs.y - py) < 0.72 && Math.abs(obs.laneX - px) < 0.95) {
+            obs.hitCooldown = 1.05;
+            state.climbHits++;
             state.climbStunTimer = 0.75;
             state.climbKnockTimer = 0.45;
             AudioEngine.bump();
-            spawnBurst(playerChar.group.position, 0xFDE047, 10);
-            spawnCallout(playerChar.group.position, "HIT! STUNNED & KNOCKED BACK", "warn");
+            spawnBurst(playerChar.group.position, 0xEF4444, 12);
+            spawnCallout(
+              playerChar.group.position,
+              `STRUT HIT (${state.climbHits}/3)!`,
+              "warn"
+            );
+
+            // Lose if hit 3 times before reaching the top
+            if (state.climbHits >= 3) {
+              state.phase = "gameover";
+              syncHud();
+              openVault("KNOCKED OFF LADDER (3/3 HITS)");
+              return;
+            }
           }
         }
 
-        camera.position.lerp(_tempVec.set(px * 0.35, py + 2.8, TOWER_Z + 12.5), 0.12);
-        camera.lookAt(px * 0.25, py + 1.4, TOWER_Z + 2);
+        camera.position.lerp(_tempVec.set(px * 0.3, py + 2.4, TOWER_Z + 10.2), 0.12);
+        camera.lookAt(px * 0.2, py + 1.3, TOWER_Z + 1.2);
 
         if (state.climbProgress >= 1) enterNestPhase();
       } else if (state.phase === "nest") {
@@ -2325,28 +2384,29 @@
           aimRing.position.copy(state.aimPoint);
         }
 
+        // Turn thrower toward camera/boulevard so throwing motion is clearly visible
         const lookDx = state.aimPoint.x - playerChar.group.position.x;
         const lookDz = state.aimPoint.z - playerChar.group.position.z;
-        playerChar.group.rotation.y = Math.atan2(lookDx, lookDz) * 0.55;
+        playerChar.group.rotation.y = Math.atan2(lookDx, lookDz) * 0.45;
 
         if (state.throwAnimTimer > 0) {
           state.throwAnimTimer = Math.max(0, state.throwAnimTimer - dt);
-          const tNorm = 1 - state.throwAnimTimer / 0.32;
-          playerChar.rightArm.pivot.rotation.x = -2.4 + tNorm * 3.1;
-          playerChar.rightArm.elbow.rotation.x = -0.25;
+          const tNorm = 1 - state.throwAnimTimer / 0.36;
+          playerChar.rightArm.pivot.rotation.x = -2.55 + tNorm * 3.25;
+          playerChar.rightArm.elbow.rotation.x = -0.2;
         } else if (state.charging) {
           state.chargePower = Math.min(1.0, state.chargePower + dt * 1.1);
-          playerChar.rightArm.pivot.rotation.x = -2.25 - state.chargePower * 0.55;
+          playerChar.rightArm.pivot.rotation.x = -2.35 - state.chargePower * 0.55;
           playerChar.rightArm.elbow.rotation.x = -0.5;
         } else {
-          playerChar.rightArm.pivot.rotation.x = -1.25;
+          playerChar.rightArm.pivot.rotation.x = -1.35;
           playerChar.rightArm.elbow.rotation.x = -0.45;
         }
         playerChar.leftArm.pivot.rotation.x = -0.35;
         playerChar.leftArm.elbow.rotation.x = -0.3;
 
         if (state.charging) {
-          const start = _tempVec.set(0.3, TOP_Y + 1.45, TOWER_Z + 2.6);
+          const start = _tempVec.set(0.4, TOP_Y + 1.5, TOWER_Z + 1.4);
           const v = computeLaunchVelocity(state.aimPoint, state.chargePower);
           for (let i = 0; i < trajectoryDots.length; i++) {
             const t = ((i + 1) / trajectoryDots.length) * 0.65;
@@ -2362,8 +2422,8 @@
           trajectoryDots.forEach((d) => (d.visible = false));
         }
 
-        camera.position.lerp(_tempVec.set(0, TOP_Y + 5.2, TOWER_Z + 11.8), 0.12);
-        camera.lookAt(0, 4.2, 2.5);
+        camera.position.lerp(_tempVec.set(0, TOP_Y + 4.8, TOWER_Z + 10.6), 0.12);
+        camera.lookAt(0, 4.2, 2.2);
       }
 
       for (const t of targets) {
