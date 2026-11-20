@@ -95,7 +95,6 @@
       box-shadow: 0 8px 24px rgba(0, 0, 0, 0.45);
     }
 
-    /* TOP HUD */
     .hud-top {
       position: absolute;
       top: 10px;
@@ -336,7 +335,6 @@
       transition: width 0.15s ease;
     }
 
-    /* CLIMB ARCADE CONTROLS */
     .climb-controls-wrap {
       position: absolute;
       bottom: 118px;
@@ -385,7 +383,6 @@
       background: rgba(253, 224, 71, 0.22);
     }
 
-    /* BOTTOM DOCK */
     .hud-bottom {
       position: absolute;
       bottom: 10px;
@@ -519,7 +516,6 @@
       flex-shrink: 0;
     }
 
-    /* DEDICATED MOBILE GAME HUD (< 760px) */
     @media (max-width: 760px) {
       .hud-top {
         flex-direction: column;
@@ -576,7 +572,6 @@
         border-radius: 7px;
       }
 
-      /* Keep radar tucked out of center gameplay on phone */
       .radar-box {
         position: fixed;
         top: 104px;
@@ -886,7 +881,7 @@
 
     <div class="climb-controls-wrap active" id="climbControlsWrap">
       <div class="panel climb-banner">
-        <span>Watch top warning hold (1.2s) before drop • 3 hits = LOSE!</span>
+        <span>Watch hammers hold at top • Dodge left/right • 3 hits = LOSE!</span>
         <button class="btn primary" id="skipClimbBtn" type="button">NEST [ENTER]</button>
       </div>
       <div class="climb-pad">
@@ -952,7 +947,7 @@
       </div>
 
       <div class="tab-pane active" id="tab-brief">
-        <p><strong>THE NEST ($EGG)</strong> brings the Leonida tower-nest egg drop to a golden-hour coastal boulevard. Watch hazards hold at the top of the ladder for ~1.25s before dropping across 4 lanes/sides—dodge left/right as speed intensifies (3 hits = lose). At the nest deck, see both your character on top and the targets below—drag to aim and release to throw. Missing pays <strong>$0</strong>.</p>
+        <p><strong>THE NEST ($EGG)</strong> brings the Leonida tower-nest egg drop to a golden-hour coastal boulevard. Watch hammers hold at the top of the ladder before dropping across 4 lanes/sides—dodge left/right as speed intensifies (3 hits = lose). At the nest deck, see both your character on top and the targets below—drag to aim and release to throw. Missing pays <strong>$0</strong>.</p>
       </div>
 
       <div class="tab-pane" id="tab-targets">
@@ -1067,7 +1062,10 @@
       return `${Math.round(n).toLocaleString()}`;
     }
 
-    const BEST_KEY = "the_nest_egg_best_cash_v8";
+    const BEST_KEY = "the_nest_egg_best_cash_v9";
+    const CLIMB_LANES = [-1.8, -0.6, 0.6, 1.8];
+    const START_LANE_IDX = 1;
+
     const state = {
       phase: "climb",
       wave: 1,
@@ -1090,13 +1088,13 @@
       throwAnimTimer: 0,
       reloadEggTimer: 0,
       climbY: 0.6,
-      climbLaneIdx: 1,
-      climbX: -0.6,
+      climbLaneIdx: START_LANE_IDX,
+      climbX: CLIMB_LANES[START_LANE_IDX],
       climbElapsed: 0,
       climbHits: 0,
       climbStunTimer: 0,
       climbKnockTimer: 0,
-      aimPoint: new THREE.Vector3(0, 0.12, 4.5),
+      aimPoint: new THREE.Vector3(0, 0.12, 5.2),
       modalOpen: false,
       simTime: 0
     };
@@ -1506,7 +1504,7 @@
 
     function createHumanCharacter(opts = {}) {
       const g = new THREE.Group();
-      const torsoMat = new THREE.MeshStandardMaterial({ color: opts.torsoColor || 0xEA580C, roughness: 0.52 });
+      const torsoMat = new THREE.MeshStandardMaterial({ color: opts.torsoColor || 0xF8FAFC, roughness: 0.5 });
       const pantsMat = new THREE.MeshStandardMaterial({ color: opts.pantsColor || 0x1E293B, roughness: 0.68 });
       const skinMat = new THREE.MeshStandardMaterial({ color: opts.skinColor || 0xE5A67B, roughness: 0.58 });
       const hairMat = new THREE.MeshStandardMaterial({ color: opts.hairColor || 0x111827, roughness: 0.72 });
@@ -1545,6 +1543,24 @@
       hair.scale.set(0.95, 1.05, 1.0);
       hair.position.set(0, 2.17, -0.02);
       g.add(hair);
+
+      if (opts.isGtaLead) {
+        // Coral/gold street stripe & gold chain accent for GTA lead vibe
+        const stripe = new THREE.Mesh(
+          new THREE.BoxGeometry(0.66, 0.16, 0.56),
+          new THREE.MeshStandardMaterial({ color: 0xFB7185, roughness: 0.45 })
+        );
+        stripe.position.set(0, 1.44, 0.02);
+        g.add(stripe);
+
+        const chain = new THREE.Mesh(
+          new THREE.TorusGeometry(0.2, 0.025, 8, 18),
+          new THREE.MeshStandardMaterial({ color: 0xFDE047, metalness: 0.8, roughness: 0.2 })
+        );
+        chain.rotation.x = Math.PI / 2;
+        chain.position.set(0, 1.68, 0.12);
+        g.add(chain);
+      }
 
       function makeArm(side) {
         const pivot = new THREE.Group();
@@ -1709,43 +1725,59 @@
     }
 
     const playerChar = createHumanCharacter({
-      torsoColor: 0xEA580C,
+      torsoColor: 0xF8FAFC,
       pantsColor: 0x0F172A,
       skinColor: 0xE5A67B,
-      hairColor: 0x111827
+      hairColor: 0x111827,
+      isGtaLead: true
     });
     scene.add(playerChar.group);
 
-    // Top-hold-then-drop obstacles across 4 lanes/sides (button-phone arcade style)
-    const CLIMB_LANES = [-1.8, -0.6, 0.6, 1.8];
+    function pickNonStartLane(avoidLaneIdx = START_LANE_IDX) {
+      const choices = [0, 1, 2, 3].filter((idx) => idx !== avoidLaneIdx);
+      return choices[Math.floor(Math.random() * choices.length)];
+    }
+
+    // Hammer obstacles with handle + heavy head + telegraph cue
     const ladderObstacles = [];
 
-    function createClimbObstacle(laneIdx, sideIndex, initialDelay) {
+    function createHammerObstacle(laneIdx, sideIndex, initialDelay) {
       const grp = new THREE.Group();
-      const body = new THREE.Mesh(
-        new THREE.BoxGeometry(0.54, 0.32, 0.44),
+
+      const handle = new THREE.Mesh(
+        new THREE.CylinderGeometry(0.055, 0.065, 0.62, 8),
+        new THREE.MeshStandardMaterial({ color: 0x92400E, roughness: 0.7 })
+      );
+      handle.position.y = -0.1;
+      handle.castShadow = true;
+      grp.add(handle);
+
+      const head = new THREE.Mesh(
+        new THREE.BoxGeometry(0.56, 0.24, 0.26),
         new THREE.MeshStandardMaterial({
           color: 0xDC2626,
-          emissive: 0x7F1D1D,
+          metalness: 0.45,
           roughness: 0.32
         })
       );
-      body.castShadow = true;
-      grp.add(body);
+      head.position.y = 0.2;
+      head.castShadow = true;
+      grp.add(head);
 
-      const core = new THREE.Mesh(
-        new THREE.BoxGeometry(0.4, 0.14, 0.5),
+      const strikeCap = new THREE.Mesh(
+        new THREE.BoxGeometry(0.62, 0.12, 0.3),
         new THREE.MeshBasicMaterial({ color: 0xFDE047 })
       );
-      grp.add(core);
+      strikeCap.position.y = 0.2;
+      grp.add(strikeCap);
 
       const cueMat = new THREE.MeshBasicMaterial({
         color: 0xFDE047,
         transparent: true,
         opacity: 0.9
       });
-      const cue = new THREE.Mesh(new THREE.BoxGeometry(0.66, 0.12, 0.1), cueMat);
-      cue.position.set(0, -0.34, 0.22);
+      const cue = new THREE.Mesh(new THREE.BoxGeometry(0.66, 0.1, 0.08), cueMat);
+      cue.position.set(0, -0.45, 0.18);
       grp.add(cue);
 
       const sideZ = TOWER_Z + 1.55 + ((sideIndex % 4) - 1.5) * 0.22;
@@ -1765,8 +1797,8 @@
     }
 
     for (let i = 0; i < 4; i++) {
-      const lIdx = (i + 1) % CLIMB_LANES.length;
-      ladderObstacles.push(createClimbObstacle(lIdx, i, 0.6 + i * 0.85));
+      const lIdx = i === 0 ? 0 : i === 1 ? 2 : 3;
+      ladderObstacles.push(createHammerObstacle(lIdx, i, 0.7 + i * 0.85));
     }
 
     const aimRing = new THREE.Mesh(
@@ -1774,7 +1806,7 @@
       new THREE.MeshBasicMaterial({ color: 0xFDE047, side: THREE.DoubleSide })
     );
     aimRing.rotation.x = -Math.PI / 2;
-    aimRing.position.set(0, 0.12, 4.5);
+    aimRing.position.set(0, 0.12, 5.2);
     aimRing.visible = false;
     scene.add(aimRing);
 
@@ -2105,24 +2137,27 @@
       state.climbStunTimer = 0;
       state.climbKnockTimer = 0;
       state.reloadEggTimer = 0;
+      ladderObstacles.forEach((obs) => {
+        obs.mesh.visible = false;
+      });
       document.getElementById("climbControlsWrap").classList.remove("active");
       document.getElementById("phaseLabel").textContent = "NEST DECK — DRAG & RELEASE EGG";
       aimRing.visible = true;
       playerChar.heldEgg.visible = true;
-      playerChar.group.position.set(1.8, TOP_Y + 0.35, TOWER_Z + 1.85);
+      playerChar.group.position.set(1.6, TOP_Y + 0.35, TOWER_Z + 1.9);
       playerChar.group.rotation.set(0, 0.25, 0);
       playerChar.leftLeg.pivot.rotation.x = 0;
       playerChar.rightLeg.pivot.rotation.x = 0;
       playerChar.leftLeg.knee.rotation.x = 0;
       playerChar.rightLeg.knee.rotation.x = 0;
-      spawnCallout(new THREE.Vector3(1.8, TOP_Y + 2.8, TOWER_Z + 1.85), "40.0s CLOCK LIVE!", "warn");
+      spawnCallout(new THREE.Vector3(1.6, TOP_Y + 2.8, TOWER_Z + 1.9), "40.0s CLOCK LIVE!", "warn");
     }
 
     function startClimbForWave() {
       state.phase = "climb";
       state.climbY = 0.6;
-      state.climbLaneIdx = 1;
-      state.climbX = CLIMB_LANES[1];
+      state.climbLaneIdx = START_LANE_IDX;
+      state.climbX = CLIMB_LANES[START_LANE_IDX];
       state.climbElapsed = 0;
       state.climbHits = 0;
       state.climbStunTimer = 0;
@@ -2137,11 +2172,19 @@
       playerChar.heldEgg.visible = false;
       document.getElementById("climbControlsWrap").classList.add("active");
       document.getElementById("phaseLabel").textContent = "CLIMBING LADDER";
+
+      const usedInitial = new Set([START_LANE_IDX]);
       ladderObstacles.forEach((obs, idx) => {
+        obs.mesh.visible = true;
         obs.y = TOP_Y - 0.3;
-        obs.laneIdx = (idx + 1) % CLIMB_LANES.length;
+        let pick = pickNonStartLane(START_LANE_IDX);
+        for (let tries = 0; tries < 6 && usedInitial.has(pick); tries++) {
+          pick = pickNonStartLane(START_LANE_IDX);
+        }
+        usedInitial.add(pick);
+        obs.laneIdx = pick;
         obs.sideIndex = idx % 4;
-        obs.holdTimer = 0.6 + idx * 0.85;
+        obs.holdTimer = 0.75 + idx * 0.85;
         obs.hitCooldown = 0;
       });
       populateWaveTargets();
@@ -2549,7 +2592,7 @@
         if (!isStunned && !isKnocked) {
           const targetX = CLIMB_LANES[state.climbLaneIdx];
           state.climbX += (targetX - state.climbX) * Math.min(1, dt * 18);
-          state.climbY = Math.min(TOP_Y, state.climbY + dt * (climbHeld ? 3.5 : 1.15));
+          state.climbY = Math.min(TOP_Y, state.climbY + dt * (climbHeld ? 3.5 : 1.25));
         } else if (isKnocked) {
           state.climbY = Math.max(0.6, state.climbY - dt * 5.0);
         }
@@ -2574,10 +2617,18 @@
         playerChar.leftLeg.knee.rotation.x = 0.65 + Math.max(0, -stepOsc) * 0.45;
         playerChar.rightLeg.knee.rotation.x = 0.65 + Math.max(0, stepOsc) * 0.45;
 
-        // Visible top hold (~1.25s tightening with intensity) right above the player's view before dropping
+        const nearTopSafeZone = py >= TOP_Y - 1.25;
         const topPreviewY = Math.min(TOP_Y - 0.25, py + (isMobile ? 5.6 : 6.2));
+
         for (const obs of ladderObstacles) {
           if (obs.hitCooldown > 0) obs.hitCooldown -= dt;
+
+          // No obstacles when player reaches the top of the tower
+          if (nearTopSafeZone) {
+            obs.mesh.visible = false;
+            continue;
+          }
+          obs.mesh.visible = true;
 
           const obsX = CLIMB_LANES[obs.laneIdx];
           const sideZ = TOWER_Z + 1.55 + ((obs.sideIndex % 4) - 1.5) * 0.22;
@@ -2586,7 +2637,7 @@
             obs.holdTimer -= dt;
             obs.y = topPreviewY;
             obs.mesh.position.set(obsX, obs.y, sideZ);
-            obs.mesh.rotation.z = Math.sin(state.simTime * 28) * 0.25;
+            obs.mesh.rotation.z = Math.sin(state.simTime * 26) * 0.35;
             obs.cueMat.color.setHex(0xEF4444);
             obs.cueMat.opacity = 0.5 + Math.abs(Math.sin(state.simTime * 24)) * 0.5;
             continue;
@@ -2596,17 +2647,17 @@
           obs.y -= dt * dropSpeed;
           obs.cueMat.color.setHex(0xFDE047);
           obs.cueMat.opacity = 0.85;
+          obs.mesh.rotation.z = Math.sin(state.simTime * 12 + obs.sideIndex) * 0.45;
 
           if (obs.y < Math.max(0.5, py - 2.5)) {
-            obs.laneIdx = Math.floor(Math.random() * CLIMB_LANES.length);
+            obs.laneIdx = pickNonStartLane(state.climbLaneIdx);
             obs.sideIndex = (obs.sideIndex + 1) % 4;
             obs.speedMult = 0.9 + Math.random() * 0.42;
-            obs.holdTimer = Math.max(0.55, 1.35 / escalation);
+            obs.holdTimer = Math.max(0.6, 1.35 / escalation);
             obs.y = topPreviewY;
           }
 
           obs.mesh.position.set(obsX, obs.y, sideZ);
-          obs.mesh.rotation.z = state.simTime * 5.5 * (obs.sideIndex % 2 === 0 ? 1 : -1);
 
           const distToPlayerY = obs.y - (py + 1.1);
           if (obs.hitCooldown <= 0 && Math.abs(distToPlayerY) < 0.48 && Math.abs(obsX - px) < 0.56) {
@@ -2616,7 +2667,7 @@
             state.climbKnockTimer = 0.38;
             AudioEngine.bump();
             spawnBurst(playerChar.group.position, 0xEF4444, 12);
-            spawnCallout(playerChar.group.position, `HIT (${state.climbHits}/3)!`, "warn");
+            spawnCallout(playerChar.group.position, `HAMMER HIT (${state.climbHits}/3)!`, "warn");
 
             if (state.climbHits >= 3) {
               state.phase = "gameover";
@@ -2703,14 +2754,14 @@
           trajectoryDots.forEach((d) => (d.visible = false));
         }
 
-        // Dual-view elevated camera: keeps character on top AND lawyers/targets below both in frame
+        // Camera positioned so both the throwing character at the nest AND street targets below stay clearly in frame
         const charPos = playerChar.group.position;
         if (isMobile) {
-          camera.position.lerp(_tempVec.set(charPos.x * 0.45, TOP_Y + 6.4, TOWER_Z + 11.5), 0.14);
-          camera.lookAt(0, 7.2, 2.5);
+          camera.position.lerp(_tempVec.set(charPos.x * 0.3, TOP_Y + 8.6, TOWER_Z + 16.5), 0.14);
+          camera.lookAt(0, 6.2, 4.5);
         } else {
-          camera.position.lerp(_tempVec.set(charPos.x * 0.45, TOP_Y + 5.6, TOWER_Z + 10.2), 0.14);
-          camera.lookAt(0, 7.6, 2.2);
+          camera.position.lerp(_tempVec.set(charPos.x * 0.35, TOP_Y + 7.4, TOWER_Z + 14.2), 0.14);
+          camera.lookAt(0, 6.8, 3.8);
         }
       }
 
