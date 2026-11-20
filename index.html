@@ -78,6 +78,7 @@
 
     .callout.warn { color: var(--gold); }
     .callout.hit { color: #FFFFFF; }
+    .callout.miss { color: var(--coral); }
 
     @keyframes floatUp {
       0% { opacity: 1; transform: translate(-50%, -30%) scale(0.92); }
@@ -688,7 +689,7 @@
     </div>
 
     <div class="panel climb-banner active" id="climbBanner">
-      <span>A/D or ←/→ to dodge obstacles • Clear warning lanes!</span>
+      <span>A/D or ←/→ to dodge incoming struts • Hit = stunned/knocked back!</span>
       <button class="btn primary" id="skipClimbBtn" type="button">SKIP TO NEST [ENTER]</button>
     </div>
 
@@ -717,17 +718,17 @@
         <div class="eggs-row">
           <button class="egg-card selected" id="eggClassic" type="button">
             <div>[1] CLASSIC</div>
-            <div class="egg-stats">1.0x • 3.8m • Instant</div>
+            <div class="egg-stats">1.0x • 2.4m • Fast Drop</div>
             <div class="cd-bar" id="cdClassic"></div>
           </button>
           <button class="egg-card" id="eggBull" type="button">
             <div>[2] BULL</div>
-            <div class="egg-stats">2.0x • 6.8m • Stun/Crack</div>
+            <div class="egg-stats">2.0x • 4.2m • Stun/Crack</div>
             <div class="cd-bar" id="cdBull"></div>
           </button>
           <button class="egg-card" id="eggWhale" type="button">
             <div>[3] WHALE</div>
-            <div class="egg-stats">5.0x • 11.5m • 3x Split</div>
+            <div class="egg-stats">5.0x • 6.8m • 3x Split</div>
             <div class="cd-bar" id="cdWhale"></div>
           </button>
         </div>
@@ -749,14 +750,14 @@
       </div>
 
       <div class="tab-pane active" id="tab-brief">
-        <p><strong>THE NEST ($EGG)</strong> brings the Leonida tower-nest egg drop to a golden-hour coastal boulevard. Steer left or right on the ladder past telegraphed struts while your <strong>40.0s</strong> wave timer stays paused until you reach the nest. At the top, aim your golden ring across the boulevard and plaza and release click/touch or <strong>Space</strong> to hurl spinning eggs onto the Sleazy Lawyer and targets below.</p>
+        <p><strong>THE NEST ($EGG)</strong> brings the Leonida tower-nest egg drop to a golden-hour coastal boulevard. Steer left or right on the ladder past telegraphed struts while your <strong>40.0s</strong> wave timer stays paused until you reach the nest. At the top, aim your golden ring directly onto a target and release click/touch or <strong>Space</strong> to hurl spinning eggs onto the Sleazy Lawyer and targets below.</p>
       </div>
 
       <div class="tab-pane" id="tab-targets">
         <div class="info-grid-3">
           <div class="mini-box">
             <strong>Sleazy Lawyer (+$100K + $50K Drop)</strong>
-            <span>Suit, red tie, and gold briefcase cruising the strip. Drops a cash stack you can collect by landing near it.</span>
+            <span>Tailored charcoal suit, crisp white collar, red tie, sunglasses, and gold briefcase. Must take a direct egg hit for cash.</span>
           </div>
           <div class="mini-box">
             <strong>Jeet (+$25K) & Paper Hands (+$50K)</strong>
@@ -883,11 +884,13 @@
       cooldowns: { classic: 0, bull: 0, whale: 0 },
       upgrades: { wind: 0, turbo: 0, gold: 0 },
       charging: false,
-      chargePower: 0.35,
+      chargePower: 0.55,
+      throwAnimTimer: 0,
       climbProgress: 0,
       climbLaneX: 0,
-      climbStagger: 0,
-      aimPoint: new THREE.Vector3(0, 0.2, 6),
+      climbStunTimer: 0,
+      climbKnockTimer: 0,
+      aimPoint: new THREE.Vector3(0, 0.12, 5.5),
       modalOpen: false,
       simTime: 0
     };
@@ -994,13 +997,14 @@
             startGrooveLoop();
           }
         },
-        throwEgg(heavy = false) { tone(heavy ? 240 : 420, "sine", 0.14, 0.08, heavy ? 90 : 180); },
+        throwEgg(heavy = false) { tone(heavy ? 260 : 450, "sine", 0.12, 0.08, heavy ? 95 : 190); },
         hit(big = false) { tone(big ? 140 : 210, "sawtooth", big ? 0.26 : 0.16, big ? 0.1 : 0.07, 55); },
+        miss() { tone(190, "triangle", 0.1, 0.04, 120); },
         clang() {
           tone(880, "square", 0.09, 0.06, 620);
           tone(1320, "triangle", 0.11, 0.05, 940, 0.02);
         },
-        bump() { tone(135, "square", 0.16, 0.09, 48); },
+        bump() { tone(125, "square", 0.22, 0.1, 42); },
         cash() {
           tone(587.33, "sine", 0.1, 0.07, 880);
           tone(880, "sine", 0.14, 0.07, 1174.66, 0.07);
@@ -1020,17 +1024,16 @@
     const stageWrap = document.getElementById("stageWrap");
     const canvas = document.getElementById("gameCanvas");
 
-    // Validated WebGLRenderer creation (no invalid powerPreference string)
     const renderer = new THREE.WebGLRenderer({ canvas, antialias: true });
     renderer.setPixelRatio(Math.min(window.devicePixelRatio || 1, 2));
     renderer.setSize(stageWrap.clientWidth, stageWrap.clientHeight);
     renderer.toneMapping = THREE.ACESFilmicToneMapping;
-    renderer.toneMappingExposure = 1.08;
+    renderer.toneMappingExposure = 1.1;
     renderer.shadowMap.enabled = true;
     renderer.shadowMap.type = THREE.PCFSoftShadowMap;
 
     const scene = new THREE.Scene();
-    scene.fog = new THREE.FogExp2(0xF59E0B, 0.0055);
+    scene.fog = new THREE.FogExp2(0xF59E0B, 0.005);
 
     const camera = new THREE.PerspectiveCamera(
       48,
@@ -1125,10 +1128,10 @@
     );
     scene.add(skyDome);
 
-    const hemiLight = new THREE.HemisphereLight(0xFDE047, 0x0284C7, 0.9);
+    const hemiLight = new THREE.HemisphereLight(0xFDE047, 0x0284C7, 0.95);
     scene.add(hemiLight);
 
-    const sunLight = new THREE.DirectionalLight(0xFBBF24, 1.85);
+    const sunLight = new THREE.DirectionalLight(0xFBBF24, 1.9);
     sunLight.position.set(28, 42, 22);
     sunLight.castShadow = true;
     sunLight.shadow.mapSize.set(1024, 1024);
@@ -1146,7 +1149,7 @@
 
     const sandMesh = new THREE.Mesh(
       new THREE.PlaneGeometry(180, 120),
-      new THREE.MeshStandardMaterial({ color: 0xFCD34D, roughness: 0.9 })
+      new THREE.MeshStandardMaterial({ color: 0xFCD34D, roughness: 0.88 })
     );
     sandMesh.rotation.x = -Math.PI / 2;
     sandMesh.position.set(0, -0.05, 18);
@@ -1155,7 +1158,7 @@
 
     const roadMesh = new THREE.Mesh(
       new THREE.PlaneGeometry(140, 10),
-      new THREE.MeshStandardMaterial({ map: makeRoadTexture(), roughness: 0.8 })
+      new THREE.MeshStandardMaterial({ map: makeRoadTexture(), roughness: 0.78 })
     );
     roadMesh.rotation.x = -Math.PI / 2;
     roadMesh.position.set(0, 0.02, 6);
@@ -1266,7 +1269,7 @@
     beacon.position.set(0, TOP_Y + 6.9, -1.8);
     towerGroup.add(beacon);
 
-    // Clear, high-contrast vertical ladder in front of tower shaft
+    // Ladder with clear 3 lanes (-2.2, 0, +2.2)
     const ladderGroup = new THREE.Group();
     ladderGroup.position.set(0, 0, TOWER_Z + 3.45);
     scene.add(ladderGroup);
@@ -1288,64 +1291,100 @@
       ladderGroup.add(rung);
     }
 
+    // DETAILED HUMAN-PROPORTIONED CHARACTERS (Collar, shoulders, elbows, knees, shoes, lawyer shades/lapels)
     function createHumanCharacter(opts = {}) {
       const g = new THREE.Group();
-      const torsoMat = new THREE.MeshStandardMaterial({ color: opts.torsoColor || 0xEA580C, roughness: 0.65 });
-      const pantsMat = new THREE.MeshStandardMaterial({ color: opts.pantsColor || 0x1E293B, roughness: 0.75 });
-      const skinMat = new THREE.MeshStandardMaterial({ color: opts.skinColor || 0xFDBA74, roughness: 0.7 });
-      const hairMat = new THREE.MeshStandardMaterial({ color: opts.hairColor || 0x1F2937, roughness: 0.8 });
+      const torsoMat = new THREE.MeshStandardMaterial({ color: opts.torsoColor || 0xEA580C, roughness: 0.6 });
+      const pantsMat = new THREE.MeshStandardMaterial({ color: opts.pantsColor || 0x1E293B, roughness: 0.72 });
+      const skinMat = new THREE.MeshStandardMaterial({ color: opts.skinColor || 0xFDBA74, roughness: 0.65 });
+      const hairMat = new THREE.MeshStandardMaterial({ color: opts.hairColor || 0x111827, roughness: 0.8 });
+      const shoeMat = new THREE.MeshStandardMaterial({ color: 0x0F172A, roughness: 0.5 });
 
-      const torso = new THREE.Mesh(new THREE.BoxGeometry(0.86, 0.96, 0.48), torsoMat);
-      torso.position.y = 1.35;
-      torso.castShadow = true;
-      g.add(torso);
-
-      const hips = new THREE.Mesh(new THREE.BoxGeometry(0.76, 0.34, 0.46), pantsMat);
-      hips.position.y = 0.82;
+      // Pelvis & chest
+      const hips = new THREE.Mesh(new THREE.BoxGeometry(0.76, 0.28, 0.46), pantsMat);
+      hips.position.y = 0.86;
       hips.castShadow = true;
       g.add(hips);
 
-      const head = new THREE.Mesh(new THREE.BoxGeometry(0.52, 0.54, 0.52), skinMat);
+      const chest = new THREE.Mesh(new THREE.BoxGeometry(0.92, 0.72, 0.52), torsoMat);
+      chest.position.y = 1.36;
+      chest.castShadow = true;
+      g.add(chest);
+
+      // Shoulder caps for natural silhouette
+      const shoulderGeo = new THREE.SphereGeometry(0.2, 10, 10);
+      [-0.48, 0.48].forEach((sx) => {
+        const cap = new THREE.Mesh(shoulderGeo, torsoMat);
+        cap.position.set(sx, 1.66, 0);
+        cap.castShadow = true;
+        g.add(cap);
+      });
+
+      // Neck & sculpted head
+      const neck = new THREE.Mesh(new THREE.CylinderGeometry(0.13, 0.15, 0.2, 8), skinMat);
+      neck.position.y = 1.78;
+      g.add(neck);
+
+      const head = new THREE.Mesh(new THREE.BoxGeometry(0.5, 0.52, 0.5), skinMat);
       head.position.y = 2.12;
       head.castShadow = true;
       g.add(head);
 
-      const hair = new THREE.Mesh(new THREE.BoxGeometry(0.56, 0.2, 0.56), hairMat);
-      hair.position.y = 2.4;
+      const hair = new THREE.Mesh(new THREE.BoxGeometry(0.54, 0.22, 0.54), hairMat);
+      hair.position.set(0, 2.39, -0.02);
       g.add(hair);
 
+      // Articulated Arms (upper + forearm + hand)
       function makeArm(side) {
         const pivot = new THREE.Group();
-        pivot.position.set(side * 0.56, 1.72, 0);
-        const upper = new THREE.Mesh(new THREE.BoxGeometry(0.26, 0.46, 0.26), torsoMat);
-        upper.position.y = -0.22;
+        pivot.position.set(side * 0.52, 1.66, 0);
+
+        const upper = new THREE.Mesh(new THREE.BoxGeometry(0.24, 0.42, 0.24), torsoMat);
+        upper.position.y = -0.2;
         upper.castShadow = true;
         pivot.add(upper);
 
-        const fore = new THREE.Mesh(new THREE.BoxGeometry(0.23, 0.42, 0.23), skinMat);
-        fore.position.y = -0.62;
+        const elbow = new THREE.Group();
+        elbow.position.set(0, -0.42, 0);
+        const fore = new THREE.Mesh(new THREE.BoxGeometry(0.21, 0.4, 0.21), skinMat);
+        fore.position.y = -0.2;
         fore.castShadow = true;
-        pivot.add(fore);
+        elbow.add(fore);
 
+        const hand = new THREE.Mesh(new THREE.SphereGeometry(0.13, 8, 8), skinMat);
+        hand.position.y = -0.43;
+        elbow.add(hand);
+
+        pivot.add(elbow);
         g.add(pivot);
-        return pivot;
+        return { pivot, elbow, hand };
       }
 
+      // Articulated Legs (thigh + shin + shoe)
       function makeLeg(side) {
         const pivot = new THREE.Group();
-        pivot.position.set(side * 0.22, 0.72, 0);
-        const thigh = new THREE.Mesh(new THREE.BoxGeometry(0.28, 0.42, 0.3), pantsMat);
-        thigh.position.y = -0.2;
+        pivot.position.set(side * 0.22, 0.74, 0);
+
+        const thigh = new THREE.Mesh(new THREE.BoxGeometry(0.27, 0.38, 0.28), pantsMat);
+        thigh.position.y = -0.18;
         thigh.castShadow = true;
         pivot.add(thigh);
 
-        const shin = new THREE.Mesh(new THREE.BoxGeometry(0.24, 0.4, 0.26), pantsMat);
-        shin.position.y = -0.58;
+        const knee = new THREE.Group();
+        knee.position.set(0, -0.38, 0);
+        const shin = new THREE.Mesh(new THREE.BoxGeometry(0.23, 0.36, 0.24), pantsMat);
+        shin.position.y = -0.18;
         shin.castShadow = true;
-        pivot.add(shin);
+        knee.add(shin);
 
+        const shoe = new THREE.Mesh(new THREE.BoxGeometry(0.26, 0.14, 0.4), shoeMat);
+        shoe.position.set(0, -0.37, 0.06);
+        shoe.castShadow = true;
+        knee.add(shoe);
+
+        pivot.add(knee);
         g.add(pivot);
-        return pivot;
+        return { pivot, knee };
       }
 
       const leftArm = makeArm(-1);
@@ -1353,31 +1392,46 @@
       const leftLeg = makeLeg(-1);
       const rightLeg = makeLeg(1);
 
+      // Sleazy Lawyer details: white shirt front, red tie, dark shades, gold briefcase
       if (opts.isLawyer) {
-        const tie = new THREE.Mesh(
-          new THREE.BoxGeometry(0.14, 0.55, 0.08),
-          new THREE.MeshStandardMaterial({ color: 0xDC2626, roughness: 0.4 })
+        const shirt = new THREE.Mesh(
+          new THREE.BoxGeometry(0.32, 0.66, 0.06),
+          new THREE.MeshStandardMaterial({ color: 0xF8FAFC, roughness: 0.5 })
         );
-        tie.position.set(0, 1.38, 0.26);
+        shirt.position.set(0, 1.38, 0.25);
+        g.add(shirt);
+
+        const tie = new THREE.Mesh(
+          new THREE.BoxGeometry(0.11, 0.52, 0.08),
+          new THREE.MeshStandardMaterial({ color: 0xDC2626, roughness: 0.35 })
+        );
+        tie.position.set(0, 1.36, 0.27);
         g.add(tie);
 
-        const briefcase = new THREE.Mesh(
-          new THREE.BoxGeometry(0.55, 0.38, 0.14),
-          new THREE.MeshStandardMaterial({ color: 0xFDE047, metalness: 0.7, roughness: 0.25 })
+        const shades = new THREE.Mesh(
+          new THREE.BoxGeometry(0.52, 0.13, 0.1),
+          new THREE.MeshStandardMaterial({ color: 0x090D16, roughness: 0.2, metalness: 0.6 })
         );
-        briefcase.position.set(0, -0.82, 0.04);
+        shades.position.set(0, 2.15, 0.24);
+        g.add(shades);
+
+        const briefcase = new THREE.Mesh(
+          new THREE.BoxGeometry(0.58, 0.4, 0.15),
+          new THREE.MeshStandardMaterial({ color: 0xFDE047, metalness: 0.72, roughness: 0.22 })
+        );
+        briefcase.position.set(0, -0.44, 0.06);
         briefcase.rotation.x = Math.PI / 2;
-        rightArm.add(briefcase);
+        rightArm.elbow.add(briefcase);
       }
 
       const heldEgg = new THREE.Mesh(
-        new THREE.SphereGeometry(0.22, 10, 10),
-        new THREE.MeshStandardMaterial({ map: eggSkins.classic, roughness: 0.35 })
+        new THREE.SphereGeometry(0.24, 12, 12),
+        new THREE.MeshStandardMaterial({ map: eggSkins.classic, roughness: 0.32 })
       );
       heldEgg.scale.set(0.85, 1.25, 0.85);
-      heldEgg.position.set(0, -0.86, 0.06);
+      heldEgg.position.set(0, -0.45, 0.08);
       heldEgg.visible = false;
-      rightArm.add(heldEgg);
+      rightArm.elbow.add(heldEgg);
 
       return { group: g, leftArm, rightArm, leftLeg, rightLeg, heldEgg };
     }
@@ -1390,30 +1444,39 @@
     });
     scene.add(playerChar.group);
 
+    // TELEGRAPHED LADDER OBSTACLES WITH CLEAR APPROACH WARNINGS
     const ladderObstacles = [];
     function createClimbObstacle(laneX, yPos) {
       const grp = new THREE.Group();
       const body = new THREE.Mesh(
         new THREE.BoxGeometry(1.55, 0.72, 0.9),
-        new THREE.MeshStandardMaterial({ color: 0xEF4444, roughness: 0.5 })
+        new THREE.MeshStandardMaterial({ color: 0xEF4444, roughness: 0.45 })
       );
       body.castShadow = true;
       grp.add(body);
 
       const warnStrip = new THREE.Mesh(
-        new THREE.BoxGeometry(1.4, 0.18, 0.96),
+        new THREE.BoxGeometry(1.45, 0.22, 0.98),
         new THREE.MeshBasicMaterial({ color: 0xFDE047 })
       );
-      warnStrip.position.y = 0.22;
+      warnStrip.position.y = 0.24;
       grp.add(warnStrip);
+
+      // Vertical telegraph beacon beam above incoming strut so player sees it early
+      const beaconBeam = new THREE.Mesh(
+        new THREE.CylinderGeometry(0.14, 0.14, 3.2, 8),
+        new THREE.MeshBasicMaterial({ color: 0xFDE047, transparent: true, opacity: 0.45 })
+      );
+      beaconBeam.position.set(0, 1.9, 0);
+      grp.add(beaconBeam);
 
       grp.position.set(laneX, yPos, TOWER_Z + 3.55);
       scene.add(grp);
-      return { mesh: grp, laneX, y: yPos, hitCooldown: 0 };
+      return { mesh: grp, warnStrip, beaconBeam, laneX, y: yPos, hitCooldown: 0 };
     }
 
     [-2.2, 0, 2.2].forEach((lx, idx) => {
-      ladderObstacles.push(createClimbObstacle(lx, TOP_Y - 2.2 - idx * 4.6));
+      ladderObstacles.push(createClimbObstacle(lx, TOP_Y - 1.5 - idx * 4.8));
     });
 
     const aimRing = new THREE.Mesh(
@@ -1421,7 +1484,7 @@
       new THREE.MeshBasicMaterial({ color: 0xFDE047, side: THREE.DoubleSide })
     );
     aimRing.rotation.x = -Math.PI / 2;
-    aimRing.position.set(0, 0.12, 6);
+    aimRing.position.set(0, 0.12, 5.5);
     aimRing.visible = false;
     scene.add(aimRing);
 
@@ -1489,7 +1552,7 @@
     const particles = [];
 
     function createTargetEntity(type, x, z) {
-      let mesh, hp = 1, maxHp = 1, baseCash = 100000, speed = 3.2;
+      let mesh, rig = null, hp = 1, maxHp = 1, baseCash = 100000, speed = 2.6;
       if (type === "lawyer") {
         const c = createHumanCharacter({
           torsoColor: 0x1E293B,
@@ -1498,10 +1561,11 @@
           hairColor: 0x090D16,
           isLawyer: true
         });
-        c.group.scale.setScalar(1.22);
+        c.group.scale.setScalar(1.25);
+        rig = c;
         mesh = c.group;
         baseCash = 100000;
-        speed = 2.6;
+        speed = 2.4;
       } else if (type === "jeet") {
         const c = createHumanCharacter({
           torsoColor: 0x22C55E,
@@ -1509,9 +1573,10 @@
           skinColor: 0xFDBA74,
           hairColor: 0xF59E0B
         });
+        rig = c;
         mesh = c.group;
         baseCash = 25000;
-        speed = 3.4;
+        speed = 3.1;
       } else if (type === "paperhands") {
         const c = createHumanCharacter({
           torsoColor: 0xFB7185,
@@ -1519,9 +1584,10 @@
           skinColor: 0xFDBA74,
           hairColor: 0x475569
         });
+        rig = c;
         mesh = c.group;
         baseCash = 50000;
-        speed = 2.8;
+        speed = 2.6;
       } else if (type === "scamdev") {
         const c = createHumanCharacter({
           torsoColor: 0x0284C7,
@@ -1530,11 +1596,12 @@
           hairColor: 0x06B6D4
         });
         c.group.scale.setScalar(1.25);
+        rig = c;
         mesh = c.group;
         hp = 2;
         maxHp = 2;
         baseCash = 250000;
-        speed = 2.4;
+        speed = 2.3;
       } else {
         const g = new THREE.Group();
         const hull = new THREE.Mesh(
@@ -1554,7 +1621,7 @@
         hp = 5;
         maxHp = 5;
         baseCash = 1000000;
-        speed = 3.0;
+        speed = 2.8;
       }
 
       mesh.position.set(x, 0, z);
@@ -1562,6 +1629,7 @@
       return {
         type,
         mesh,
+        rig,
         hp,
         maxHp,
         baseCash,
@@ -1578,12 +1646,12 @@
       for (const t of targets) scene.remove(t.mesh);
       targets.length = 0;
 
-      targets.push(createTargetEntity("lawyer", 0, 1.6));
-      targets.push(createTargetEntity("lawyer", -7.5, 9.8));
-      targets.push(createTargetEntity("jeet", 6.5, 1.4));
-      targets.push(createTargetEntity("paperhands", -4.0, 9.6));
-      if (state.wave >= 2) targets.push(createTargetEntity("scamdev", 8.5, 9.8));
-      if (state.wave % 3 === 0) targets.push(createTargetEntity("boss", 0, 18));
+      targets.push(createTargetEntity("lawyer", 0, 1.8));
+      targets.push(createTargetEntity("lawyer", -6.5, 9.5));
+      targets.push(createTargetEntity("jeet", 6.0, 1.6));
+      targets.push(createTargetEntity("paperhands", -4.0, 9.4));
+      if (state.wave >= 2) targets.push(createTargetEntity("scamdev", 7.5, 9.5));
+      if (state.wave % 3 === 0) targets.push(createTargetEntity("boss", 0, 17));
     }
 
     populateWaveTargets();
@@ -1595,7 +1663,7 @@
       );
       m.position.set(pos.x, 0.25, pos.z);
       scene.add(m);
-      cashPickups.push({ mesh: m, amount, life: 16 });
+      cashPickups.push({ mesh: m, amount, life: 12 });
     }
 
     function spawnBurst(pos, colorHex = 0xFDE047, count = 10) {
@@ -1618,10 +1686,11 @@
       }
     }
 
+    // Crisp egg drop physics (fast, snappy arc to target)
     const EGG_SPECS = {
-      classic: { mult: 1.0, radius: 3.8, cd: 0 },
-      bull: { mult: 2.0, radius: 6.8, cd: 2.5 },
-      whale: { mult: 5.0, radius: 11.5, cd: 6.0 }
+      classic: { mult: 1.0, radius: 2.4, cd: 0, flightTime: 0.52, gravity: 38 },
+      bull: { mult: 2.0, radius: 4.2, cd: 2.5, flightTime: 0.58, gravity: 36 },
+      whale: { mult: 5.0, radius: 6.8, cd: 6.0, flightTime: 0.64, gravity: 34 }
     };
 
     function selectEgg(type) {
@@ -1646,12 +1715,13 @@
     }
 
     function computeLaunchVelocity(targetPos, power) {
-      const startPos = _tempVec.set(0, TOP_Y + 1.1, TOWER_Z + 2.2);
-      const flightTime = 0.88 + (1 - Math.min(1, power)) * 0.22;
-      const g = 22;
+      const spec = EGG_SPECS[state.selectedEgg] || EGG_SPECS.classic;
+      const startPos = _tempVec.set(0.3, TOP_Y + 1.45, TOWER_Z + 2.6);
+      const flightTime = spec.flightTime * (1.08 - Math.min(1, power) * 0.16);
+      const g = spec.gravity;
       const windFactor = Math.max(0, 1 - state.upgrades.wind * 0.3);
       return {
-        vx: (targetPos.x - startPos.x) / flightTime + state.wind * 0.14 * windFactor,
+        vx: (targetPos.x - startPos.x) / flightTime + state.wind * 0.1 * windFactor,
         vz: (targetPos.z - startPos.z) / flightTime,
         vy: (targetPos.y - startPos.y + 0.5 * g * flightTime * flightTime) / flightTime,
         g
@@ -1659,6 +1729,7 @@
     }
 
     function launchSingleEgg(eggKey, startPos, vel, isSplitChild = false) {
+      const spec = EGG_SPECS[eggKey] || EGG_SPECS.classic;
       const skin = eggSkins[eggKey] || eggSkins.classic;
       const mesh = new THREE.Mesh(
         new THREE.SphereGeometry(eggKey === "whale" ? 0.42 : 0.32, 12, 12),
@@ -1675,7 +1746,7 @@
         vx: vel.vx,
         vy: vel.vy,
         vz: vel.vz,
-        g: 22,
+        g: spec.gravity,
         age: 0,
         splitDone: isSplitChild || eggKey !== "whale"
       });
@@ -1687,23 +1758,24 @@
       trajectoryDots.forEach((d) => (d.visible = false));
 
       if (state.phase !== "nest" || state.modalOpen) {
-        state.chargePower = 0.35;
+        state.chargePower = 0.55;
         return;
       }
 
       const eggKey = state.selectedEgg;
       if (state.cooldowns[eggKey] > 0) {
-        state.chargePower = 0.35;
+        state.chargePower = 0.55;
         return;
       }
 
       const cd = getEffectiveCooldown(eggKey);
       if (cd > 0) state.cooldowns[eggKey] = cd;
 
-      const pwr = Math.max(0.35, Math.min(1.0, state.chargePower));
-      state.chargePower = 0.35;
+      const pwr = Math.max(0.45, Math.min(1.0, state.chargePower));
+      state.chargePower = 0.55;
+      state.throwAnimTimer = 0.32;
 
-      const startPos = new THREE.Vector3(0, TOP_Y + 1.15, TOWER_Z + 2.2);
+      const startPos = new THREE.Vector3(0.3, TOP_Y + 1.45, TOWER_Z + 2.6);
       const v = computeLaunchVelocity(state.aimPoint, pwr);
       launchSingleEgg(eggKey, startPos, v, false);
       AudioEngine.throwEgg(eggKey !== "classic");
@@ -1726,12 +1798,18 @@
     function enterNestPhase() {
       state.phase = "nest";
       state.climbProgress = 1;
+      state.climbStunTimer = 0;
+      state.climbKnockTimer = 0;
       document.getElementById("climbBanner").classList.remove("active");
       document.getElementById("phaseLabel").textContent = "NEST DECK — AIM & RELEASE";
       aimRing.visible = true;
       playerChar.heldEgg.visible = true;
-      playerChar.group.position.set(-0.6, TOP_Y + 0.35, TOWER_Z + 2.3);
+      playerChar.group.position.set(0, TOP_Y + 0.35, TOWER_Z + 2.4);
       playerChar.group.rotation.set(0, 0, 0);
+      playerChar.leftLeg.pivot.rotation.x = 0;
+      playerChar.rightLeg.pivot.rotation.x = 0;
+      playerChar.leftLeg.knee.rotation.x = 0;
+      playerChar.rightLeg.knee.rotation.x = 0;
       spawnCallout(new THREE.Vector3(0, TOP_Y + 2.5, TOWER_Z + 2), "40.0s CLOCK LIVE!", "warn");
     }
 
@@ -1739,17 +1817,19 @@
       state.phase = "climb";
       state.climbProgress = 0;
       state.climbLaneX = 0;
-      state.climbStagger = 0;
+      state.climbStunTimer = 0;
+      state.climbKnockTimer = 0;
       state.waveTime = 40.0;
       state.charging = false;
-      state.chargePower = 0.35;
+      state.chargePower = 0.55;
+      state.throwAnimTimer = 0;
       aimRing.visible = false;
       trajectoryDots.forEach((d) => (d.visible = false));
       playerChar.heldEgg.visible = false;
       document.getElementById("climbBanner").classList.add("active");
       document.getElementById("phaseLabel").textContent = "CLIMBING TOWER";
       ladderObstacles.forEach((obs, idx) => {
-        obs.y = TOP_Y - 2.2 - idx * 4.6;
+        obs.y = TOP_Y - 1.5 - idx * 4.8;
         obs.hitCooldown = 0;
       });
       populateWaveTargets();
@@ -1846,8 +1926,8 @@
       _ndc.y = -((clientY - rect.top) / rect.height) * 2 + 1;
       _raycaster.setFromCamera(_ndc, camera);
       if (_raycaster.ray.intersectPlane(_aimPlane, _hitPoint)) {
-        state.aimPoint.x = Math.max(-18, Math.min(18, _hitPoint.x));
-        state.aimPoint.z = Math.max(-2, Math.min(22, _hitPoint.z));
+        state.aimPoint.x = Math.max(-16, Math.min(16, _hitPoint.x));
+        state.aimPoint.z = Math.max(-1, Math.min(20, _hitPoint.z));
         state.aimPoint.y = 0.12;
         aimRing.position.copy(state.aimPoint);
       }
@@ -1864,22 +1944,22 @@
       if (state.phase === "climb") {
         const rect = canvas.getBoundingClientRect();
         const relX = (e.clientX - rect.left) / rect.width;
-        if (relX < 0.35) state.climbLaneX = Math.max(-2.4, state.climbLaneX - 2.2);
-        else if (relX > 0.65) state.climbLaneX = Math.min(2.4, state.climbLaneX + 2.2);
+        if (relX < 0.35) state.climbLaneX = Math.max(-2.2, state.climbLaneX - 2.2);
+        else if (relX > 0.65) state.climbLaneX = Math.min(2.2, state.climbLaneX + 2.2);
         else enterNestPhase();
         return;
       }
       if (state.phase === "nest") {
         updateAimFromClientXY(e.clientX, e.clientY);
         state.charging = true;
-        state.chargePower = 0.45;
+        state.chargePower = 0.65;
       }
     });
 
     window.addEventListener("pointerup", () => releaseThrow());
     window.addEventListener("pointercancel", () => {
       state.charging = false;
-      state.chargePower = 0.35;
+      state.chargePower = 0.55;
       trajectoryDots.forEach((d) => (d.visible = false));
     });
 
@@ -1986,6 +2066,7 @@
       }
     }
 
+    // Strict hit detection: cash is ONLY awarded if an egg actually hits within a target's radius
     function detonateEgg(egg) {
       const spec = EGG_SPECS[egg.type];
       const pos = egg.mesh.position;
@@ -1999,7 +2080,7 @@
 
       let anyHit = false;
       for (const t of targets) {
-        if (t.hp <= 0) continue;
+        if (t.hp <= 0 || !t.mesh.visible) continue;
         const dist = Math.hypot(t.mesh.position.x - pos.x, t.mesh.position.z - pos.z);
 
         if (dist <= spec.radius) {
@@ -2035,8 +2116,8 @@
                 if (state.phase === "gameover") return;
                 t.hp = t.maxHp;
                 t.mesh.visible = true;
-                t.mesh.position.x = (Math.random() - 0.5) * 20;
-                t.mesh.position.z = t.type === "lawyer" ? 1.6 : 9.8;
+                t.mesh.position.x = (Math.random() - 0.5) * 18;
+                t.mesh.position.z = t.type === "lawyer" ? 1.8 : 9.5;
               }, 1600);
             } else {
               t.mesh.visible = false;
@@ -2045,13 +2126,17 @@
           } else {
             spawnCallout(t.mesh.position, `HIT! (${t.hp} HP)`, "hit");
           }
-        } else if (dist <= spec.radius * 1.45) {
+        } else if (dist <= spec.radius * 1.35) {
           if (t.type === "jeet") t.dir *= -1;
           if (t.type === "paperhands") t.boostTimer = 1.6;
         }
       }
 
-      if (!anyHit) state.streak = 0;
+      if (!anyHit) {
+        state.streak = 0;
+        AudioEngine.miss();
+        spawnCallout(pos, "MISS — $0", "miss");
+      }
 
       if (state.cash >= state.quota) {
         const bonus = Math.round(75000 * state.wave * goldMult);
@@ -2109,42 +2194,61 @@
       }
 
       if (state.phase === "climb") {
-        let steer = 0;
-        if (keys.has("KeyA") || keys.has("ArrowLeft")) steer -= 1;
-        if (keys.has("KeyD") || keys.has("ArrowRight")) steer += 1;
+        if (state.climbStunTimer > 0) state.climbStunTimer = Math.max(0, state.climbStunTimer - dt);
+        if (state.climbKnockTimer > 0) state.climbKnockTimer = Math.max(0, state.climbKnockTimer - dt);
 
-        state.climbLaneX = Math.max(-2.5, Math.min(2.5, state.climbLaneX + steer * 4.2 * dt));
-        if (state.climbStagger > 0) state.climbStagger = Math.max(0, state.climbStagger - dt);
+        const isStunned = state.climbStunTimer > 0;
+        const isKnocked = state.climbKnockTimer > 0;
 
-        state.climbProgress += dt * 0.085;
+        // Player can only steer/climb when not stunned or knocked back
+        if (!isStunned && !isKnocked) {
+          let steer = 0;
+          if (keys.has("KeyA") || keys.has("ArrowLeft")) steer -= 1;
+          if (keys.has("KeyD") || keys.has("ArrowRight")) steer += 1;
+          state.climbLaneX = Math.max(-2.2, Math.min(2.2, state.climbLaneX + steer * 4.5 * dt));
+          state.climbProgress = Math.min(1, state.climbProgress + dt * 0.085);
+        } else if (isKnocked) {
+          // Physically knocked backward down the ladder on impact
+          state.climbProgress = Math.max(0, state.climbProgress - dt * 0.34);
+        }
+
         const py = 0.6 + state.climbProgress * (TOP_Y - 0.8);
-        const px = state.climbLaneX + (state.climbStagger > 0 ? Math.sin(state.simTime * 45) * 0.25 : 0);
+        const px = state.climbLaneX + (isStunned ? Math.sin(state.simTime * 50) * 0.16 : 0);
 
         playerChar.group.position.set(px, py, TOWER_Z + 3.05);
-        playerChar.group.rotation.set(0, 0, 0);
-        const legSwing = Math.sin(state.simTime * 11) * 0.55;
-        playerChar.leftArm.rotation.x = -1.1 + legSwing;
-        playerChar.rightArm.rotation.x = -1.1 - legSwing;
-        playerChar.leftLeg.rotation.x = legSwing;
-        playerChar.rightLeg.rotation.x = -legSwing;
+        playerChar.group.rotation.x = isKnocked ? 0.28 : 0;
+        playerChar.group.rotation.z = isStunned ? 0.18 : 0;
+
+        const swing = isStunned ? 0 : Math.sin(state.simTime * 11) * 0.55;
+        playerChar.leftArm.pivot.rotation.x = -1.15 + swing;
+        playerChar.rightArm.pivot.rotation.x = -1.15 - swing;
+        playerChar.leftArm.elbow.rotation.x = -0.35;
+        playerChar.rightArm.elbow.rotation.x = -0.35;
+        playerChar.leftLeg.pivot.rotation.x = swing;
+        playerChar.rightLeg.pivot.rotation.x = -swing;
+        playerChar.leftLeg.knee.rotation.x = Math.max(0, -swing * 0.7);
+        playerChar.rightLeg.knee.rotation.x = Math.max(0, swing * 0.7);
 
         for (const obs of ladderObstacles) {
           if (obs.hitCooldown > 0) obs.hitCooldown -= dt;
-          obs.y -= dt * 3.4;
+          obs.y -= dt * 3.5;
           if (obs.y < 1.2) {
             obs.y = TOP_Y - 0.8;
             const lanes = [-2.2, 0, 2.2];
             obs.laneX = lanes[Math.floor(Math.random() * lanes.length)];
           }
           obs.mesh.position.set(obs.laneX, obs.y, TOWER_Z + 3.55);
+          // Pulse warning strip & beacon beam so approaching struts are unmistakably visible
+          const pulse = 0.75 + 0.25 * Math.sin(state.simTime * 14);
+          obs.warnStrip.scale.setScalar(pulse);
 
-          if (obs.hitCooldown <= 0 && Math.abs(obs.y - py) < 0.75 && Math.abs(obs.laneX - px) < 1.05) {
-            obs.hitCooldown = 1.0;
-            state.climbStagger = 0.45;
-            state.climbProgress = Math.max(0, state.climbProgress - 0.04);
+          if (obs.hitCooldown <= 0 && Math.abs(obs.y - py) < 0.72 && Math.abs(obs.laneX - px) < 1.0) {
+            obs.hitCooldown = 1.1;
+            state.climbStunTimer = 0.75;
+            state.climbKnockTimer = 0.45;
             AudioEngine.bump();
-            spawnBurst(playerChar.group.position, 0xFDE047, 8);
-            spawnCallout(playerChar.group.position, "DODGE STRUT!", "warn");
+            spawnBurst(playerChar.group.position, 0xFDE047, 10);
+            spawnCallout(playerChar.group.position, "HIT! STUNNED & KNOCKED BACK", "warn");
           }
         }
 
@@ -2169,23 +2273,37 @@
         if (keys.has("KeyS") || keys.has("ArrowDown")) az += 1;
 
         if (ax !== 0 || az !== 0) {
-          state.aimPoint.x = Math.max(-18, Math.min(18, state.aimPoint.x + ax * 13 * dt));
-          state.aimPoint.z = Math.max(-2, Math.min(22, state.aimPoint.z + az * 13 * dt));
+          state.aimPoint.x = Math.max(-16, Math.min(16, state.aimPoint.x + ax * 13 * dt));
+          state.aimPoint.z = Math.max(-1, Math.min(20, state.aimPoint.z + az * 13 * dt));
           aimRing.position.copy(state.aimPoint);
         }
 
-        if (state.charging) {
-          state.chargePower = Math.min(1.0, state.chargePower + dt * 0.95);
-          playerChar.rightArm.rotation.x = -2.2 - state.chargePower * 0.6;
+        // Face player slightly toward aim target so throwing motion is clearly visible
+        const lookDx = state.aimPoint.x - playerChar.group.position.x;
+        const lookDz = state.aimPoint.z - playerChar.group.position.z;
+        playerChar.group.rotation.y = Math.atan2(lookDx, lookDz) * 0.55;
+
+        if (state.throwAnimTimer > 0) {
+          state.throwAnimTimer = Math.max(0, state.throwAnimTimer - dt);
+          const tNorm = 1 - state.throwAnimTimer / 0.32;
+          playerChar.rightArm.pivot.rotation.x = -2.4 + tNorm * 3.1;
+          playerChar.rightArm.elbow.rotation.x = -0.25;
+        } else if (state.charging) {
+          state.chargePower = Math.min(1.0, state.chargePower + dt * 1.1);
+          playerChar.rightArm.pivot.rotation.x = -2.25 - state.chargePower * 0.55;
+          playerChar.rightArm.elbow.rotation.x = -0.5;
         } else {
-          playerChar.rightArm.rotation.x = -0.4;
+          playerChar.rightArm.pivot.rotation.x = -1.25;
+          playerChar.rightArm.elbow.rotation.x = -0.45;
         }
+        playerChar.leftArm.pivot.rotation.x = -0.35;
+        playerChar.leftArm.elbow.rotation.x = -0.3;
 
         if (state.charging) {
-          const start = _tempVec.set(0, TOP_Y + 1.15, TOWER_Z + 2.2);
+          const start = _tempVec.set(0.3, TOP_Y + 1.45, TOWER_Z + 2.6);
           const v = computeLaunchVelocity(state.aimPoint, state.chargePower);
           for (let i = 0; i < trajectoryDots.length; i++) {
-            const t = ((i + 1) / trajectoryDots.length) * 0.95;
+            const t = ((i + 1) / trajectoryDots.length) * 0.65;
             const dot = trajectoryDots[i];
             dot.visible = true;
             dot.position.set(
@@ -2198,10 +2316,12 @@
           trajectoryDots.forEach((d) => (d.visible = false));
         }
 
-        camera.position.lerp(_tempVec.set(0, TOP_Y + 7.5, TOWER_Z + 14.5), 0.1);
-        camera.lookAt(0, 2.2, 6.5);
+        // Framing showing both the throwing character at the nest and targets below
+        camera.position.lerp(_tempVec.set(0, TOP_Y + 5.2, TOWER_Z + 11.8), 0.12);
+        camera.lookAt(0, 4.2, 2.5);
       }
 
+      // Animate targets with walking legs & arms
       for (const t of targets) {
         if (t.hp <= 0) continue;
         if (t.tumbleTimer > 0) {
@@ -2221,46 +2341,57 @@
 
         if (t.type === "boss") {
           t.phase += dt * 0.7;
-          t.mesh.position.x = Math.cos(t.phase) * 11;
-          t.mesh.position.z = 16 + Math.sin(t.phase * 2) * 4;
+          t.mesh.position.x = Math.cos(t.phase) * 10;
+          t.mesh.position.z = 15 + Math.sin(t.phase * 2) * 3.5;
         } else {
           t.mesh.position.x += t.dir * t.speed * spdMult * dt;
-          if (t.mesh.position.x > 15) {
-            t.mesh.position.x = 15;
+          if (t.mesh.position.x > 14) {
+            t.mesh.position.x = 14;
             t.dir = -1;
-          } else if (t.mesh.position.x < -15) {
-            t.mesh.position.x = -15;
+          } else if (t.mesh.position.x < -14) {
+            t.mesh.position.x = -14;
             t.dir = 1;
           }
           t.mesh.rotation.y = t.dir > 0 ? Math.PI / 2 : -Math.PI / 2;
+
+          if (t.rig) {
+            const walk = Math.sin(state.simTime * 8 * spdMult + t.phase) * 0.5;
+            t.rig.leftLeg.pivot.rotation.x = walk;
+            t.rig.rightLeg.pivot.rotation.x = -walk;
+            t.rig.leftLeg.knee.rotation.x = Math.max(0, -walk * 0.6);
+            t.rig.rightLeg.knee.rotation.x = Math.max(0, walk * 0.6);
+            t.rig.leftArm.pivot.rotation.x = -walk * 0.65;
+            t.rig.rightArm.pivot.rotation.x = walk * 0.65;
+          }
         }
       }
 
+      // Update flying eggs with brisk drop physics
       for (let i = activeEggs.length - 1; i >= 0; i--) {
         const e = activeEggs[i];
         e.age += dt;
         const windFactor = Math.max(0, 1 - state.upgrades.wind * 0.3);
-        e.vx += state.wind * 0.25 * windFactor * dt;
+        e.vx += state.wind * 0.2 * windFactor * dt;
         e.vy -= e.g * dt;
         e.mesh.position.x += e.vx * dt;
         e.mesh.position.y += e.vy * dt;
         e.mesh.position.z += e.vz * dt;
-        e.mesh.rotation.x += 12 * dt;
-        e.mesh.rotation.z += 9 * dt;
+        e.mesh.rotation.x += 15 * dt;
+        e.mesh.rotation.z += 11 * dt;
 
-        if (e.type === "whale" && !e.splitDone && e.age >= 0.42 && e.mesh.position.y > 3) {
+        if (e.type === "whale" && !e.splitDone && e.age >= 0.25 && e.mesh.position.y > 4) {
           e.splitDone = true;
-          [-2.6, 2.6].forEach((spread) => {
+          [-2.4, 2.4].forEach((spread) => {
             launchSingleEgg(
               "whale",
               e.mesh.position,
-              { vx: e.vx + spread, vy: e.vy + 1.2, vz: e.vz },
+              { vx: e.vx + spread, vy: e.vy, vz: e.vz },
               true
             );
           });
         }
 
-        if (e.mesh.position.y <= 0.25 || e.age > 3.2) {
+        if (e.mesh.position.y <= 0.25 || e.age > 2.2) {
           e.mesh.position.y = 0.25;
           detonateEgg(e);
           scene.remove(e.mesh);
@@ -2284,7 +2415,7 @@
       for (let i = particles.length - 1; i >= 0; i--) {
         const pt = particles[i];
         pt.life -= dt;
-        pt.vy -= 12 * dt;
+        pt.vy -= 14 * dt;
         pt.mesh.position.x += pt.vx * dt;
         pt.mesh.position.y += pt.vy * dt;
         pt.mesh.position.z += pt.vz * dt;
