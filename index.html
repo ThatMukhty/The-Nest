@@ -16,11 +16,9 @@
       --palm: #16A34A;
       --cash: #22C55E;
       --panel: rgba(10, 12, 16, 0.88);
-      --panel-soft: rgba(15, 19, 26, 0.78);
       --border: rgba(253, 224, 71, 0.24);
       --text: #F8FAFC;
       --muted: #CBD5E1;
-      --danger: #EF4444;
     }
 
     * {
@@ -78,20 +76,14 @@
       animation: floatUp 0.95s ease-out forwards;
     }
 
-    .callout.warn {
-      color: var(--gold);
-    }
-
-    .callout.hit {
-      color: #FFFFFF;
-    }
+    .callout.warn { color: var(--gold); }
+    .callout.hit { color: #FFFFFF; }
 
     @keyframes floatUp {
       0% { opacity: 1; transform: translate(-50%, -30%) scale(0.92); }
       100% { opacity: 0; transform: translate(-50%, -135%) scale(1.06); }
     }
 
-    /* TOP HUD */
     .hud-top {
       position: absolute;
       top: 10px;
@@ -106,9 +98,7 @@
       flex-wrap: wrap;
     }
 
-    .hud-top > * {
-      pointer-events: auto;
-    }
+    .hud-top > * { pointer-events: auto; }
 
     .panel {
       background: var(--panel);
@@ -214,9 +204,7 @@
       cursor: pointer;
     }
 
-    .ca-pill:hover {
-      background: rgba(253, 224, 71, 0.16);
-    }
+    .ca-pill:hover { background: rgba(253, 224, 71, 0.16); }
 
     .right-hud {
       display: flex;
@@ -240,9 +228,7 @@
       border-right: 1px solid rgba(255, 255, 255, 0.1);
     }
 
-    .stat-item:last-child {
-      border-right: none;
-    }
+    .stat-item:last-child { border-right: none; }
 
     .stat-label {
       font-size: 9px;
@@ -258,14 +244,8 @@
       color: var(--text);
     }
 
-    .stat-val.cash {
-      color: var(--cash);
-    }
-
-    .stat-val.stars {
-      color: var(--gold);
-      letter-spacing: 1px;
-    }
+    .stat-val.cash { color: var(--cash); }
+    .stat-val.stars { color: var(--gold); letter-spacing: 1px; }
 
     .action-row {
       display: flex;
@@ -314,7 +294,6 @@
       color: var(--gold);
     }
 
-    /* BOSS BAR */
     .boss-bar-wrap {
       position: absolute;
       top: 96px;
@@ -326,9 +305,7 @@
       z-index: 10;
     }
 
-    .boss-bar-wrap.active {
-      display: block;
-    }
+    .boss-bar-wrap.active { display: block; }
 
     .boss-label {
       display: flex;
@@ -353,7 +330,6 @@
       transition: width 0.15s ease;
     }
 
-    /* CLIMB BANNER */
     .climb-banner {
       position: absolute;
       bottom: 132px;
@@ -369,11 +345,8 @@
       white-space: nowrap;
     }
 
-    .climb-banner.active {
-      display: flex;
-    }
+    .climb-banner.active { display: flex; }
 
-    /* BOTTOM HUD */
     .hud-bottom {
       position: absolute;
       bottom: 10px;
@@ -388,9 +361,7 @@
       flex-wrap: wrap;
     }
 
-    .hud-bottom > * {
-      pointer-events: auto;
-    }
+    .hud-bottom > * { pointer-events: auto; }
 
     .radar-box {
       padding: 8px;
@@ -444,19 +415,9 @@
       min-width: 112px;
     }
 
-    .upg-btn:hover:not(:disabled) {
-      border-color: var(--gold);
-    }
-
-    .upg-btn:disabled {
-      opacity: 0.48;
-      cursor: not-allowed;
-    }
-
-    .upg-sub {
-      font-size: 10px;
-      color: var(--gold);
-    }
+    .upg-btn:hover:not(:disabled) { border-color: var(--gold); }
+    .upg-btn:disabled { opacity: 0.48; cursor: not-allowed; }
+    .upg-sub { font-size: 10px; color: var(--gold); }
 
     .egg-card {
       position: relative;
@@ -479,11 +440,7 @@
       background: rgba(245, 158, 11, 0.16);
     }
 
-    .egg-stats {
-      font-size: 10px;
-      color: var(--muted);
-      margin-top: 2px;
-    }
+    .egg-stats { font-size: 10px; color: var(--muted); margin-top: 2px; }
 
     .cd-bar {
       position: absolute;
@@ -501,7 +458,6 @@
       gap: 6px;
     }
 
-    /* TOAST */
     .toast {
       position: fixed;
       top: 18px;
@@ -526,7 +482,6 @@
       transform: translateX(-50%) translateY(0);
     }
 
-    /* VAULT MODAL */
     .modal-backdrop {
       position: fixed;
       inset: 0;
@@ -539,9 +494,7 @@
       z-index: 40;
     }
 
-    .modal-backdrop.open {
-      display: flex;
-    }
+    .modal-backdrop.open { display: flex; }
 
     .modal-card {
       width: min(460px, 100%);
@@ -552,18 +505,8 @@
       box-shadow: 0 20px 50px rgba(0, 0, 0, 0.7);
     }
 
-    .modal-title {
-      font-size: 18px;
-      font-weight: 900;
-      color: var(--gold);
-      margin-bottom: 4px;
-    }
-
-    .modal-sub {
-      font-size: 12px;
-      color: var(--muted);
-      margin-bottom: 14px;
-    }
+    .modal-title { font-size: 18px; font-weight: 900; color: var(--gold); margin-bottom: 4px; }
+    .modal-sub { font-size: 12px; color: var(--muted); margin-bottom: 14px; }
 
     .stats-grid {
       display: grid;
@@ -579,18 +522,8 @@
       border: 1px solid rgba(255, 255, 255, 0.08);
     }
 
-    .grid-stat .k {
-      font-size: 10px;
-      font-weight: 800;
-      color: var(--muted);
-    }
-
-    .grid-stat .v {
-      font-size: 16px;
-      font-weight: 900;
-      color: var(--gold);
-      margin-top: 2px;
-    }
+    .grid-stat .k { font-size: 10px; font-weight: 800; color: var(--muted); }
+    .grid-stat .v { font-size: 16px; font-weight: 900; color: var(--gold); margin-top: 2px; }
 
     .modal-actions {
       display: flex;
@@ -599,7 +532,6 @@
       margin-top: 14px;
     }
 
-    /* BOTTOM INFO SECTION */
     .info-section {
       max-width: 1120px;
       margin: 18px auto 36px;
@@ -639,16 +571,8 @@
       color: var(--gold);
     }
 
-    .tab-pane {
-      display: none;
-      font-size: 13px;
-      line-height: 1.6;
-      color: var(--muted);
-    }
-
-    .tab-pane.active {
-      display: block;
-    }
+    .tab-pane { display: none; font-size: 13px; line-height: 1.6; color: var(--muted); }
+    .tab-pane.active { display: block; }
 
     .info-grid-3 {
       display: grid;
@@ -664,11 +588,7 @@
       border: 1px solid rgba(255, 255, 255, 0.08);
     }
 
-    .mini-box strong {
-      color: var(--text);
-      display: block;
-      margin-bottom: 3px;
-    }
+    .mini-box strong { color: var(--text); display: block; margin-bottom: 3px; }
 
     .ca-bar-full {
       margin-top: 14px;
@@ -698,7 +618,6 @@
     <canvas id="gameCanvas"></canvas>
     <div id="calloutLayer"></div>
 
-    <!-- TOP HUD -->
     <div class="hud-top">
       <div class="panel mission-box">
         <div class="mission-head">
@@ -713,7 +632,7 @@
           <div class="quota-fill" id="quotaFill"></div>
         </div>
         <div class="mission-meta">
-          <span class="timer-pill" id="timerPill">40.0s (READY AT NEST)</span>
+          <span class="timer-pill" id="timerPill">40.0s (PAUSED ON CLIMB)</span>
           <button class="ca-pill" id="topCopyCa" type="button" title="Copy Contract Address">
             <span>CA:</span>
             <span id="shortCaText">EGG111...1pump</span>
@@ -758,7 +677,6 @@
       </div>
     </div>
 
-    <!-- BOSS HEALTH BAR -->
     <div class="panel boss-bar-wrap" id="bossBarWrap">
       <div class="boss-label">
         <span>RUGGER BOSS</span>
@@ -769,13 +687,11 @@
       </div>
     </div>
 
-    <!-- CLIMB HELPER BANNER -->
     <div class="panel climb-banner active" id="climbBanner">
       <span>A/D or ←/→ to dodge obstacles • Clear warning lanes!</span>
       <button class="btn primary" id="skipClimbBtn" type="button">SKIP TO NEST [ENTER]</button>
     </div>
 
-    <!-- BOTTOM HUD -->
     <div class="hud-bottom">
       <div class="panel radar-box">
         <span class="radar-title">LEONIDA RADAR</span>
@@ -824,7 +740,6 @@
     </div>
   </div>
 
-  <!-- BELOW-THE-FOLD INFO SECTION -->
   <section class="info-section">
     <div class="info-card">
       <div class="tabs-bar">
@@ -881,7 +796,6 @@
     </div>
   </section>
 
-  <!-- VAULT MODAL -->
   <div class="modal-backdrop" id="vaultModal">
     <div class="modal-card">
       <div class="modal-title" id="vaultTitle">THE NEST VAULT</div>
@@ -928,7 +842,6 @@
       BUY_URL: "https://pump.fun"
     };
 
-    // Wire CONFIG dynamically
     document.title = `${CONFIG.TOKEN_NAME} (${CONFIG.TICKER}) — ${CONFIG.CHAIN}`;
     document.getElementById("hudBrand").textContent = `${CONFIG.TOKEN_NAME} (${CONFIG.TICKER})`;
     document.getElementById("hudChain").textContent = CONFIG.CHAIN;
@@ -943,6 +856,41 @@
     document.getElementById("chartLink").href = CONFIG.CHART_URL;
     document.getElementById("buyLink").href = CONFIG.BUY_URL;
     document.getElementById("modalBuyBtn").href = CONFIG.BUY_URL;
+
+    function formatMoney(n) {
+      const abs = Math.abs(Math.round(n));
+      if (abs >= 1000000) return `${(n / 1000000).toFixed(2).replace(/\.00$/, "")}M`;
+      if (abs >= 1000) return `${Math.round(n / 1000)}K`;
+      return `${Math.round(n)}`;
+    }
+
+    const BEST_KEY = "the_nest_egg_best_cash_v1";
+    const state = {
+      phase: "climb",
+      wave: 1,
+      waveTime: 40.0,
+      cash: 0,
+      bestCash: Number(localStorage.getItem(BEST_KEY) || 0),
+      quota: 250000,
+      streak: 0,
+      maxStreak: 0,
+      hits: 0,
+      wanted: 1,
+      wind: 2.0,
+      gustTimer: 8.0,
+      gustActive: 0,
+      selectedEgg: "classic",
+      cooldowns: { classic: 0, bull: 0, whale: 0 },
+      upgrades: { wind: 0, turbo: 0, gold: 0 },
+      charging: false,
+      chargePower: 0.35,
+      climbProgress: 0,
+      climbLaneX: 0,
+      climbStagger: 0,
+      aimPoint: new THREE.Vector3(0, 0.2, 6),
+      modalOpen: false,
+      simTime: 0
+    };
 
     function updateShareLink() {
       const text = encodeURIComponent(
@@ -970,7 +918,6 @@
       document.getElementById(id).addEventListener("click", copyCA);
     });
 
-    // Procedural Web Audio (zero external assets)
     const AudioEngine = (() => {
       let ctx = null;
       let sfxOn = true;
@@ -983,9 +930,7 @@
           const AC = window.AudioContext || window.webkitAudioContext;
           if (AC) ctx = new AC();
         }
-        if (ctx && ctx.state === "suspended") {
-          ctx.resume().catch(() => {});
-        }
+        if (ctx && ctx.state === "suspended") ctx.resume().catch(() => {});
       }
 
       function tone(freq, type, dur, vol = 0.08, slideTo = null, delay = 0) {
@@ -1049,19 +994,13 @@
             startGrooveLoop();
           }
         },
-        throwEgg(heavy = false) {
-          tone(heavy ? 240 : 420, "sine", 0.14, 0.08, heavy ? 90 : 180);
-        },
-        hit(big = false) {
-          tone(big ? 140 : 210, "sawtooth", big ? 0.26 : 0.16, big ? 0.1 : 0.07, 55);
-        },
+        throwEgg(heavy = false) { tone(heavy ? 240 : 420, "sine", 0.14, 0.08, heavy ? 90 : 180); },
+        hit(big = false) { tone(big ? 140 : 210, "sawtooth", big ? 0.26 : 0.16, big ? 0.1 : 0.07, 55); },
         clang() {
           tone(880, "square", 0.09, 0.06, 620);
           tone(1320, "triangle", 0.11, 0.05, 940, 0.02);
         },
-        bump() {
-          tone(135, "square", 0.16, 0.09, 48);
-        },
+        bump() { tone(135, "square", 0.16, 0.09, 48); },
         cash() {
           tone(587.33, "sine", 0.1, 0.07, 880);
           tone(880, "sine", 0.14, 0.07, 1174.66, 0.07);
@@ -1077,73 +1016,12 @@
     document.getElementById("sfxBtn").addEventListener("click", () => AudioEngine.toggleSfx());
     document.getElementById("grooveBtn").addEventListener("click", () => AudioEngine.toggleGroove());
 
-    // Formatting helpers
-    function formatMoney(n) {
-      const abs = Math.abs(Math.round(n));
-      if (abs >= 1000000) return `${(n / 1000000).toFixed(2).replace(/\.00$/, "")}M`;
-      if (abs >= 1000) return `${Math.round(n / 1000)}K`;
-      return `${Math.round(n)}`;
-    }
-
     const calloutLayer = document.getElementById("calloutLayer");
-    function spawnCallout(worldPos, text, cls = "") {
-      const v = _tempVec.copy(worldPos).project(camera);
-      if (v.z > 1) return;
-      const rect = renderer.domElement.getBoundingClientRect();
-      const x = (v.x * 0.5 + 0.5) * rect.width;
-      const y = (-v.y * 0.5 + 0.5) * rect.height;
-      const div = document.createElement("div");
-      div.className = `callout ${cls}`;
-      div.textContent = text;
-      div.style.left = `${x}px`;
-      div.style.top = `${y}px`;
-      calloutLayer.appendChild(div);
-      setTimeout(() => div.remove(), 960);
-    }
-
-    // Game State
-    const BEST_KEY = "the_nest_egg_best_cash_v1";
-    const state = {
-      phase: "climb", // "climb" | "nest" | "gameover"
-      wave: 1,
-      waveTime: 40.0,
-      cash: 0,
-      bestCash: Number(localStorage.getItem(BEST_KEY) || 0),
-      quota: 250000,
-      streak: 0,
-      maxStreak: 0,
-      hits: 0,
-      wanted: 1,
-      wind: 2.0,
-      gustTimer: 8.0,
-      gustActive: 0,
-      selectedEgg: "classic", // "classic" | "bull" | "whale"
-      cooldowns: { classic: 0, bull: 0, whale: 0 },
-      upgrades: { wind: 0, turbo: 0, gold: 0 },
-      charging: false,
-      chargePower: 0.35,
-      climbProgress: 0, // 0 -> 1
-      climbLaneX: 0, // -2.4 to +2.4
-      climbStagger: 0,
-      aimPoint: new THREE.Vector3(0, 0.2, 6),
-      modalOpen: false,
-      simTime: 0
-    };
-
-    function getQuotaForWave(w) {
-      return Math.round(250000 * Math.pow(1.28, w - 1));
-    }
-
-    function getUpgradeCost(key) {
-      const lvl = state.upgrades[key];
-      const base = key === "wind" ? 100000 : key === "turbo" ? 120000 : 150000;
-      return Math.round(base * Math.pow(1.75, lvl));
-    }
-
-    // THREE.JS SETUP
     const stageWrap = document.getElementById("stageWrap");
     const canvas = document.getElementById("gameCanvas");
-    const renderer = new THREE.WebGLRenderer({ canvas, antialias: true, powerPreference: "high performance" });
+
+    // Validated WebGLRenderer creation (no invalid powerPreference string)
+    const renderer = new THREE.WebGLRenderer({ canvas, antialias: true });
     renderer.setPixelRatio(Math.min(window.devicePixelRatio || 1, 2));
     renderer.setSize(stageWrap.clientWidth, stageWrap.clientHeight);
     renderer.toneMapping = THREE.ACESFilmicToneMapping;
@@ -1160,10 +1038,40 @@
       0.5,
       260
     );
-    camera.position.set(0, 26, 28);
-    camera.lookAt(0, 8, 6);
+    camera.position.set(0, 12, 16);
+    camera.lookAt(0, 7, -8);
 
-    // Procedural Canvas Textures
+    const _tempVec = new THREE.Vector3();
+    const _raycaster = new THREE.Raycaster();
+    const _ndc = new THREE.Vector2();
+    const _aimPlane = new THREE.Plane(new THREE.Vector3(0, 1, 0), 0);
+    const _hitPoint = new THREE.Vector3();
+
+    function spawnCallout(worldPos, text, cls = "") {
+      const v = _tempVec.copy(worldPos).project(camera);
+      if (v.z > 1) return;
+      const rect = renderer.domElement.getBoundingClientRect();
+      const x = (v.x * 0.5 + 0.5) * rect.width;
+      const y = (-v.y * 0.5 + 0.5) * rect.height;
+      const div = document.createElement("div");
+      div.className = `callout ${cls}`;
+      div.textContent = text;
+      div.style.left = `${x}px`;
+      div.style.top = `${y}px`;
+      calloutLayer.appendChild(div);
+      setTimeout(() => div.remove(), 960);
+    }
+
+    function getQuotaForWave(w) {
+      return Math.round(250000 * Math.pow(1.28, w - 1));
+    }
+
+    function getUpgradeCost(key) {
+      const lvl = state.upgrades[key];
+      const base = key === "wind" ? 100000 : key === "turbo" ? 120000 : 150000;
+      return Math.round(base * Math.pow(1.75, lvl));
+    }
+
     function makeSkyTexture() {
       const c = document.createElement("canvas");
       c.width = 32;
@@ -1176,8 +1084,7 @@
       grad.addColorStop(1.0, "#FDE047");
       g.fillStyle = grad;
       g.fillRect(0, 0, 32, 256);
-      const tex = new THREE.CanvasTexture(c);
-      return tex;
+      return new THREE.CanvasTexture(c);
     }
 
     function makeEggTexture(stripeColor) {
@@ -1212,15 +1119,13 @@
       return tex;
     }
 
-    // Sky dome
     const skyDome = new THREE.Mesh(
       new THREE.SphereGeometry(150, 24, 16),
       new THREE.MeshBasicMaterial({ map: makeSkyTexture(), side: THREE.BackSide, fog: false })
     );
     scene.add(skyDome);
 
-    // Lighting (no purple/magenta)
-    const hemiLight = new THREE.HemisphereLight(0xFDE047, 0x0284C7, 0.85);
+    const hemiLight = new THREE.HemisphereLight(0xFDE047, 0x0284C7, 0.9);
     scene.add(hemiLight);
 
     const sunLight = new THREE.DirectionalLight(0xFBBF24, 1.85);
@@ -1236,12 +1141,9 @@
     sunLight.shadow.camera.bottom = -d;
     scene.add(sunLight);
 
-    // WORLD ENVIRONMENT: Boulevard, Sand, Ocean, Tower, Nest, Palms
-    // Tower sits at z = -12, y = 0..17; boulevard runs along z = +6 (in clear view & throwing range!)
     const groundGroup = new THREE.Group();
     scene.add(groundGroup);
 
-    // Beachfront sand / plaza ground
     const sandMesh = new THREE.Mesh(
       new THREE.PlaneGeometry(180, 120),
       new THREE.MeshStandardMaterial({ color: 0xFCD34D, roughness: 0.9 })
@@ -1251,7 +1153,6 @@
     sandMesh.receiveShadow = true;
     groundGroup.add(sandMesh);
 
-    // Coastal boulevard road at z = 6
     const roadMesh = new THREE.Mesh(
       new THREE.PlaneGeometry(140, 10),
       new THREE.MeshStandardMaterial({ map: makeRoadTexture(), roughness: 0.8 })
@@ -1261,7 +1162,6 @@
     roadMesh.receiveShadow = true;
     groundGroup.add(roadMesh);
 
-    // Ocean beyond boulevard (z = 13..85)
     const oceanMesh = new THREE.Mesh(
       new THREE.PlaneGeometry(200, 80),
       new THREE.MeshStandardMaterial({ color: 0x0284C7, roughness: 0.25, metalness: 0.15 })
@@ -1270,11 +1170,8 @@
     oceanMesh.position.set(0, -0.15, 51);
     groundGroup.add(oceanMesh);
 
-    // Palm trees along boulevard edge
     const palms = [];
     for (let i = -5; i <= 5; i++) {
-      const px = i * 7.5;
-      const pz = 11.2;
       const tree = new THREE.Group();
       const trunk = new THREE.Mesh(
         new THREE.CylinderGeometry(0.22, 0.34, 5.2, 7),
@@ -1293,12 +1190,11 @@
         frond.rotation.x = Math.sin(ang) * 0.9;
         tree.add(frond);
       }
-      tree.position.set(px, 0, pz);
+      tree.position.set(i * 7.5, 0, 11.2);
       scene.add(tree);
       palms.push({ tree, phase: i * 0.8 });
     }
 
-    // Broadcast Tower at (0, 0, -11), top platform at y = 16
     const TOWER_Z = -11;
     const TOP_Y = 16;
 
@@ -1315,7 +1211,6 @@
     shaft.receiveShadow = true;
     towerGroup.add(shaft);
 
-    // Red/gold trim bands
     const trimMat = new THREE.MeshStandardMaterial({ color: 0xEA580C, roughness: 0.6 });
     [4, 9, 14].forEach((ty) => {
       const band = new THREE.Mesh(new THREE.BoxGeometry(7.45, 0.55, 6.45), trimMat);
@@ -1323,7 +1218,6 @@
       towerGroup.add(band);
     });
 
-    // Nest Deck Platform on front side of tower facing the boulevard
     const deck = new THREE.Mesh(
       new THREE.BoxGeometry(10.5, 0.7, 7.5),
       new THREE.MeshStandardMaterial({ color: 0x334155, roughness: 0.7 })
@@ -1333,7 +1227,6 @@
     deck.receiveShadow = true;
     towerGroup.add(deck);
 
-    // Giant Bird's Nest placed slightly to the left-back so it never blocks camera or target view
     const nestGroup = new THREE.Group();
     nestGroup.position.set(-2.3, TOP_Y + 0.55, 0.6);
     towerGroup.add(nestGroup);
@@ -1346,25 +1239,21 @@
     nestRing.castShadow = true;
     nestGroup.add(nestRing);
 
-    // Painted eggs resting inside the nest
     const eggSkins = {
       classic: makeEggTexture("#EF4444"),
       bull: makeEggTexture("#F59E0B"),
       whale: makeEggTexture("#06B6D4")
     };
-    const nestEggs = [];
     ["classic", "bull", "whale"].forEach((k, idx) => {
       const m = new THREE.Mesh(
         new THREE.SphereGeometry(0.36, 14, 12),
         new THREE.MeshStandardMaterial({ map: eggSkins[k], roughness: 0.35 })
       );
       m.scale.set(0.85, 1.25, 0.85);
-      m.position.set((idx - 1) * 0.55, 0.25, (idx % 2 === 0 ? -0.22 : 0.22));
+      m.position.set((idx - 1) * 0.55, 0.25, idx % 2 === 0 ? -0.22 : 0.22);
       nestGroup.add(m);
-      nestEggs.push(m);
     });
 
-    // Blinking red tower beacon on mast
     const mast = new THREE.Mesh(
       new THREE.CylinderGeometry(0.14, 0.26, 6.5, 8),
       new THREE.MeshStandardMaterial({ color: 0xCBD5E1, metalness: 0.6, roughness: 0.3 })
@@ -1377,40 +1266,35 @@
     beacon.position.set(0, TOP_Y + 6.9, -1.8);
     towerGroup.add(beacon);
 
-    // WIDE FRONT LADDER (x in [-3.2, +3.2], y from 0.6 to TOP_Y)
+    // Clear, high-contrast vertical ladder in front of tower shaft
     const ladderGroup = new THREE.Group();
-    ladderGroup.position.set(0, 0, TOWER_Z + 3.35);
+    ladderGroup.position.set(0, 0, TOWER_Z + 3.45);
     scene.add(ladderGroup);
 
-    const railMat = new THREE.MeshStandardMaterial({ color: 0xFDE047, metalness: 0.4, roughness: 0.4 });
+    const railMat = new THREE.MeshStandardMaterial({ color: 0xFDE047, metalness: 0.3, roughness: 0.4 });
     [-3.2, 3.2].forEach((rx) => {
-      const rail = new THREE.Mesh(new THREE.CylinderGeometry(0.11, 0.11, TOP_Y, 8), railMat);
+      const rail = new THREE.Mesh(new THREE.CylinderGeometry(0.13, 0.13, TOP_Y, 8), railMat);
       rail.position.set(rx, TOP_Y / 2, 0);
+      rail.castShadow = true;
       ladderGroup.add(rail);
     });
 
     const rungMat = new THREE.MeshStandardMaterial({ color: 0xF8FAFC, roughness: 0.5 });
     for (let ry = 1.0; ry < TOP_Y; ry += 1.0) {
-      const rung = new THREE.Mesh(new THREE.CylinderGeometry(0.08, 0.08, 6.4, 8), rungMat);
+      const rung = new THREE.Mesh(new THREE.CylinderGeometry(0.09, 0.09, 6.4, 8), rungMat);
       rung.rotation.z = Math.PI / 2;
       rung.position.set(0, ry, 0);
+      rung.castShadow = true;
       ladderGroup.add(rung);
     }
 
-    // HUMAN-PROPORTIONED 3D CHARACTER (No stickman limbs)
     function createHumanCharacter(opts = {}) {
       const g = new THREE.Group();
-      const torsoColor = opts.torsoColor || 0xEA580C;
-      const pantsColor = opts.pantsColor || 0x1E293B;
-      const skinColor = opts.skinColor || 0xFDBA74;
-      const hairColor = opts.hairColor || 0x1F2937;
+      const torsoMat = new THREE.MeshStandardMaterial({ color: opts.torsoColor || 0xEA580C, roughness: 0.65 });
+      const pantsMat = new THREE.MeshStandardMaterial({ color: opts.pantsColor || 0x1E293B, roughness: 0.75 });
+      const skinMat = new THREE.MeshStandardMaterial({ color: opts.skinColor || 0xFDBA74, roughness: 0.7 });
+      const hairMat = new THREE.MeshStandardMaterial({ color: opts.hairColor || 0x1F2937, roughness: 0.8 });
 
-      const torsoMat = new THREE.MeshStandardMaterial({ color: torsoColor, roughness: 0.65 });
-      const pantsMat = new THREE.MeshStandardMaterial({ color: pantsColor, roughness: 0.75 });
-      const skinMat = new THREE.MeshStandardMaterial({ color: skinColor, roughness: 0.7 });
-      const hairMat = new THREE.MeshStandardMaterial({ color: hairColor, roughness: 0.8 });
-
-      // Broad jacketed torso + shoulders
       const torso = new THREE.Mesh(new THREE.BoxGeometry(0.86, 0.96, 0.48), torsoMat);
       torso.position.y = 1.35;
       torso.castShadow = true;
@@ -1421,7 +1305,6 @@
       hips.castShadow = true;
       g.add(hips);
 
-      // Head + hair
       const head = new THREE.Mesh(new THREE.BoxGeometry(0.52, 0.54, 0.52), skinMat);
       head.position.y = 2.12;
       head.castShadow = true;
@@ -1431,7 +1314,6 @@
       hair.position.y = 2.4;
       g.add(hair);
 
-      // Articulated Left/Right Arms (shoulder pivot at y = 1.72)
       function makeArm(side) {
         const pivot = new THREE.Group();
         pivot.position.set(side * 0.56, 1.72, 0);
@@ -1449,7 +1331,6 @@
         return pivot;
       }
 
-      // Articulated Left/Right Legs (hip pivot at y = 0.72)
       function makeLeg(side) {
         const pivot = new THREE.Group();
         pivot.position.set(side * 0.22, 0.72, 0);
@@ -1472,8 +1353,6 @@
       const leftLeg = makeLeg(-1);
       const rightLeg = makeLeg(1);
 
-      // Optional Lawyer tie + gold briefcase
-      let briefcase = null;
       if (opts.isLawyer) {
         const tie = new THREE.Mesh(
           new THREE.BoxGeometry(0.14, 0.55, 0.08),
@@ -1482,7 +1361,7 @@
         tie.position.set(0, 1.38, 0.26);
         g.add(tie);
 
-        briefcase = new THREE.Mesh(
+        const briefcase = new THREE.Mesh(
           new THREE.BoxGeometry(0.55, 0.38, 0.14),
           new THREE.MeshStandardMaterial({ color: 0xFDE047, metalness: 0.7, roughness: 0.25 })
         );
@@ -1491,7 +1370,6 @@
         rightArm.add(briefcase);
       }
 
-      // Held egg in right hand for player at nest
       const heldEgg = new THREE.Mesh(
         new THREE.SphereGeometry(0.22, 10, 10),
         new THREE.MeshStandardMaterial({ map: eggSkins.classic, roughness: 0.35 })
@@ -1512,7 +1390,6 @@
     });
     scene.add(playerChar.group);
 
-    // TELEGRAPHED LADDER OBSTACLES (Clear lane & warning glow before reaching player)
     const ladderObstacles = [];
     function createClimbObstacle(laneX, yPos) {
       const grp = new THREE.Group();
@@ -1523,7 +1400,6 @@
       body.castShadow = true;
       grp.add(body);
 
-      // Warning beacon strip on front
       const warnStrip = new THREE.Mesh(
         new THREE.BoxGeometry(1.4, 0.18, 0.96),
         new THREE.MeshBasicMaterial({ color: 0xFDE047 })
@@ -1531,16 +1407,15 @@
       warnStrip.position.y = 0.22;
       grp.add(warnStrip);
 
-      grp.position.set(laneX, yPos, TOWER_Z + 3.45);
+      grp.position.set(laneX, yPos, TOWER_Z + 3.55);
       scene.add(grp);
       return { mesh: grp, laneX, y: yPos, hitCooldown: 0 };
     }
 
     [-2.2, 0, 2.2].forEach((lx, idx) => {
-      ladderObstacles.push(createClimbObstacle(lx, TOP_Y - 2.5 - idx * 4.5));
+      ladderObstacles.push(createClimbObstacle(lx, TOP_Y - 2.2 - idx * 4.6));
     });
 
-    // AIM RING & TRAJECTORY DOTS
     const aimRing = new THREE.Mesh(
       new THREE.RingGeometry(0.75, 1.15, 28),
       new THREE.MeshBasicMaterial({ color: 0xFDE047, side: THREE.DoubleSide })
@@ -1561,7 +1436,6 @@
       trajectoryDots.push(dot);
     }
 
-    // MOVING CARS & YACHTS
     const cars = [];
     const carColors = [0xEF4444, 0x06B6D4, 0xFDE047, 0x22C55E, 0xF97316];
     for (let i = 0; i < 6; i++) {
@@ -1609,7 +1483,6 @@
       yachts.push({ mesh: yGroup, dir: i % 2 === 0 ? 1 : -1, speed: 3.4 + i * 0.6 });
     }
 
-    // TARGETS (Lawyer & Archetypes positioned clearly in front of the tower on boulevard/plaza)
     const targets = [];
     const cashPickups = [];
     const activeEggs = [];
@@ -1663,7 +1536,6 @@
         baseCash = 250000;
         speed = 2.4;
       } else {
-        // rugger boss
         const g = new THREE.Group();
         const hull = new THREE.Mesh(
           new THREE.CylinderGeometry(1.7, 2.2, 2.4, 12),
@@ -1703,21 +1575,15 @@
     }
 
     function populateWaveTargets() {
-      // Clear existing targets
       for (const t of targets) scene.remove(t.mesh);
       targets.length = 0;
 
-      // Always place a prominent Sleazy Lawyer right in front of the tower
       targets.push(createTargetEntity("lawyer", 0, 1.6));
       targets.push(createTargetEntity("lawyer", -7.5, 9.8));
       targets.push(createTargetEntity("jeet", 6.5, 1.4));
       targets.push(createTargetEntity("paperhands", -4.0, 9.6));
-      if (state.wave >= 2) {
-        targets.push(createTargetEntity("scamdev", 8.5, 9.8));
-      }
-      if (state.wave % 3 === 0) {
-        targets.push(createTargetEntity("boss", 0, 18));
-      }
+      if (state.wave >= 2) targets.push(createTargetEntity("scamdev", 8.5, 9.8));
+      if (state.wave % 3 === 0) targets.push(createTargetEntity("boss", 0, 18));
     }
 
     populateWaveTargets();
@@ -1752,18 +1618,10 @@
       }
     }
 
-    // Reusable math objects (zero per-frame allocation)
-    const _tempVec = new THREE.Vector3();
-    const _raycaster = new THREE.Raycaster();
-    const _ndc = new THREE.Vector2();
-    const _aimPlane = new THREE.Plane(new THREE.Vector3(0, 1, 0), 0);
-    const _hitPoint = new THREE.Vector3();
-
-    // EGG THROWING & TRAJECTORY
     const EGG_SPECS = {
-      classic: { mult: 1.0, radius: 3.8, cd: 0, label: "CLASSIC" },
-      bull: { mult: 2.0, radius: 6.8, cd: 2.5, label: "BULL" },
-      whale: { mult: 5.0, radius: 11.5, cd: 6.0, label: "WHALE" }
+      classic: { mult: 1.0, radius: 3.8, cd: 0 },
+      bull: { mult: 2.0, radius: 6.8, cd: 2.5 },
+      whale: { mult: 5.0, radius: 11.5, cd: 6.0 }
     };
 
     function selectEgg(type) {
@@ -1783,9 +1641,8 @@
     function getEffectiveCooldown(key) {
       const base = EGG_SPECS[key].cd;
       if (base <= 0) return 0;
-      if (state.streak >= 5) return 0; // Leonida Frenzy
-      const turboFactor = 1 - state.upgrades.turbo * 0.22;
-      return Math.max(0.4, base * turboFactor);
+      if (state.streak >= 5) return 0;
+      return Math.max(0.4, base * (1 - state.upgrades.turbo * 0.22));
     }
 
     function computeLaunchVelocity(targetPos, power) {
@@ -1793,10 +1650,12 @@
       const flightTime = 0.88 + (1 - Math.min(1, power)) * 0.22;
       const g = 22;
       const windFactor = Math.max(0, 1 - state.upgrades.wind * 0.3);
-      const vx = (targetPos.x - startPos.x) / flightTime + state.wind * 0.14 * windFactor;
-      const vz = (targetPos.z - startPos.z) / flightTime;
-      const vy = (targetPos.y - startPos.y + 0.5 * g * flightTime * flightTime) / flightTime;
-      return { vx, vy, vz, g };
+      return {
+        vx: (targetPos.x - startPos.x) / flightTime + state.wind * 0.14 * windFactor,
+        vz: (targetPos.z - startPos.z) / flightTime,
+        vy: (targetPos.y - startPos.y + 0.5 * g * flightTime * flightTime) / flightTime,
+        g
+      };
     }
 
     function launchSingleEgg(eggKey, startPos, vel, isSplitChild = false) {
@@ -1850,7 +1709,6 @@
       AudioEngine.throwEgg(eggKey !== "classic");
     }
 
-    // UPGRADES
     function buyUpgrade(key) {
       if (state.upgrades[key] >= 3) return;
       const cost = getUpgradeCost(key);
@@ -1865,7 +1723,6 @@
     document.getElementById("upgTurbo").addEventListener("click", () => buyUpgrade("turbo"));
     document.getElementById("upgGold").addEventListener("click", () => buyUpgrade("gold"));
 
-    // CLIMB -> NEST TRANSITION
     function enterNestPhase() {
       state.phase = "nest";
       state.climbProgress = 1;
@@ -1900,14 +1757,11 @@
     }
 
     document.getElementById("skipClimbBtn").addEventListener("click", () => {
-      if (state.phase === "climb" && !state.modalOpen) {
-        enterNestPhase();
-      }
+      if (state.phase === "climb" && !state.modalOpen) enterNestPhase();
     });
 
-    // VAULT MODAL & FULL RESET
     const vaultModal = document.getElementById("vaultModal");
-    function openVault(reason = "VAULT OPENED") {
+    function openVault(reason = "THE NEST VAULT") {
       state.charging = false;
       trajectoryDots.forEach((d) => (d.visible = false));
       state.modalOpen = true;
@@ -1949,7 +1803,6 @@
     document.getElementById("closeVaultBtn").addEventListener("click", closeVault);
     document.getElementById("playAgainBtn").addEventListener("click", resetFullRun);
 
-    // BOTTOM INFO TABS
     document.querySelectorAll(".tab-btn").forEach((btn) => {
       btn.addEventListener("click", () => {
         const target = btn.getAttribute("data-tab");
@@ -1960,7 +1813,6 @@
       });
     });
 
-    // INPUT HANDLERS (Controlled movement + clean release throw)
     const keys = new Set();
     window.addEventListener("keydown", (e) => {
       keys.add(e.code);
@@ -1985,9 +1837,7 @@
 
     window.addEventListener("keyup", (e) => {
       keys.delete(e.code);
-      if (e.code === "Space") {
-        releaseThrow();
-      }
+      if (e.code === "Space") releaseThrow();
     });
 
     function updateAimFromClientXY(clientX, clientY) {
@@ -2041,7 +1891,6 @@
       renderer.setSize(w, h);
     });
 
-    // HUD & RADAR SYNC
     const radarCanvas = document.getElementById("radarCanvas");
     const rCtx = radarCanvas.getContext("2d");
 
@@ -2076,10 +1925,9 @@
       const stars = Math.max(1, Math.min(5, state.wanted));
       document.getElementById("starsVal").textContent = "★".repeat(stars) + "☆".repeat(5 - stars);
 
-      // Upgrades
-      [["wind", "Wind", "lvlWind", "costWind", "upgWind"],
-       ["turbo", "Turbo", "lvlTurbo", "costTurbo", "upgTurbo"],
-       ["gold", "Gold", "lvlGold", "costGold", "upgGold"]].forEach(([k, , lvlId, costId, btnId]) => {
+      [["wind", "lvlWind", "costWind", "upgWind"],
+       ["turbo", "lvlTurbo", "costTurbo", "upgTurbo"],
+       ["gold", "lvlGold", "costGold", "upgGold"]].forEach(([k, lvlId, costId, btnId]) => {
         const lvl = state.upgrades[k];
         const cost = getUpgradeCost(k);
         document.getElementById(lvlId).textContent = `Lv.${lvl}/3`;
@@ -2087,15 +1935,13 @@
         document.getElementById(btnId).disabled = lvl >= 3 || state.cash < cost;
       });
 
-      // Egg cooldown bars
       [["classic", "cdClassic"], ["bull", "cdBull"], ["whale", "cdWhale"]].forEach(([k, barId]) => {
         const maxCd = getEffectiveCooldown(k);
         const rem = state.cooldowns[k];
-        const bar = document.getElementById(barId);
-        bar.style.width = maxCd > 0 ? `${Math.max(0, Math.min(100, (rem / maxCd) * 100))}%` : "0%";
+        document.getElementById(barId).style.width =
+          maxCd > 0 ? `${Math.max(0, Math.min(100, (rem / maxCd) * 100))}%` : "0%";
       });
 
-      // Boss bar
       const boss = targets.find((t) => t.type === "boss" && t.hp > 0);
       const bossWrap = document.getElementById("bossBarWrap");
       if (boss) {
@@ -2120,11 +1966,9 @@
       const mapX = (x) => 57 + (x / 20) * 44;
       const mapY = (z) => 57 + ((z - 6) / 20) * 44;
 
-      // Tower dot
       rCtx.fillStyle = "#F59E0B";
       rCtx.fillRect(mapX(0) - 4, mapY(TOWER_Z) - 4, 8, 8);
 
-      // Targets
       for (const t of targets) {
         if (t.hp <= 0) continue;
         rCtx.fillStyle = t.type === "lawyer" ? "#22C55E" : t.type === "boss" ? "#FB7185" : "#FDE047";
@@ -2133,7 +1977,6 @@
         rCtx.fill();
       }
 
-      // Aim reticle
       if (state.phase === "nest") {
         rCtx.strokeStyle = "#FDE047";
         rCtx.lineWidth = 1.5;
@@ -2143,7 +1986,6 @@
       }
     }
 
-    // COMBAT & WAVE PROGRESSION
     function detonateEgg(egg) {
       const spec = EGG_SPECS[egg.type];
       const pos = egg.mesh.position;
@@ -2158,9 +2000,7 @@
       let anyHit = false;
       for (const t of targets) {
         if (t.hp <= 0) continue;
-        const dx = t.mesh.position.x - pos.x;
-        const dz = t.mesh.position.z - pos.z;
-        const dist = Math.hypot(dx, dz);
+        const dist = Math.hypot(t.mesh.position.x - pos.x, t.mesh.position.z - pos.z);
 
         if (dist <= spec.radius) {
           anyHit = true;
@@ -2189,7 +2029,6 @@
               spawnCashPickup(t.mesh.position, Math.round(50000 * goldMult));
             }
 
-            // Respawn regular target after short pause
             if (t.type !== "boss") {
               t.mesh.visible = false;
               setTimeout(() => {
@@ -2207,17 +2046,13 @@
             spawnCallout(t.mesh.position, `HIT! (${t.hp} HP)`, "hit");
           }
         } else if (dist <= spec.radius * 1.45) {
-          // Near-miss behavior
           if (t.type === "jeet") t.dir *= -1;
           if (t.type === "paperhands") t.boostTimer = 1.6;
         }
       }
 
-      if (!anyHit) {
-        state.streak = 0;
-      }
+      if (!anyHit) state.streak = 0;
 
-      // Check wave quota completion
       if (state.cash >= state.quota) {
         const bonus = Math.round(75000 * state.wave * goldMult);
         state.cash += bonus;
@@ -2229,7 +2064,6 @@
       }
     }
 
-    // MAIN SIMULATION LOOP (Clamped dt, zero per-frame allocations)
     let lastTime = performance.now();
     function loop(now) {
       requestAnimationFrame(loop);
@@ -2242,13 +2076,11 @@
       lastTime = now;
       state.simTime += dt;
 
-      // Beacon blink & palm sway
       beaconMat.color.setHex(Math.sin(state.simTime * 6) > 0 ? 0xEF4444 : 0x7F1D1D);
       for (const p of palms) {
         p.tree.rotation.z = Math.sin(state.simTime * 1.6 + p.phase) * 0.04;
       }
 
-      // Wind & gusts
       state.gustTimer -= dt;
       if (state.gustTimer <= 0) {
         state.gustActive = 4.0;
@@ -2261,12 +2093,10 @@
         state.wind = Math.sin(state.simTime * 0.5) * 2.2;
       }
 
-      // Cooldowns
       ["classic", "bull", "whale"].forEach((k) => {
         if (state.cooldowns[k] > 0) state.cooldowns[k] = Math.max(0, state.cooldowns[k] - dt);
       });
 
-      // Moving cars & yachts
       for (const c of cars) {
         c.mesh.position.x += c.dir * c.speed * dt;
         if (c.mesh.position.x > 34) c.mesh.position.x = -34;
@@ -2278,7 +2108,6 @@
         if (y.mesh.position.x < -42) y.mesh.position.x = 42;
       }
 
-      // PHASE 1: CLIMB (Timer paused at 40.0s, telegraphed obstacles, smooth steering)
       if (state.phase === "climb") {
         let steer = 0;
         if (keys.has("KeyA") || keys.has("ArrowLeft")) steer -= 1;
@@ -2287,7 +2116,6 @@
         state.climbLaneX = Math.max(-2.5, Math.min(2.5, state.climbLaneX + steer * 4.2 * dt));
         if (state.climbStagger > 0) state.climbStagger = Math.max(0, state.climbStagger - dt);
 
-        // Steady climb rate
         state.climbProgress += dt * 0.085;
         const py = 0.6 + state.climbProgress * (TOP_Y - 0.8);
         const px = state.climbLaneX + (state.climbStagger > 0 ? Math.sin(state.simTime * 45) * 0.25 : 0);
@@ -2300,7 +2128,6 @@
         playerChar.leftLeg.rotation.x = legSwing;
         playerChar.rightLeg.rotation.x = -legSwing;
 
-        // Obstacles descend smoothly with clear visibility & early warning
         for (const obs of ladderObstacles) {
           if (obs.hitCooldown > 0) obs.hitCooldown -= dt;
           obs.y -= dt * 3.4;
@@ -2309,7 +2136,7 @@
             const lanes = [-2.2, 0, 2.2];
             obs.laneX = lanes[Math.floor(Math.random() * lanes.length)];
           }
-          obs.mesh.position.set(obs.laneX, obs.y, TOWER_Z + 3.45);
+          obs.mesh.position.set(obs.laneX, obs.y, TOWER_Z + 3.55);
 
           if (obs.hitCooldown <= 0 && Math.abs(obs.y - py) < 0.75 && Math.abs(obs.laneX - px) < 1.05) {
             obs.hitCooldown = 1.0;
@@ -2321,15 +2148,11 @@
           }
         }
 
-        // Steady camera framing showing ladder + incoming obstacles clearly
         camera.position.lerp(_tempVec.set(px * 0.35, py + 2.8, TOWER_Z + 12.5), 0.12);
         camera.lookAt(px * 0.25, py + 1.4, TOWER_Z + 2);
 
-        if (state.climbProgress >= 1) {
-          enterNestPhase();
-        }
+        if (state.climbProgress >= 1) enterNestPhase();
       } else if (state.phase === "nest") {
-        // PHASE 2: NEST THROWING (40.0s wave timer active, steady camera, aim with pointer or WASD/Arrows)
         state.waveTime -= dt;
         if (state.waveTime <= 0) {
           state.waveTime = 0;
@@ -2358,7 +2181,6 @@
           playerChar.rightArm.rotation.x = -0.4;
         }
 
-        // Trajectory preview dots while charging
         if (state.charging) {
           const start = _tempVec.set(0, TOP_Y + 1.15, TOWER_Z + 2.2);
           const v = computeLaunchVelocity(state.aimPoint, state.chargePower);
@@ -2376,17 +2198,15 @@
           trajectoryDots.forEach((d) => (d.visible = false));
         }
 
-        // Calm, steady elevated view overlooking both nest and targets below
         camera.position.lerp(_tempVec.set(0, TOP_Y + 7.5, TOWER_Z + 14.5), 0.1);
         camera.lookAt(0, 2.2, 6.5);
       }
 
-      // Update targets
       for (const t of targets) {
         if (t.hp <= 0) continue;
         if (t.tumbleTimer > 0) {
           t.tumbleTimer -= dt;
-          t.mesh.rotation.z = Math.sin(t.simTime * 25) * 0.35;
+          t.mesh.rotation.z = Math.sin(state.simTime * 25) * 0.35;
           continue;
         }
         t.mesh.rotation.z = 0;
@@ -2416,7 +2236,6 @@
         }
       }
 
-      // Update flying eggs
       for (let i = activeEggs.length - 1; i >= 0; i--) {
         const e = activeEggs[i];
         e.age += dt;
@@ -2429,7 +2248,6 @@
         e.mesh.rotation.x += 12 * dt;
         e.mesh.rotation.z += 9 * dt;
 
-        // Whale splits mid-air into 3 eggs
         if (e.type === "whale" && !e.splitDone && e.age >= 0.42 && e.mesh.position.y > 3) {
           e.splitDone = true;
           [-2.6, 2.6].forEach((spread) => {
@@ -2450,7 +2268,6 @@
         }
       }
 
-      // Update cash pickups (auto-collect if player hits nearby or after short time)
       for (let i = cashPickups.length - 1; i >= 0; i--) {
         const cp = cashPickups[i];
         cp.life -= dt;
@@ -2464,7 +2281,6 @@
         }
       }
 
-      // Update particles
       for (let i = particles.length - 1; i >= 0; i--) {
         const pt = particles[i];
         pt.life -= dt;
@@ -2483,6 +2299,7 @@
       renderer.render(scene, camera);
     }
 
+    syncHud();
     requestAnimationFrame(loop);
   </script>
 </body>
