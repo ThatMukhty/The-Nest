@@ -1062,7 +1062,7 @@
       return `${Math.round(n).toLocaleString()}`;
     }
 
-    const BEST_KEY = "the_nest_egg_best_cash_v10";
+    const BEST_KEY = "the_nest_egg_best_cash_v11";
     const CLIMB_LANES = [-1.8, -0.6, 0.6, 1.8];
     const START_LANE_IDX = 1;
 
@@ -1502,7 +1502,6 @@
       ladderGroup.add(rung);
     }
 
-    // Block character builder (clean blocky head & limbs, GTA street styling for Jack)
     function createBlockCharacter(opts = {}) {
       const g = new THREE.Group();
       const torsoMat = new THREE.MeshStandardMaterial({ color: opts.torsoColor || 0xF8FAFC, roughness: 0.5 });
@@ -1525,7 +1524,6 @@
       neck.position.y = 1.78;
       g.add(neck);
 
-      // Block head + cropped block hair
       const head = new THREE.Mesh(new THREE.BoxGeometry(0.48, 0.52, 0.48), skinMat);
       head.position.y = 2.11;
       head.castShadow = true;
@@ -1692,12 +1690,10 @@
     });
     scene.add(playerChar.group);
 
-    function pickNonStartLane(avoidLaneIdx = START_LANE_IDX) {
-      const choices = [0, 1, 2, 3].filter((idx) => idx !== avoidLaneIdx);
-      return choices[Math.floor(Math.random() * choices.length)];
+    function pickAnyLane() {
+      return Math.floor(Math.random() * CLIMB_LANES.length);
     }
 
-    // Sleeker GTA-fitting hazard: Rogue Quad-Drone with cross-arms, rotors, and pulsing eye core
     const ladderObstacles = [];
 
     function createDroneObstacle(laneIdx, sideIndex, initialDelay) {
@@ -1758,8 +1754,7 @@
     }
 
     for (let i = 0; i < 4; i++) {
-      const lIdx = i === 0 ? 0 : i === 1 ? 2 : 3;
-      ladderObstacles.push(createDroneObstacle(lIdx, i, 0.75 + i * 0.85));
+      ladderObstacles.push(createDroneObstacle(i % CLIMB_LANES.length, i, 0.7 + i * 0.8));
     }
 
     const aimRing = new THREE.Mesh(
@@ -2134,18 +2129,12 @@
       document.getElementById("climbControlsWrap").classList.add("active");
       document.getElementById("phaseLabel").textContent = "CLIMBING LADDER";
 
-      const usedInitial = new Set([START_LANE_IDX]);
       ladderObstacles.forEach((obs, idx) => {
         obs.mesh.visible = true;
         obs.y = TOP_Y - 0.3;
-        let pick = pickNonStartLane(START_LANE_IDX);
-        for (let tries = 0; tries < 6 && usedInitial.has(pick); tries++) {
-          pick = pickNonStartLane(START_LANE_IDX);
-        }
-        usedInitial.add(pick);
-        obs.laneIdx = pick;
+        obs.laneIdx = (idx + 1) % CLIMB_LANES.length;
         obs.sideIndex = idx % 4;
-        obs.holdTimer = 0.75 + idx * 0.85;
+        obs.holdTimer = 0.7 + idx * 0.8;
         obs.hitCooldown = 0;
       });
       populateWaveTargets();
@@ -2602,7 +2591,7 @@
           obs.cueMat.opacity = 0.85;
 
           if (obs.y < Math.max(0.5, py - 2.5)) {
-            obs.laneIdx = pickNonStartLane(state.climbLaneIdx);
+            obs.laneIdx = pickAnyLane();
             obs.sideIndex = (obs.sideIndex + 1) % 4;
             obs.speedMult = 0.9 + Math.random() * 0.42;
             obs.holdTimer = Math.max(0.6, 1.35 / escalation);
